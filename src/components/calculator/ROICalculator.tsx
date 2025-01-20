@@ -35,9 +35,9 @@ export const ROICalculator = () => {
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
   const annualRevenue = monthlyDeals * customerValue * 12;
   
-  // SDR calculations
+  // SDR calculations with updated monthly capacity
   const requiredSDRs = Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH);
-  const annualSalaryCost = requiredSDRs * 82470;
+  const annualSalaryCost = requiredSDRs * 82470; // Average SDR salary
   const roi = ((annualRevenue - annualSalaryCost) / annualSalaryCost) * 100;
 
   return (
@@ -114,12 +114,12 @@ export const ROICalculator = () => {
           </div>
 
           <RangeInput
+            label="Reply Rate (%)"
             value={replyRate}
             onChange={setReplyRate}
             min={0}
             max={15}
             step={1}
-            label="Reply Rate (%)"
           />
 
           <div className="space-y-2">
@@ -152,12 +152,12 @@ export const ROICalculator = () => {
           </div>
 
           <RangeInput
+            label="Close Rate (%)"
             value={closeRate}
             onChange={setCloseRate}
             min={0}
             max={100}
             step={1}
-            label="Close Rate (%)"
           />
         </div>
 

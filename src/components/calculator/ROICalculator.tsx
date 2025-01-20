@@ -50,7 +50,7 @@ export const ROICalculator = () => {
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
-  const monthlyBeanstalkCost = (emailCapacity * monthlyEmailPrice) / 100; // Convert cents to dollars
+  const monthlyBeanstalkCost = emailCapacity * monthlyEmailPrice; // Price is already in dollars
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
   const beanstalkRoi = ((annualRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100;
 

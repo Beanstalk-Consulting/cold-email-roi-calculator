@@ -113,26 +113,14 @@ export const ROICalculator = () => {
             <Input value={formatNumber(monthlyProspects)} disabled className="bg-gray-100" />
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium text-calculator-text">Reply Rate (%)</label>
-              <Tooltip>
-                <TooltipTrigger>
-                  <InfoIcon className="h-4 w-4 text-calculator-accent" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="w-[200px]">Expected percentage of prospects who will reply to your emails</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-            <RangeInput
-              value={replyRate}
-              onChange={setReplyRate}
-              min={0}
-              max={15}
-              step={1}
-            />
-          </div>
+          <RangeInput
+            value={replyRate}
+            onChange={setReplyRate}
+            min={0}
+            max={15}
+            step={1}
+            label="Reply Rate (%)"
+          />
 
           <div className="space-y-2">
             <div className="flex items-center gap-2">
@@ -163,26 +151,14 @@ export const ROICalculator = () => {
             </Select>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <label className="text-sm font-medium text-calculator-text">Close Rate (%)</label>
-              <Tooltip>
-                <TooltipTrigger>
-                  <InfoIcon className="h-4 w-4 text-calculator-accent" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="w-[200px]">Percentage of sales calls that result in closed deals</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-            <RangeInput
-              value={closeRate}
-              onChange={setCloseRate}
-              min={0}
-              max={100}
-              step={1}
-            />
-          </div>
+          <RangeInput
+            value={closeRate}
+            onChange={setCloseRate}
+            min={0}
+            max={100}
+            step={1}
+            label="Close Rate (%)"
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">

@@ -180,7 +180,7 @@ export const ROICalculator = () => {
           <ResultCard
             label="Required SDRs"
             value={formatNumber(requiredSDRs)}
-            tooltip="Based on 250 emails per day per SDR"
+            tooltip="Based on 250 emails per day per SDR (22 working days per month)"
           />
           <ResultCard
             label="Annual SDR Cost"

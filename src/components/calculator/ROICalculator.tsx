@@ -21,6 +21,14 @@ const CONVERSION_RATE_OPTIONS = [0, 10, 25, 40, 50, 75];
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 
+const getBeanstalkPrice = (emailCount: number): number => {
+  if (emailCount <= 20000) return 0.36;
+  if (emailCount <= 50000) return 0.20;
+  if (emailCount <= 100000) return 0.12;
+  if (emailCount <= 500000) return 0.09;
+  return 0.085;
+};
+
 export const ROICalculator = () => {
   const [emailCapacity, setEmailCapacity] = useState(8000);
   const [customerValue, setCustomerValue] = useState(3000);
@@ -37,8 +45,14 @@ export const ROICalculator = () => {
   
   // SDR calculations with updated monthly capacity
   const requiredSDRs = Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH);
-  const annualSalaryCost = requiredSDRs * 82470; // Average SDR salary
-  const roi = ((annualRevenue - annualSalaryCost) / annualSalaryCost) * 100;
+  const annualSdrSalaryCost = requiredSDRs * 82470; // Average SDR salary
+  const sdrRoi = ((annualRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100;
+
+  // Beanstalk calculations
+  const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
+  const monthlyBeanstalkCost = (emailCapacity * monthlyEmailPrice) / 100; // Convert to dollars
+  const annualBeanstalkCost = monthlyBeanstalkCost * 12;
+  const beanstalkRoi = ((annualRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100;
 
   return (
     <TooltipProvider>
@@ -161,37 +175,87 @@ export const ROICalculator = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-          <ResultCard
-            label="Monthly Leads Generated"
-            value={formatNumber(monthlyLeads)}
-            tooltip="20% of total replies are considered qualified leads"
-          />
-          <ResultCard
-            label="Monthly Closed Deals"
-            value={formatNumber(monthlyDeals)}
-            tooltip="Based on your conversion and close rates"
-          />
-          <ResultCard
-            label="Annual New Revenue"
-            value={formatCurrency(annualRevenue)}
-            tooltip="Monthly deals × Customer value × 12 months"
-          />
-          <ResultCard
-            label="Required SDRs"
-            value={formatNumber(requiredSDRs)}
-            tooltip="Based on 250 emails per day per SDR (22 working days per month)"
-          />
-          <ResultCard
-            label="Annual SDR Cost"
-            value={formatCurrency(annualSalaryCost)}
-            tooltip="Average SDR compensation of $82,470 per year"
-          />
-          <ResultCard
-            label="Return on Investment"
-            value={formatPercent(roi)}
-            tooltip="(Annual Revenue - Annual Cost) / Annual Cost"
-          />
+        <div className="space-y-8">
+          {/* Performance Metrics Section */}
+          <div>
+            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+              Expected Performance
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <ResultCard
+                label="Monthly Leads Generated"
+                value={formatNumber(monthlyLeads)}
+                tooltip="20% of total replies are considered qualified leads"
+                className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
+              />
+              <ResultCard
+                label="Monthly Closed Deals"
+                value={formatNumber(monthlyDeals)}
+                tooltip="Based on your conversion and close rates"
+                className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
+              />
+              <ResultCard
+                label="Annual New Revenue"
+                value={formatCurrency(annualRevenue)}
+                tooltip="Monthly deals × Customer value × 12 months"
+                className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
+              />
+            </div>
+          </div>
+
+          {/* In-house SDR Cost Section */}
+          <div>
+            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+              Traditional In-house SDR Approach
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <ResultCard
+                label="Required SDRs"
+                value={formatNumber(requiredSDRs)}
+                tooltip="Based on 250 emails per day per SDR (22 working days per month)"
+                className="bg-red-50"
+              />
+              <ResultCard
+                label="Annual SDR Cost"
+                value={formatCurrency(annualSdrSalaryCost)}
+                tooltip="Average SDR compensation of $82,470 per year"
+                className="bg-red-50"
+              />
+              <ResultCard
+                label="SDR ROI"
+                value={formatPercent(sdrRoi)}
+                tooltip="(Annual Revenue - Annual Cost) / Annual Cost"
+                className="bg-red-50"
+              />
+            </div>
+          </div>
+
+          {/* Beanstalk Section */}
+          <div>
+            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+              Beanstalk Approach
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <ResultCard
+                label="Monthly Beanstalk Cost"
+                value={formatCurrency(monthlyBeanstalkCost)}
+                tooltip={`${monthlyEmailPrice}¢ per email at your volume`}
+                className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
+              />
+              <ResultCard
+                label="Annual Beanstalk Cost"
+                value={formatCurrency(annualBeanstalkCost)}
+                tooltip="Monthly cost × 12 months"
+                className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
+              />
+              <ResultCard
+                label="Beanstalk ROI"
+                value={formatPercent(beanstalkRoi)}
+                tooltip="(Annual Revenue - Annual Beanstalk Cost) / Annual Beanstalk Cost"
+                className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </TooltipProvider>

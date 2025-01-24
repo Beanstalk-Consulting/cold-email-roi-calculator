@@ -8,11 +8,11 @@ import { BeanstalkMetrics } from "./BeanstalkMetrics";
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 
 const getBeanstalkPrice = (emailCount: number): number => {
-  if (emailCount <= 20000) return 0.36;
-  if (emailCount <= 50000) return 0.20;
-  if (emailCount <= 100000) return 0.12;
-  if (emailCount <= 500000) return 0.09;
-  return 0.085;
+  if (emailCount <= 20000) return 0.20;
+  if (emailCount <= 50000) return 0.12;
+  if (emailCount <= 250000) return 0.09;
+  if (emailCount <= 500000) return 0.085;
+  return 0.085; // For any volume above 500,000
 };
 
 export const ROICalculator = () => {
@@ -36,7 +36,7 @@ export const ROICalculator = () => {
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
-  const monthlyBeanstalkCost = emailCapacity * monthlyEmailPrice; // Price is already in dollars
+  const monthlyBeanstalkCost = emailCapacity * monthlyEmailPrice;
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
   const beanstalkRoi = ((annualRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100;
 

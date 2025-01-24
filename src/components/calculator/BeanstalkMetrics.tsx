@@ -23,7 +23,6 @@ export const BeanstalkMetrics = ({
           <ResultCard
             label="Monthly Beanstalk Cost"
             value={formatCurrency(monthlyBeanstalkCost)}
-            tooltip="Monthly cost is calculated by multiplying the number of emails sent by $0.35 per email"
             className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
           />
           <ResultCard

@@ -6,15 +6,10 @@ import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
+const EMAIL_COST = 0.35; // Cost per email
 
 const getBeanstalkPrice = (emailCount: number): number => {
-  if (emailCount <= 20000) return 0.20;
-  if (emailCount <= 50000) return 0.12;
-  if (emailCount <= 100000) return 0.09;
-  if (emailCount <= 250000) return 0.07;
-  if (emailCount <= 500000) return 0.05;
-  if (emailCount <= 1000000) return 0.04;
-  return 0.04; // For any volume above 1,000,000
+  return EMAIL_COST; // Fixed price of $0.35 per email
 };
 
 export const ROICalculator = () => {

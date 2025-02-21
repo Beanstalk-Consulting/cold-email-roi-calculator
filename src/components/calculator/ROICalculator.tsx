@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
@@ -8,7 +9,7 @@ import { BeanstalkMetrics } from "./BeanstalkMetrics";
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 
 const getBeanstalkPrice = (emailCount: number): number => {
-  if (emailCount <= 8800) return 0.35;
+  if (emailCount <= 8800) return 0.40;
   if (emailCount <= 20000) return 0.20;
   if (emailCount <= 50000) return 0.12;
   if (emailCount <= 250000) return 0.09;

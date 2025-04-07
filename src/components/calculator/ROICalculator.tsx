@@ -10,6 +10,8 @@ import { BeanstalkMetrics } from "./BeanstalkMetrics";
 import { LinkedInInputs } from "./LinkedInInputs";
 import { ColdCallingInputs } from "./ColdCallingInputs";
 import { CombinedMetrics } from "./CombinedMetrics";
+import { RangeInput } from "./RangeInput";
+import { Card } from "@/components/ui/card";
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
@@ -24,12 +26,13 @@ const getBeanstalkPrice = (emailCount: number): number => {
 };
 
 export const ROICalculator = () => {
-  // Shared close rate across all channels
+  // Global settings
   const [closeRate, setCloseRate] = useState(25);
+  const [customerValue, setCustomerValue] = useState(3000);
   
   // Email outreach state
+  const [includeEmail, setIncludeEmail] = useState(true);
   const [emailCapacity, setEmailCapacity] = useState(8000);
-  const [customerValue, setCustomerValue] = useState(3000);
   const [replyRate, setReplyRate] = useState(3);
   const [convertRate, setConvertRate] = useState(40);
   
@@ -48,14 +51,14 @@ export const ROICalculator = () => {
   const [callConvertRate, setCallConvertRate] = useState(60);
 
   // Email calculated values
-  const monthlyProspects = Math.round(emailCapacity / 2); // 2-step sequence
+  const monthlyProspects = includeEmail ? Math.round(emailCapacity / 2) : 0; // 2-step sequence
   const totalReplies = Math.round((monthlyProspects * replyRate) / 100);
   const monthlyLeads = Math.round(totalReplies * 0.2); // 20% of replies are positive
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
   const emailRevenue = monthlyDeals * customerValue * 12;
   
   // LinkedIn calculated values
-  const linkedInConnections = Math.round((linkedInMessages * linkedInConnectRate) / 100);
+  const linkedInConnections = includeLinkedIn ? Math.round((linkedInMessages * linkedInConnectRate) / 100) : 0;
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
   const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
   const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * closeRate) / 10000);
@@ -64,7 +67,7 @@ export const ROICalculator = () => {
   // Cold calling calculated values
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
-  const dialCount = dailyDials * daysPerWeek * 4 * callerCount; // 4 weeks in a month
+  const dialCount = includeColdCalling ? dailyDials * daysPerWeek * 4 * callerCount : 0; // 4 weeks in a month
   
   const callConnections = Math.round((dialCount * connectRate) / 100);
   const callLeads = Math.round(callConnections * 0.5); // 50% of connections are positive on calls
@@ -77,7 +80,7 @@ export const ROICalculator = () => {
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
   // SDR calculations for email
-  const requiredEmailSDRs = Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH);
+  const requiredEmailSDRs = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   
   // SDR calculations for LinkedIn
   const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
@@ -88,17 +91,17 @@ export const ROICalculator = () => {
   // Total SDR requirement and cost
   const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallSDRs;
   const annualSdrSalaryCost = totalSDRs * 82470; // Average SDR salary
-  const sdrRoi = ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100;
+  const sdrRoi = totalSDRs > 0 ? ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
-  const monthlyBeanstalkCost = emailCapacity * monthlyEmailPrice;
+  const monthlyBeanstalkCost = includeEmail ? emailCapacity * monthlyEmailPrice : 0;
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
-  const beanstalkRoi = ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100;
+  const beanstalkRoi = annualBeanstalkCost > 0 ? ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
   // Combined ROI for all channels using Beanstalk for email automation
   const combinedCost = annualBeanstalkCost + (requiredLinkedInSDRs + requiredCallSDRs) * 82470;
-  const combinedRoi = ((totalRevenue - combinedCost) / combinedCost) * 100;
+  const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
   return (
     <TooltipProvider>
@@ -107,19 +110,36 @@ export const ROICalculator = () => {
           Multi-Channel Outreach ROI Calculator
         </h2>
 
-        <CalculatorInputs
-          emailCapacity={emailCapacity}
-          setEmailCapacity={setEmailCapacity}
-          customerValue={customerValue}
-          setCustomerValue={setCustomerValue}
-          replyRate={replyRate}
-          setReplyRate={setReplyRate}
-          convertRate={convertRate}
-          setConvertRate={setConvertRate}
-          closeRate={closeRate}
-          setCloseRate={setCloseRate}
-          monthlyProspects={monthlyProspects}
-        />
+        <Card className="p-6">
+          <div className="space-y-2 mb-6">
+            <h3 className="text-xl font-semibold">Global Settings</h3>
+            <RangeInput
+              label="Meeting Close Rate (%)"
+              value={closeRate}
+              onChange={setCloseRate}
+              min={0}
+              max={100}
+              step={1}
+              tooltip="Percentage of meetings that convert to closed deals - this rate applies to all channels"
+            />
+          </div>
+
+          <CalculatorInputs
+            emailCapacity={emailCapacity}
+            setEmailCapacity={setEmailCapacity}
+            customerValue={customerValue}
+            setCustomerValue={setCustomerValue}
+            replyRate={replyRate}
+            setReplyRate={setReplyRate}
+            convertRate={convertRate}
+            setConvertRate={setConvertRate}
+            closeRate={closeRate}
+            setCloseRate={setCloseRate}
+            monthlyProspects={monthlyProspects}
+            includeEmail={includeEmail}
+            setIncludeEmail={setIncludeEmail}
+          />
+        </Card>
 
         <LinkedInInputs
           includeLinkedIn={includeLinkedIn}
@@ -151,11 +171,13 @@ export const ROICalculator = () => {
 
         <div className="space-y-8">
           {/* Email Performance */}
-          <PerformanceMetrics
-            monthlyLeads={monthlyLeads}
-            monthlyDeals={monthlyDeals}
-            annualRevenue={emailRevenue}
-          />
+          {includeEmail && (
+            <PerformanceMetrics
+              monthlyLeads={monthlyLeads}
+              monthlyDeals={monthlyDeals}
+              annualRevenue={emailRevenue}
+            />
+          )}
 
           {/* LinkedIn Performance (if included) */}
           {includeLinkedIn && (
@@ -175,8 +197,10 @@ export const ROICalculator = () => {
             />
           )}
 
-          {/* Combined Performance (if any additional channel is used) */}
-          {(includeLinkedIn || includeColdCalling) && (
+          {/* Combined Performance (if more than one channel is used) */}
+          {((includeEmail && includeLinkedIn) || 
+            (includeEmail && includeColdCalling) || 
+            (includeLinkedIn && includeColdCalling)) && (
             <CombinedMetrics
               totalLeads={totalLeads}
               totalDeals={totalDeals}
@@ -200,11 +224,13 @@ export const ROICalculator = () => {
             includeColdCalling={includeColdCalling}
           />
 
-          <BeanstalkMetrics
-            monthlyBeanstalkCost={monthlyBeanstalkCost}
-            annualBeanstalkCost={annualBeanstalkCost}
-            beanstalkRoi={beanstalkRoi}
-          />
+          {includeEmail && (
+            <BeanstalkMetrics
+              monthlyBeanstalkCost={monthlyBeanstalkCost}
+              annualBeanstalkCost={annualBeanstalkCost}
+              beanstalkRoi={beanstalkRoi}
+            />
+          )}
         </div>
       </div>
     </TooltipProvider>

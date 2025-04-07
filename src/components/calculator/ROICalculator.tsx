@@ -12,6 +12,9 @@ import { ColdCallingInputs } from "./ColdCallingInputs";
 import { CombinedMetrics } from "./CombinedMetrics";
 import { RangeInput } from "./RangeInput";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { InfoIcon } from "lucide-react";
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
@@ -111,8 +114,9 @@ export const ROICalculator = () => {
         </h2>
 
         <Card className="p-6">
-          <div className="space-y-2 mb-6">
+          <div className="space-y-5 mb-6">
             <h3 className="text-xl font-semibold">Global Settings</h3>
+            
             <RangeInput
               label="Meeting Close Rate (%)"
               value={closeRate}
@@ -122,19 +126,37 @@ export const ROICalculator = () => {
               step={1}
               tooltip="Percentage of meetings that convert to closed deals - this rate applies to all channels"
             />
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-medium text-calculator-text">Customer Lifetime Value ($)</label>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <InfoIcon className="h-4 w-4 text-calculator-accent" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-[200px]">Enter the average lifetime value of your customers</p>
+                  </TooltipContent>
+                </Tooltip>
+              </div>
+              <Input
+                type="number"
+                value={customerValue}
+                onChange={(e) => setCustomerValue(Number(e.target.value))}
+                min={0}
+                className="w-full"
+              />
+            </div>
           </div>
 
           <CalculatorInputs
             emailCapacity={emailCapacity}
             setEmailCapacity={setEmailCapacity}
-            customerValue={customerValue}
-            setCustomerValue={setCustomerValue}
             replyRate={replyRate}
             setReplyRate={setReplyRate}
             convertRate={convertRate}
             setConvertRate={setConvertRate}
             closeRate={closeRate}
-            setCloseRate={setCloseRate}
             monthlyProspects={monthlyProspects}
             includeEmail={includeEmail}
             setIncludeEmail={setIncludeEmail}

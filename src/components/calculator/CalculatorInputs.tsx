@@ -22,14 +22,11 @@ const CONVERSION_RATE_OPTIONS = [0, 10, 25, 40, 50, 75];
 interface CalculatorInputsProps {
   emailCapacity: number;
   setEmailCapacity: (value: number) => void;
-  customerValue: number;
-  setCustomerValue: (value: number) => void;
   replyRate: number;
   setReplyRate: (value: number) => void;
   convertRate: number;
   setConvertRate: (value: number) => void;
   closeRate: number;
-  setCloseRate: (value: number) => void;
   monthlyProspects: number;
   includeEmail: boolean;
   setIncludeEmail: (value: boolean) => void;
@@ -38,14 +35,11 @@ interface CalculatorInputsProps {
 export const CalculatorInputs = ({
   emailCapacity,
   setEmailCapacity,
-  customerValue,
-  setCustomerValue,
   replyRate,
   setReplyRate,
   convertRate,
   setConvertRate,
   closeRate,
-  setCloseRate,
   monthlyProspects,
   includeEmail,
   setIncludeEmail,
@@ -151,27 +145,6 @@ export const CalculatorInputs = ({
           </div>
         </div>
       )}
-      
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-calculator-text">Customer Lifetime Value ($)</label>
-          <Tooltip>
-            <TooltipTrigger>
-              <InfoIcon className="h-4 w-4 text-calculator-accent" />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="w-[200px]">Enter the average lifetime value of your customers</p>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-        <Input
-          type="number"
-          value={customerValue}
-          onChange={(e) => setCustomerValue(Number(e.target.value))}
-          min={0}
-          className="w-full"
-        />
-      </div>
     </div>
   );
 };

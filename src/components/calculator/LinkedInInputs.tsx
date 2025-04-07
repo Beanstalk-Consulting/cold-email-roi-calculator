@@ -23,6 +23,8 @@ interface LinkedInInputsProps {
   setLinkedInConvertRate: (value: number) => void;
   linkedInCloseRate: number;
   setLinkedInCloseRate: (value: number) => void;
+  linkedInConnectRate: number;
+  setLinkedInConnectRate: (value: number) => void;
 }
 
 export const LinkedInInputs = ({
@@ -36,9 +38,10 @@ export const LinkedInInputs = ({
   setLinkedInConvertRate,
   linkedInCloseRate,
   setLinkedInCloseRate,
+  linkedInConnectRate,
+  setLinkedInConnectRate,
 }: LinkedInInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeLinkedIn ? "linkedin" : "");
-  const [connectAcceptRate, setConnectAcceptRate] = useState<number>(40);
 
   const handleAccordionChange = (value: string) => {
     setAccordionValue(value);
@@ -111,8 +114,8 @@ export const LinkedInInputs = ({
 
               <RangeInput
                 label="Connection Acceptance Rate (%)"
-                value={connectAcceptRate}
-                onChange={setConnectAcceptRate}
+                value={linkedInConnectRate}
+                onChange={setLinkedInConnectRate}
                 min={0}
                 max={100}
                 step={1}

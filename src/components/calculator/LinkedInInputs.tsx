@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RangeInput } from "./RangeInput";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { InfoIcon, Linkedin } from "lucide-react";
+import { InfoIcon, Linkedin, Users } from "lucide-react";
 
 interface LinkedInInputsProps {
   includeLinkedIn: boolean;
@@ -23,6 +23,8 @@ interface LinkedInInputsProps {
   setLinkedInConvertRate: (value: number) => void;
   linkedInConnectRate: number;
   setLinkedInConnectRate: (value: number) => void;
+  linkedInProfiles: number;
+  setLinkedInProfiles: (value: number) => void;
 }
 
 export const LinkedInInputs = ({
@@ -36,6 +38,8 @@ export const LinkedInInputs = ({
   setLinkedInConvertRate,
   linkedInConnectRate,
   setLinkedInConnectRate,
+  linkedInProfiles,
+  setLinkedInProfiles,
 }: LinkedInInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeLinkedIn ? "linkedin" : "");
 
@@ -94,7 +98,7 @@ export const LinkedInInputs = ({
                       <InfoIcon className="h-4 w-4 text-calculator-accent" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p className="w-[200px]">LinkedIn allows up to 22 connection requests per day. Recommended maximum is {Math.round(maxRecommendedMonthly)} per month.</p>
+                      <p className="w-[200px]">Recommended connections per month preset to 473 (based on LinkedIn limits)</p>
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -106,6 +110,32 @@ export const LinkedInInputs = ({
                   max={Math.round(maxRecommendedMonthly)}
                   className="w-full"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-calculator-text">
+                    Number of LinkedIn Profiles for Outreach
+                  </label>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <InfoIcon className="h-4 w-4 text-calculator-accent" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="w-[200px]">Total number of LinkedIn profiles in your team that can be used for outreach</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="number"
+                    value={linkedInProfiles}
+                    onChange={(e) => setLinkedInProfiles(Number(e.target.value))}
+                    min={1}
+                    className="w-full"
+                  />
+                  <Users className="h-4 w-4 text-calculator-accent" />
+                </div>
               </div>
 
               <RangeInput

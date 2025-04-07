@@ -18,6 +18,7 @@ interface CalculationsProps {
   linkedInResponseRate: number;
   linkedInConvertRate: number;
   linkedInConnectRate: number;
+  linkedInProfiles: number;
   
   // Cold calling props
   includeColdCalling: boolean;
@@ -44,6 +45,7 @@ export const useCalculations = ({
   linkedInResponseRate,
   linkedInConvertRate,
   linkedInConnectRate,
+  linkedInProfiles,
   
   // Cold calling props
   includeColdCalling,
@@ -64,7 +66,9 @@ export const useCalculations = ({
   const emailRevenue = monthlyDeals * customerValue * 12;
   
   // LinkedIn calculated values
-  const linkedInConnections = includeLinkedIn ? Math.round((linkedInMessages * linkedInConnectRate) / 100) : 0;
+  // Total connection requests available based on profiles
+  const totalLinkedInRequests = includeLinkedIn ? linkedInMessages * linkedInProfiles : 0;
+  const linkedInConnections = includeLinkedIn ? Math.round((totalLinkedInRequests * linkedInConnectRate) / 100) : 0;
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
   const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
   const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * closeRate) / 10000);
@@ -88,8 +92,8 @@ export const useCalculations = ({
   // SDR calculations for email
   const requiredEmailSDRs = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   
-  // SDR calculations for LinkedIn
-  const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
+  // SDR calculations for LinkedIn - based on profiles
+  const requiredLinkedInSDRs = includeLinkedIn ? linkedInProfiles : 0;
   
   // SDR calculations for cold calling
   const requiredCallSDRs = includeColdCalling ? callerCount : 0;

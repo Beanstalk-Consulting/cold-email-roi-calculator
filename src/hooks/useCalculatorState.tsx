@@ -27,11 +27,12 @@ export const useCalculatorState = () => {
   
   // LinkedIn outreach state
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
-  const [linkedInMessages, setLinkedInMessages] = useState(400);
+  const [linkedInMessages, setLinkedInMessages] = useState(473); // Preset to 473
   const [linkedInResponseRate, setLinkedInResponseRate] = useState(30);
   const [linkedInConvertRate, setLinkedInConvertRate] = useState(50);
   const [linkedInConnectRate, setLinkedInConnectRate] = useState(40);
-
+  const [linkedInProfiles, setLinkedInProfiles] = useState(1);
+  
   // Cold calling outreach state
   const [includeColdCalling, setIncludeColdCalling] = useState(false);
   const [isFullTimeDialer, setIsFullTimeDialer] = useState(false);
@@ -67,6 +68,8 @@ export const useCalculatorState = () => {
     setLinkedInConvertRate,
     linkedInConnectRate,
     setLinkedInConnectRate,
+    linkedInProfiles,
+    setLinkedInProfiles,
     
     // Cold calling outreach state
     includeColdCalling,

@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
 import { LinkedInInputs } from "./LinkedInInputs";
@@ -40,6 +39,8 @@ export const ROICalculator = () => {
     setLinkedInConvertRate,
     linkedInConnectRate,
     setLinkedInConnectRate,
+    linkedInProfiles,
+    setLinkedInProfiles,
     
     // Cold calling outreach state
     includeColdCalling,
@@ -110,6 +111,7 @@ export const ROICalculator = () => {
     linkedInResponseRate,
     linkedInConvertRate,
     linkedInConnectRate,
+    linkedInProfiles,
     
     // Cold calling props
     includeColdCalling,
@@ -159,6 +161,8 @@ export const ROICalculator = () => {
           setLinkedInConvertRate={setLinkedInConvertRate}
           linkedInConnectRate={linkedInConnectRate}
           setLinkedInConnectRate={setLinkedInConnectRate}
+          linkedInProfiles={linkedInProfiles}
+          setLinkedInProfiles={setLinkedInProfiles}
         />
 
         <ColdCallingInputs

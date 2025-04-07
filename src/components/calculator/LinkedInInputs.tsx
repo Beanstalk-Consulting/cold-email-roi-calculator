@@ -21,8 +21,6 @@ interface LinkedInInputsProps {
   setLinkedInResponseRate: (value: number) => void;
   linkedInConvertRate: number;
   setLinkedInConvertRate: (value: number) => void;
-  linkedInCloseRate: number;
-  setLinkedInCloseRate: (value: number) => void;
   linkedInConnectRate: number;
   setLinkedInConnectRate: (value: number) => void;
 }
@@ -36,8 +34,6 @@ export const LinkedInInputs = ({
   setLinkedInResponseRate,
   linkedInConvertRate,
   setLinkedInConvertRate,
-  linkedInCloseRate,
-  setLinkedInCloseRate,
   linkedInConnectRate,
   setLinkedInConnectRate,
 }: LinkedInInputsProps) => {
@@ -140,16 +136,6 @@ export const LinkedInInputs = ({
                 max={100}
                 step={1}
                 tooltip="Percentage of LinkedIn leads that convert to sales calls"
-              />
-
-              <RangeInput
-                label="LinkedIn Close Rate (%)"
-                value={linkedInCloseRate}
-                onChange={setLinkedInCloseRate}
-                min={0}
-                max={100}
-                step={1}
-                tooltip="Percentage of LinkedIn-originated calls that convert to deals"
               />
             </div>
           )}

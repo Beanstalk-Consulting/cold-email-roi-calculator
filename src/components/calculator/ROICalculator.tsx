@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
@@ -31,15 +32,16 @@ export const ROICalculator = () => {
 
   // LinkedIn outreach state
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
-  const [linkedInMessages, setLinkedInMessages] = useState(400); // Adjusted to a reasonable monthly connection request count
-  const [linkedInResponseRate, setLinkedInResponseRate] = useState(30); // Changed from 10 to 30 to represent reply rate
+  const [linkedInMessages, setLinkedInMessages] = useState(400);
+  const [linkedInResponseRate, setLinkedInResponseRate] = useState(30);
   const [linkedInConvertRate, setLinkedInConvertRate] = useState(50);
   const [linkedInCloseRate, setLinkedInCloseRate] = useState(30);
-  const [linkedInConnectRate, setLinkedInConnectRate] = useState(40); // New connect acceptance rate
+  const [linkedInConnectRate, setLinkedInConnectRate] = useState(40);
 
   // Cold calling outreach state
   const [includeColdCalling, setIncludeColdCalling] = useState(false);
-  const [dialCount, setDialCount] = useState(1000);
+  const [isFullTimeDialer, setIsFullTimeDialer] = useState(false); // Added: part-time/full-time toggle
+  const [callerCount, setCallerCount] = useState(1); // Added: number of callers
   const [connectRate, setConnectRate] = useState(20);
   const [callConvertRate, setCallConvertRate] = useState(60);
   const [callCloseRate, setCallCloseRate] = useState(35);
@@ -52,13 +54,17 @@ export const ROICalculator = () => {
   const emailRevenue = monthlyDeals * customerValue * 12;
   
   // LinkedIn calculated values
-  const linkedInConnections = Math.round((linkedInMessages * linkedInConnectRate) / 100); // Calculate accepted connections
-  const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100); // Calculate replies from connections
-  const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn (adjusted from 30%)
+  const linkedInConnections = Math.round((linkedInMessages * linkedInConnectRate) / 100);
+  const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
+  const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
   const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * linkedInCloseRate) / 10000);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
-  // Cold calling calculated values
+  // Cold calling calculated values - updated to use new caller model
+  const dailyDials = 1000; // Constant value of 1000 dials per day per caller
+  const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
+  const dialCount = dailyDials * daysPerWeek * 4 * callerCount; // 4 weeks in a month
+  
   const callConnections = Math.round((dialCount * connectRate) / 100);
   const callLeads = Math.round(callConnections * 0.5); // 50% of connections are positive on calls
   const callDeals = Math.round((callLeads * callConvertRate * callCloseRate) / 10000);
@@ -75,9 +81,9 @@ export const ROICalculator = () => {
   // SDR calculations for LinkedIn
   const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
   
-  // SDR calculations for cold calling
+  // SDR calculations for cold calling - updated for part-time/full-time model
   const callsPerMonth = dialCount;
-  const requiredCallSDRs = includeColdCalling ? Math.ceil(callsPerMonth / (CALLS_PER_SDR_PER_DAY * 22)) : 0;
+  const requiredCallSDRs = includeColdCalling ? callerCount : 0; // Now we directly use caller count
   
   // Total SDR requirement and cost
   const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallSDRs;
@@ -139,6 +145,10 @@ export const ROICalculator = () => {
           setCallConvertRate={setCallConvertRate}
           callCloseRate={callCloseRate}
           setCallCloseRate={setCallCloseRate}
+          isFullTimeDialer={isFullTimeDialer}
+          setIsFullTimeDialer={setIsFullTimeDialer}
+          callerCount={callerCount}
+          setCallerCount={setCallerCount}
         />
 
         <div className="space-y-8">

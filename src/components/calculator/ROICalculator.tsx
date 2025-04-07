@@ -132,13 +132,14 @@ export const ROICalculator = () => {
           setLinkedInConvertRate={setLinkedInConvertRate}
           linkedInCloseRate={linkedInCloseRate}
           setLinkedInCloseRate={setLinkedInCloseRate}
+          linkedInConnectRate={linkedInConnectRate}
+          setLinkedInConnectRate={setLinkedInConnectRate}
         />
 
         <ColdCallingInputs
           includeColdCalling={includeColdCalling}
           setIncludeColdCalling={setIncludeColdCalling}
           dialCount={dialCount}
-          setDialCount={setDialCount}
           connectRate={connectRate}
           setConnectRate={setConnectRate}
           callConvertRate={callConvertRate}

@@ -16,7 +16,6 @@ interface ColdCallingInputsProps {
   includeColdCalling: boolean;
   setIncludeColdCalling: (value: boolean) => void;
   dialCount: number;
-  setDialCount: (value: number) => void;
   connectRate: number;
   setConnectRate: (value: number) => void;
   callConvertRate: number;
@@ -33,7 +32,6 @@ export const ColdCallingInputs = ({
   includeColdCalling,
   setIncludeColdCalling,
   dialCount,
-  setDialCount,
   connectRate,
   setConnectRate,
   callConvertRate,

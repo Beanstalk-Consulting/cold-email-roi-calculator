@@ -28,6 +28,7 @@ export const useCalculatorState = () => {
   // LinkedIn outreach state
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
   const [linkedInMessages, setLinkedInMessages] = useState(473); // Preset to 473
+  const [linkedInMessageReplyRate, setLinkedInMessageReplyRate] = useState(15); // New: message reply rate (0-50%)
   const [linkedInResponseRate, setLinkedInResponseRate] = useState(30);
   const [linkedInConvertRate, setLinkedInConvertRate] = useState(50);
   const [linkedInConnectRate, setLinkedInConnectRate] = useState(40);
@@ -62,6 +63,8 @@ export const useCalculatorState = () => {
     setIncludeLinkedIn,
     linkedInMessages,
     setLinkedInMessages,
+    linkedInMessageReplyRate,
+    setLinkedInMessageReplyRate,
     linkedInResponseRate,
     setLinkedInResponseRate,
     linkedInConvertRate,

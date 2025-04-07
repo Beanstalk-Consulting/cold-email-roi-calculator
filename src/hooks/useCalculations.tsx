@@ -15,6 +15,7 @@ interface CalculationsProps {
   // LinkedIn props
   includeLinkedIn: boolean;
   linkedInMessages: number;
+  linkedInMessageReplyRate: number;
   linkedInResponseRate: number;
   linkedInConvertRate: number;
   linkedInConnectRate: number;
@@ -42,6 +43,7 @@ export const useCalculations = ({
   // LinkedIn props
   includeLinkedIn,
   linkedInMessages,
+  linkedInMessageReplyRate,
   linkedInResponseRate,
   linkedInConvertRate,
   linkedInConnectRate,
@@ -68,9 +70,15 @@ export const useCalculations = ({
   // LinkedIn calculated values
   // Total connection requests available based on profiles
   const totalLinkedInRequests = includeLinkedIn ? linkedInMessages * linkedInProfiles : 0;
+  // First calculate direct replies to messages before connection
+  const directReplies = Math.round((totalLinkedInRequests * linkedInMessageReplyRate) / 100);
+  // Then calculate accepted connections
   const linkedInConnections = includeLinkedIn ? Math.round((totalLinkedInRequests * linkedInConnectRate) / 100) : 0;
+  // Then calculate responses from those connections
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
-  const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
+  // Total responses are direct replies + connection responses
+  const totalLinkedInResponses = directReplies + linkedInResponses;
+  const linkedInLeads = Math.round(totalLinkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
   const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * closeRate) / 10000);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
@@ -122,8 +130,10 @@ export const useCalculations = ({
     emailRevenue,
     
     // LinkedIn metrics
+    directReplies,
     linkedInConnections,
     linkedInResponses,
+    totalLinkedInResponses,
     linkedInLeads,
     linkedInDeals,
     linkedInRevenue,

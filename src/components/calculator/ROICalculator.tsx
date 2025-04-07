@@ -33,6 +33,8 @@ export const ROICalculator = () => {
     setIncludeLinkedIn,
     linkedInMessages,
     setLinkedInMessages,
+    linkedInMessageReplyRate,
+    setLinkedInMessageReplyRate,
     linkedInResponseRate,
     setLinkedInResponseRate,
     linkedInConvertRate,
@@ -108,6 +110,7 @@ export const ROICalculator = () => {
     // LinkedIn props
     includeLinkedIn,
     linkedInMessages,
+    linkedInMessageReplyRate,
     linkedInResponseRate,
     linkedInConvertRate,
     linkedInConnectRate,
@@ -155,6 +158,8 @@ export const ROICalculator = () => {
           setIncludeLinkedIn={setIncludeLinkedIn}
           linkedInMessages={linkedInMessages}
           setLinkedInMessages={setLinkedInMessages}
+          linkedInMessageReplyRate={linkedInMessageReplyRate}
+          setLinkedInMessageReplyRate={setLinkedInMessageReplyRate}
           linkedInResponseRate={linkedInResponseRate}
           setLinkedInResponseRate={setLinkedInResponseRate}
           linkedInConvertRate={linkedInConvertRate}

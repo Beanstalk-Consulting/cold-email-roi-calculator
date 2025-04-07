@@ -17,6 +17,8 @@ interface LinkedInInputsProps {
   setIncludeLinkedIn: (value: boolean) => void;
   linkedInMessages: number;
   setLinkedInMessages: (value: number) => void;
+  linkedInMessageReplyRate: number;
+  setLinkedInMessageReplyRate: (value: number) => void;
   linkedInResponseRate: number;
   setLinkedInResponseRate: (value: number) => void;
   linkedInConvertRate: number;
@@ -32,6 +34,8 @@ export const LinkedInInputs = ({
   setIncludeLinkedIn,
   linkedInMessages,
   setLinkedInMessages,
+  linkedInMessageReplyRate,
+  setLinkedInMessageReplyRate,
   linkedInResponseRate,
   setLinkedInResponseRate,
   linkedInConvertRate,
@@ -137,6 +141,16 @@ export const LinkedInInputs = ({
                   <Users className="h-4 w-4 text-calculator-accent" />
                 </div>
               </div>
+
+              <RangeInput
+                label="Reply Rate from Messages (%)"
+                value={linkedInMessageReplyRate}
+                onChange={setLinkedInMessageReplyRate}
+                min={0}
+                max={50}
+                step={1}
+                tooltip="Percentage of connection requests that receive a reply"
+              />
 
               <RangeInput
                 label="Connection Acceptance Rate (%)"

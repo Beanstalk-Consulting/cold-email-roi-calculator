@@ -24,19 +24,20 @@ const getBeanstalkPrice = (emailCount: number): number => {
 };
 
 export const ROICalculator = () => {
+  // Shared close rate across all channels
+  const [closeRate, setCloseRate] = useState(25);
+  
   // Email outreach state
   const [emailCapacity, setEmailCapacity] = useState(8000);
   const [customerValue, setCustomerValue] = useState(3000);
   const [replyRate, setReplyRate] = useState(3);
   const [convertRate, setConvertRate] = useState(40);
-  const [closeRate, setCloseRate] = useState(25);
-
+  
   // LinkedIn outreach state
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
   const [linkedInMessages, setLinkedInMessages] = useState(400);
   const [linkedInResponseRate, setLinkedInResponseRate] = useState(30);
   const [linkedInConvertRate, setLinkedInConvertRate] = useState(50);
-  const [linkedInCloseRate, setLinkedInCloseRate] = useState(30);
   const [linkedInConnectRate, setLinkedInConnectRate] = useState(40);
 
   // Cold calling outreach state
@@ -45,7 +46,6 @@ export const ROICalculator = () => {
   const [callerCount, setCallerCount] = useState(1);
   const [connectRate, setConnectRate] = useState(20);
   const [callConvertRate, setCallConvertRate] = useState(60);
-  const [callCloseRate, setCallCloseRate] = useState(35);
 
   // Email calculated values
   const monthlyProspects = Math.round(emailCapacity / 2); // 2-step sequence
@@ -58,7 +58,7 @@ export const ROICalculator = () => {
   const linkedInConnections = Math.round((linkedInMessages * linkedInConnectRate) / 100);
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
   const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
-  const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * linkedInCloseRate) / 10000);
+  const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * closeRate) / 10000);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
   // Cold calling calculated values
@@ -68,7 +68,7 @@ export const ROICalculator = () => {
   
   const callConnections = Math.round((dialCount * connectRate) / 100);
   const callLeads = Math.round(callConnections * 0.5); // 50% of connections are positive on calls
-  const callDeals = Math.round((callLeads * callConvertRate * callCloseRate) / 10000);
+  const callDeals = Math.round((callLeads * callConvertRate * closeRate) / 10000);
   const callRevenue = callDeals * customerValue * 12;
   
   // Calculate total values
@@ -83,7 +83,7 @@ export const ROICalculator = () => {
   const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
   
   // SDR calculations for cold calling
-  const requiredCallSDRs = includeColdCalling ? callerCount : 0; // Now we directly use caller count
+  const requiredCallSDRs = includeColdCalling ? callerCount : 0;
   
   // Total SDR requirement and cost
   const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallSDRs;
@@ -130,8 +130,6 @@ export const ROICalculator = () => {
           setLinkedInResponseRate={setLinkedInResponseRate}
           linkedInConvertRate={linkedInConvertRate}
           setLinkedInConvertRate={setLinkedInConvertRate}
-          linkedInCloseRate={linkedInCloseRate}
-          setLinkedInCloseRate={setLinkedInCloseRate}
           linkedInConnectRate={linkedInConnectRate}
           setLinkedInConnectRate={setLinkedInConnectRate}
         />
@@ -144,12 +142,11 @@ export const ROICalculator = () => {
           setConnectRate={setConnectRate}
           callConvertRate={callConvertRate}
           setCallConvertRate={setCallConvertRate}
-          callCloseRate={callCloseRate}
-          setCallCloseRate={setCallCloseRate}
           isFullTimeDialer={isFullTimeDialer}
           setIsFullTimeDialer={setIsFullTimeDialer}
           callerCount={callerCount}
           setCallerCount={setCallerCount}
+          closeRate={closeRate}
         />
 
         <div className="space-y-8">

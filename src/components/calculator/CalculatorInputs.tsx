@@ -1,3 +1,4 @@
+
 import { RangeInput } from "./RangeInput";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -150,12 +151,13 @@ export const CalculatorInputs = ({
       </div>
 
       <RangeInput
-        label="Close Rate (%)"
+        label="Meeting Close Rate (%)"
         value={closeRate}
         onChange={setCloseRate}
         min={0}
         max={100}
         step={1}
+        tooltip="Percentage of meetings that convert to closed deals - this rate applies to all channels"
       />
     </div>
   );

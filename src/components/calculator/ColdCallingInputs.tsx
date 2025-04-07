@@ -20,12 +20,11 @@ interface ColdCallingInputsProps {
   setConnectRate: (value: number) => void;
   callConvertRate: number;
   setCallConvertRate: (value: number) => void;
-  callCloseRate: number;
-  setCallCloseRate: (value: number) => void;
   isFullTimeDialer: boolean;
   setIsFullTimeDialer: (value: boolean) => void;
   callerCount: number;
   setCallerCount: (value: number) => void;
+  closeRate: number;
 }
 
 export const ColdCallingInputs = ({
@@ -36,12 +35,11 @@ export const ColdCallingInputs = ({
   setConnectRate,
   callConvertRate,
   setCallConvertRate,
-  callCloseRate,
-  setCallCloseRate,
   isFullTimeDialer,
   setIsFullTimeDialer,
   callerCount,
   setCallerCount,
+  closeRate,
 }: ColdCallingInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeColdCalling ? "cold-calling" : "");
 
@@ -157,15 +155,14 @@ export const ColdCallingInputs = ({
                 tooltip="Percentage of conversations that convert to sales meetings"
               />
 
-              <RangeInput
-                label="Meeting Close Rate (%)"
-                value={callCloseRate}
-                onChange={setCallCloseRate}
-                min={0}
-                max={100}
-                step={1}
-                tooltip="Percentage of meetings that convert to closed deals"
-              />
+              <div className="bg-gray-50 p-3 rounded-md border border-gray-100">
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium text-calculator-text">Meeting Close Rate: {closeRate}%</p>
+                  <p className="text-xs text-gray-500">
+                    This rate is shared across all channels and can be adjusted in the main Email settings
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </AccordionContent>

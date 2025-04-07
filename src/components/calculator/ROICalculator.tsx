@@ -5,8 +5,13 @@ import { CalculatorInputs } from "./CalculatorInputs";
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
+import { LinkedInInputs } from "./LinkedInInputs";
+import { ColdCallingInputs } from "./ColdCallingInputs";
+import { CombinedMetrics } from "./CombinedMetrics";
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
+const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 100 * 22; // 100 messages per day * 22 working days
+const CALLS_PER_SDR_PER_DAY = 80; // Average number of calls one SDR can make per day
 
 const getBeanstalkPrice = (emailCount: number): number => {
   if (emailCount <= 8000) return 0.40;
@@ -18,35 +23,81 @@ const getBeanstalkPrice = (emailCount: number): number => {
 };
 
 export const ROICalculator = () => {
+  // Email outreach state
   const [emailCapacity, setEmailCapacity] = useState(8000);
   const [customerValue, setCustomerValue] = useState(3000);
   const [replyRate, setReplyRate] = useState(3);
   const [convertRate, setConvertRate] = useState(40);
   const [closeRate, setCloseRate] = useState(25);
 
-  // Calculate derived values
+  // LinkedIn outreach state
+  const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
+  const [linkedInMessages, setLinkedInMessages] = useState(2000);
+  const [linkedInResponseRate, setLinkedInResponseRate] = useState(10);
+  const [linkedInConvertRate, setLinkedInConvertRate] = useState(50);
+  const [linkedInCloseRate, setLinkedInCloseRate] = useState(30);
+
+  // Cold calling outreach state
+  const [includeColdCalling, setIncludeColdCalling] = useState(false);
+  const [dialCount, setDialCount] = useState(1000);
+  const [connectRate, setConnectRate] = useState(20);
+  const [callConvertRate, setCallConvertRate] = useState(60);
+  const [callCloseRate, setCallCloseRate] = useState(35);
+
+  // Email calculated values
   const monthlyProspects = Math.round(emailCapacity / 2); // 2-step sequence
   const totalReplies = Math.round((monthlyProspects * replyRate) / 100);
   const monthlyLeads = Math.round(totalReplies * 0.2); // 20% of replies are positive
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
-  const annualRevenue = monthlyDeals * customerValue * 12;
+  const emailRevenue = monthlyDeals * customerValue * 12;
   
-  // SDR calculations
-  const requiredSDRs = Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH);
-  const annualSdrSalaryCost = requiredSDRs * 82470; // Average SDR salary
-  const sdrRoi = ((annualRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100;
+  // LinkedIn calculated values
+  const linkedInResponses = Math.round((linkedInMessages * linkedInResponseRate) / 100);
+  const linkedInLeads = Math.round(linkedInResponses * 0.3); // 30% of responses are positive on LinkedIn
+  const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * linkedInCloseRate) / 10000);
+  const linkedInRevenue = linkedInDeals * customerValue * 12;
+
+  // Cold calling calculated values
+  const callConnections = Math.round((dialCount * connectRate) / 100);
+  const callLeads = Math.round(callConnections * 0.5); // 50% of connections are positive on calls
+  const callDeals = Math.round((callLeads * callConvertRate * callCloseRate) / 10000);
+  const callRevenue = callDeals * customerValue * 12;
+  
+  // Calculate total values
+  const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
+  const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
+  const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
+  
+  // SDR calculations for email
+  const requiredEmailSDRs = Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH);
+  
+  // SDR calculations for LinkedIn
+  const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
+  
+  // SDR calculations for cold calling
+  const callsPerMonth = dialCount;
+  const requiredCallSDRs = includeColdCalling ? Math.ceil(callsPerMonth / (CALLS_PER_SDR_PER_DAY * 22)) : 0;
+  
+  // Total SDR requirement and cost
+  const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallSDRs;
+  const annualSdrSalaryCost = totalSDRs * 82470; // Average SDR salary
+  const sdrRoi = ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100;
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
   const monthlyBeanstalkCost = emailCapacity * monthlyEmailPrice;
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
-  const beanstalkRoi = ((annualRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100;
+  const beanstalkRoi = ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100;
+
+  // Combined ROI for all channels using Beanstalk for email automation
+  const combinedCost = annualBeanstalkCost + (requiredLinkedInSDRs + requiredCallSDRs) * 82470;
+  const combinedRoi = ((totalRevenue - combinedCost) / combinedCost) * 100;
 
   return (
     <TooltipProvider>
-      <div className="max-w-3xl mx-auto p-6 space-y-8 bg-white rounded-xl shadow-lg">
+      <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white rounded-xl shadow-lg">
         <h2 className="text-2xl font-bold text-calculator-primary text-center">
-          Cold Email ROI Calculator
+          Multi-Channel Outreach ROI Calculator
         </h2>
 
         <CalculatorInputs
@@ -63,17 +114,65 @@ export const ROICalculator = () => {
           monthlyProspects={monthlyProspects}
         />
 
+        <LinkedInInputs
+          includeLinkedIn={includeLinkedIn}
+          setIncludeLinkedIn={setIncludeLinkedIn}
+          linkedInMessages={linkedInMessages}
+          setLinkedInMessages={setLinkedInMessages}
+          linkedInResponseRate={linkedInResponseRate}
+          setLinkedInResponseRate={setLinkedInResponseRate}
+          linkedInConvertRate={linkedInConvertRate}
+          setLinkedInConvertRate={setLinkedInConvertRate}
+          linkedInCloseRate={linkedInCloseRate}
+          setLinkedInCloseRate={setLinkedInCloseRate}
+        />
+
+        <ColdCallingInputs
+          includeColdCalling={includeColdCalling}
+          setIncludeColdCalling={setIncludeColdCalling}
+          dialCount={dialCount}
+          setDialCount={setDialCount}
+          connectRate={connectRate}
+          setConnectRate={setConnectRate}
+          callConvertRate={callConvertRate}
+          setCallConvertRate={setCallConvertRate}
+          callCloseRate={callCloseRate}
+          setCallCloseRate={setCallCloseRate}
+        />
+
         <div className="space-y-8">
           <PerformanceMetrics
             monthlyLeads={monthlyLeads}
             monthlyDeals={monthlyDeals}
-            annualRevenue={annualRevenue}
+            annualRevenue={emailRevenue}
           />
 
+          {(includeLinkedIn || includeColdCalling) && (
+            <CombinedMetrics
+              totalLeads={totalLeads}
+              totalDeals={totalDeals}
+              totalRevenue={totalRevenue}
+              includeLinkedIn={includeLinkedIn}
+              linkedInLeads={linkedInLeads}
+              linkedInDeals={linkedInDeals}
+              linkedInRevenue={linkedInRevenue}
+              includeColdCalling={includeColdCalling}
+              callLeads={callLeads}
+              callDeals={callDeals}
+              callRevenue={callRevenue}
+              combinedRoi={combinedRoi}
+            />
+          )}
+
           <SDRMetrics
-            requiredSDRs={requiredSDRs}
+            requiredSDRs={totalSDRs}
             annualSdrSalaryCost={annualSdrSalaryCost}
             sdrRoi={sdrRoi}
+            requiredEmailSDRs={requiredEmailSDRs}
+            requiredLinkedInSDRs={requiredLinkedInSDRs}
+            requiredCallSDRs={requiredCallSDRs}
+            includeLinkedIn={includeLinkedIn}
+            includeColdCalling={includeColdCalling}
           />
 
           <BeanstalkMetrics

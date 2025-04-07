@@ -1,5 +1,8 @@
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { InfoIcon } from "lucide-react";
 
 interface RangeInputProps {
   value: number;
@@ -9,6 +12,7 @@ interface RangeInputProps {
   step?: number;
   label: string;
   className?: string;
+  tooltip?: string;
 }
 
 export const RangeInput = ({
@@ -19,10 +23,23 @@ export const RangeInput = ({
   step = 1,
   label,
   className,
+  tooltip,
 }: RangeInputProps) => {
   return (
     <div className={cn("space-y-2", className)}>
-      <label className="text-sm font-medium text-calculator-text">{label}</label>
+      <div className="flex items-center gap-2">
+        <label className="text-sm font-medium text-calculator-text">{label}</label>
+        {tooltip && (
+          <Tooltip>
+            <TooltipTrigger>
+              <InfoIcon className="h-4 w-4 text-calculator-accent" />
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="w-[200px]">{tooltip}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+      </div>
       <div className="flex items-center gap-4">
         <input
           type="range"
@@ -33,7 +50,7 @@ export const RangeInput = ({
           onChange={(e) => onChange(Number(e.target.value))}
           className="w-full h-2 bg-calculator-gray rounded-lg appearance-none cursor-pointer accent-calculator-accent"
         />
-        <span className="min-w-[60px] text-right font-medium">{value}</span>
+        <span className="min-w-[60px] text-right font-medium">{value}%</span>
       </div>
     </div>
   );

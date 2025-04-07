@@ -50,7 +50,7 @@ export const ROICalculator = () => {
   const [includeColdCalling, setIncludeColdCalling] = useState(false);
   const [isFullTimeDialer, setIsFullTimeDialer] = useState(false);
   const [callerCount, setCallerCount] = useState(1);
-  const [connectRate, setConnectRate] = useState(20);
+  const [connectRate, setConnectRate] = useState(5); // Changed default from 20 to 5 to be within 1-8% range
   const [callConvertRate, setCallConvertRate] = useState(60);
 
   // Email calculated values

@@ -139,9 +139,9 @@ export const ColdCallingInputs = ({
                 label="Connect Rate (%)"
                 value={connectRate}
                 onChange={setConnectRate}
-                min={0}
-                max={50}
-                step={1}
+                min={1}
+                max={8}
+                step={0.1}
                 tooltip="Percentage of dials that result in a live conversation"
               />
 

@@ -17,7 +17,7 @@ interface CalculationsProps {
   linkedInMessages: number;
   linkedInMessageReplyRate: number;
   linkedInResponseRate: number;
-  linkedInConvertRate: number;
+  linkedInReplyToCallRate: number;
   linkedInConnectRate: number;
   linkedInProfiles: number;
   
@@ -45,7 +45,7 @@ export const useCalculations = ({
   linkedInMessages,
   linkedInMessageReplyRate,
   linkedInResponseRate,
-  linkedInConvertRate,
+  linkedInReplyToCallRate,
   linkedInConnectRate,
   linkedInProfiles,
   
@@ -78,8 +78,9 @@ export const useCalculations = ({
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
   // Total responses are direct replies + connection responses
   const totalLinkedInResponses = directReplies + linkedInResponses;
-  const linkedInLeads = Math.round(totalLinkedInResponses * 0.7); // 70% of responses are positive on LinkedIn
-  const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * closeRate) / 10000);
+  // Now calculate leads based on the reply to call conversion rate
+  const linkedInLeads = Math.round((totalLinkedInResponses * linkedInReplyToCallRate) / 100);
+  const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
   // Cold calling calculated values

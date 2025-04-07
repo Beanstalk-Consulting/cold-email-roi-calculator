@@ -22,7 +22,7 @@ export const LinkedInPerformanceMetrics = ({
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(linkedInLeads)}
-          tooltip="70% of LinkedIn responses are considered qualified leads"
+          tooltip="Based on your LinkedIn reply to call conversion rate"
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard

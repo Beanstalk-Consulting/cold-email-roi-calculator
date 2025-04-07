@@ -37,8 +37,8 @@ export const ROICalculator = () => {
     setLinkedInMessageReplyRate,
     linkedInResponseRate,
     setLinkedInResponseRate,
-    linkedInConvertRate,
-    setLinkedInConvertRate,
+    linkedInReplyToCallRate,
+    setLinkedInReplyToCallRate,
     linkedInConnectRate,
     setLinkedInConnectRate,
     linkedInProfiles,
@@ -112,7 +112,7 @@ export const ROICalculator = () => {
     linkedInMessages,
     linkedInMessageReplyRate,
     linkedInResponseRate,
-    linkedInConvertRate,
+    linkedInReplyToCallRate,
     linkedInConnectRate,
     linkedInProfiles,
     
@@ -162,8 +162,8 @@ export const ROICalculator = () => {
           setLinkedInMessageReplyRate={setLinkedInMessageReplyRate}
           linkedInResponseRate={linkedInResponseRate}
           setLinkedInResponseRate={setLinkedInResponseRate}
-          linkedInConvertRate={linkedInConvertRate}
-          setLinkedInConvertRate={setLinkedInConvertRate}
+          linkedInReplyToCallRate={linkedInReplyToCallRate}
+          setLinkedInReplyToCallRate={setLinkedInReplyToCallRate}
           linkedInConnectRate={linkedInConnectRate}
           setLinkedInConnectRate={setLinkedInConnectRate}
           linkedInProfiles={linkedInProfiles}

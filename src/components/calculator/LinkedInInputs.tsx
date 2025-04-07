@@ -21,8 +21,8 @@ interface LinkedInInputsProps {
   setLinkedInMessageReplyRate: (value: number) => void;
   linkedInResponseRate: number;
   setLinkedInResponseRate: (value: number) => void;
-  linkedInConvertRate: number;
-  setLinkedInConvertRate: (value: number) => void;
+  linkedInReplyToCallRate: number;
+  setLinkedInReplyToCallRate: (value: number) => void;
   linkedInConnectRate: number;
   setLinkedInConnectRate: (value: number) => void;
   linkedInProfiles: number;
@@ -38,8 +38,8 @@ export const LinkedInInputs = ({
   setLinkedInMessageReplyRate,
   linkedInResponseRate,
   setLinkedInResponseRate,
-  linkedInConvertRate,
-  setLinkedInConvertRate,
+  linkedInReplyToCallRate,
+  setLinkedInReplyToCallRate,
   linkedInConnectRate,
   setLinkedInConnectRate,
   linkedInProfiles,
@@ -173,13 +173,13 @@ export const LinkedInInputs = ({
               />
 
               <RangeInput
-                label="LinkedIn Lead to Call Conversion Rate (%)"
-                value={linkedInConvertRate}
-                onChange={setLinkedInConvertRate}
+                label="Reply to Call Conversion Rate (%)"
+                value={linkedInReplyToCallRate}
+                onChange={setLinkedInReplyToCallRate}
                 min={0}
                 max={100}
                 step={1}
-                tooltip="Percentage of LinkedIn leads that convert to sales calls"
+                tooltip="Percentage of LinkedIn replies that convert to sales calls"
               />
             </div>
           )}

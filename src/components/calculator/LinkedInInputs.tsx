@@ -38,6 +38,7 @@ export const LinkedInInputs = ({
   setLinkedInCloseRate,
 }: LinkedInInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeLinkedIn ? "linkedin" : "");
+  const [connectAcceptRate, setConnectAcceptRate] = useState<number>(40);
 
   const handleAccordionChange = (value: string) => {
     setAccordionValue(value);
@@ -47,6 +48,10 @@ export const LinkedInInputs = ({
       setIncludeLinkedIn(false);
     }
   };
+
+  // Calculate the maximum recommended connection requests per month
+  // Based on 22 per day, 5 days a week, ~4.3 weeks per month
+  const maxRecommendedMonthly = 22 * 5 * 4.3;
 
   return (
     <Accordion 
@@ -83,14 +88,14 @@ export const LinkedInInputs = ({
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <label className="text-sm font-medium text-calculator-text">
-                    Monthly LinkedIn Messages
+                    Monthly Connection Requests
                   </label>
                   <Tooltip>
                     <TooltipTrigger>
                       <InfoIcon className="h-4 w-4 text-calculator-accent" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p className="w-[200px]">Number of LinkedIn messages sent per month</p>
+                      <p className="w-[200px]">LinkedIn allows up to 22 connection requests per day. Recommended maximum is {Math.round(maxRecommendedMonthly)} per month.</p>
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -99,18 +104,29 @@ export const LinkedInInputs = ({
                   value={linkedInMessages}
                   onChange={(e) => setLinkedInMessages(Number(e.target.value))}
                   min={0}
+                  max={Math.round(maxRecommendedMonthly)}
                   className="w-full"
                 />
               </div>
 
               <RangeInput
-                label="LinkedIn Response Rate (%)"
+                label="Connection Acceptance Rate (%)"
+                value={connectAcceptRate}
+                onChange={setConnectAcceptRate}
+                min={0}
+                max={100}
+                step={1}
+                tooltip="Percentage of connection requests that are accepted"
+              />
+
+              <RangeInput
+                label="Reply Rate from Connections (%)"
                 value={linkedInResponseRate}
                 onChange={setLinkedInResponseRate}
                 min={0}
-                max={30}
+                max={100}
                 step={1}
-                tooltip="Average percentage of LinkedIn messages that receive a response"
+                tooltip="Percentage of accepted connections that reply to your messages"
               />
 
               <RangeInput

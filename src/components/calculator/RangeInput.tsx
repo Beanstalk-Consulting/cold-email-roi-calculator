@@ -13,6 +13,7 @@ interface RangeInputProps {
   label: string;
   className?: string;
   tooltip?: string;
+  unit?: string;
 }
 
 export const RangeInput = ({
@@ -24,6 +25,7 @@ export const RangeInput = ({
   label,
   className,
   tooltip,
+  unit = "%",
 }: RangeInputProps) => {
   return (
     <div className={cn("space-y-2", className)}>
@@ -50,7 +52,7 @@ export const RangeInput = ({
           onChange={(e) => onChange(Number(e.target.value))}
           className="w-full h-2 bg-calculator-gray rounded-lg appearance-none cursor-pointer accent-calculator-accent"
         />
-        <span className="min-w-[60px] text-right font-medium">{value}%</span>
+        <span className="min-w-[60px] text-right font-medium">{value}{unit}</span>
       </div>
     </div>
   );

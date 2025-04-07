@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
@@ -10,7 +9,7 @@ import { ColdCallingInputs } from "./ColdCallingInputs";
 import { CombinedMetrics } from "./CombinedMetrics";
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
-const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 100 * 22; // 100 messages per day * 22 working days
+const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
 const CALLS_PER_SDR_PER_DAY = 80; // Average number of calls one SDR can make per day
 
 const getBeanstalkPrice = (emailCount: number): number => {
@@ -32,10 +31,11 @@ export const ROICalculator = () => {
 
   // LinkedIn outreach state
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
-  const [linkedInMessages, setLinkedInMessages] = useState(2000);
-  const [linkedInResponseRate, setLinkedInResponseRate] = useState(10);
+  const [linkedInMessages, setLinkedInMessages] = useState(400); // Adjusted to a reasonable monthly connection request count
+  const [linkedInResponseRate, setLinkedInResponseRate] = useState(30); // Changed from 10 to 30 to represent reply rate
   const [linkedInConvertRate, setLinkedInConvertRate] = useState(50);
   const [linkedInCloseRate, setLinkedInCloseRate] = useState(30);
+  const [linkedInConnectRate, setLinkedInConnectRate] = useState(40); // New connect acceptance rate
 
   // Cold calling outreach state
   const [includeColdCalling, setIncludeColdCalling] = useState(false);
@@ -52,8 +52,9 @@ export const ROICalculator = () => {
   const emailRevenue = monthlyDeals * customerValue * 12;
   
   // LinkedIn calculated values
-  const linkedInResponses = Math.round((linkedInMessages * linkedInResponseRate) / 100);
-  const linkedInLeads = Math.round(linkedInResponses * 0.3); // 30% of responses are positive on LinkedIn
+  const linkedInConnections = Math.round((linkedInMessages * linkedInConnectRate) / 100); // Calculate accepted connections
+  const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100); // Calculate replies from connections
+  const linkedInLeads = Math.round(linkedInResponses * 0.7); // 70% of responses are positive on LinkedIn (adjusted from 30%)
   const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * linkedInCloseRate) / 10000);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 

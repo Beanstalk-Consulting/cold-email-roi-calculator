@@ -2,39 +2,39 @@
 import { ResultCard } from "./ResultCard";
 import { formatNumber, formatCurrency } from "@/lib/formatters";
 
-interface PerformanceMetricsProps {
-  monthlyLeads: number;
-  monthlyDeals: number;
-  annualRevenue: number;
+interface LinkedInPerformanceMetricsProps {
+  linkedInLeads: number;
+  linkedInDeals: number;
+  linkedInRevenue: number;
 }
 
-export const PerformanceMetrics = ({
-  monthlyLeads,
-  monthlyDeals,
-  annualRevenue,
-}: PerformanceMetricsProps) => {
+export const LinkedInPerformanceMetrics = ({
+  linkedInLeads,
+  linkedInDeals,
+  linkedInRevenue,
+}: LinkedInPerformanceMetricsProps) => {
   return (
     <div>
       <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-        Email Outreach Performance
+        LinkedIn Outreach Performance
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <ResultCard
           label="Monthly Leads Generated"
-          value={formatNumber(monthlyLeads)}
-          tooltip="20% of total replies are considered qualified leads"
+          value={formatNumber(linkedInLeads)}
+          tooltip="70% of LinkedIn responses are considered qualified leads"
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard
           label="Monthly Closed Deals"
-          value={formatNumber(monthlyDeals)}
-          tooltip="Based on your conversion and close rates"
+          value={formatNumber(linkedInDeals)}
+          tooltip="Based on your LinkedIn conversion and close rates"
           className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
         />
         <ResultCard
           label="Annual New Revenue"
-          value={formatCurrency(annualRevenue)}
-          tooltip="Monthly deals × Customer value × 12 months"
+          value={formatCurrency(linkedInRevenue)}
+          tooltip="Monthly LinkedIn deals × Customer value × 12 months"
           className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
         />
       </div>

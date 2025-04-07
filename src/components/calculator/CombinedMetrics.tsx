@@ -7,12 +7,8 @@ interface CombinedMetricsProps {
   totalDeals: number;
   totalRevenue: number;
   includeLinkedIn: boolean;
-  linkedInLeads: number;
-  linkedInDeals: number;
   linkedInRevenue: number;
   includeColdCalling: boolean;
-  callLeads: number;
-  callDeals: number;
   callRevenue: number;
   combinedRoi: number;
 }
@@ -22,12 +18,8 @@ export const CombinedMetrics = ({
   totalDeals,
   totalRevenue,
   includeLinkedIn,
-  linkedInLeads,
-  linkedInDeals,
   linkedInRevenue,
   includeColdCalling,
-  callLeads,
-  callDeals,
   callRevenue,
   combinedRoi,
 }: CombinedMetricsProps) => {
@@ -67,7 +59,7 @@ export const CombinedMetrics = ({
               className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200"
             />
             
-            {includeLinkedIn && (
+            {includeLinkedIn && totalRevenue > 0 && (
               <ResultCard
                 label="LinkedIn Revenue Contribution"
                 value={`${formatPercent(linkedInRevenue / totalRevenue * 100)}`}
@@ -76,7 +68,7 @@ export const CombinedMetrics = ({
               />
             )}
             
-            {includeColdCalling && (
+            {includeColdCalling && totalRevenue > 0 && (
               <ResultCard
                 label="Cold Calling Revenue Contribution"
                 value={`${formatPercent(callRevenue / totalRevenue * 100)}`}

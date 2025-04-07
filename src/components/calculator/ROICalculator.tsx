@@ -3,6 +3,8 @@ import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
 import { PerformanceMetrics } from "./PerformanceMetrics";
+import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
+import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
 import { LinkedInInputs } from "./LinkedInInputs";
@@ -11,7 +13,6 @@ import { CombinedMetrics } from "./CombinedMetrics";
 
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
-const CALLS_PER_SDR_PER_DAY = 80; // Average number of calls one SDR can make per day
 
 const getBeanstalkPrice = (emailCount: number): number => {
   if (emailCount <= 8000) return 0.40;
@@ -40,8 +41,8 @@ export const ROICalculator = () => {
 
   // Cold calling outreach state
   const [includeColdCalling, setIncludeColdCalling] = useState(false);
-  const [isFullTimeDialer, setIsFullTimeDialer] = useState(false); // Added: part-time/full-time toggle
-  const [callerCount, setCallerCount] = useState(1); // Added: number of callers
+  const [isFullTimeDialer, setIsFullTimeDialer] = useState(false);
+  const [callerCount, setCallerCount] = useState(1);
   const [connectRate, setConnectRate] = useState(20);
   const [callConvertRate, setCallConvertRate] = useState(60);
   const [callCloseRate, setCallCloseRate] = useState(35);
@@ -60,7 +61,7 @@ export const ROICalculator = () => {
   const linkedInDeals = Math.round((linkedInLeads * linkedInConvertRate * linkedInCloseRate) / 10000);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
-  // Cold calling calculated values - updated to use new caller model
+  // Cold calling calculated values
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
   const dialCount = dailyDials * daysPerWeek * 4 * callerCount; // 4 weeks in a month
@@ -81,8 +82,7 @@ export const ROICalculator = () => {
   // SDR calculations for LinkedIn
   const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
   
-  // SDR calculations for cold calling - updated for part-time/full-time model
-  const callsPerMonth = dialCount;
+  // SDR calculations for cold calling
   const requiredCallSDRs = includeColdCalling ? callerCount : 0; // Now we directly use caller count
   
   // Total SDR requirement and cost
@@ -153,24 +153,40 @@ export const ROICalculator = () => {
         />
 
         <div className="space-y-8">
+          {/* Email Performance */}
           <PerformanceMetrics
             monthlyLeads={monthlyLeads}
             monthlyDeals={monthlyDeals}
             annualRevenue={emailRevenue}
           />
 
+          {/* LinkedIn Performance (if included) */}
+          {includeLinkedIn && (
+            <LinkedInPerformanceMetrics
+              linkedInLeads={linkedInLeads}
+              linkedInDeals={linkedInDeals}
+              linkedInRevenue={linkedInRevenue}
+            />
+          )}
+
+          {/* Cold Calling Performance (if included) */}
+          {includeColdCalling && (
+            <ColdCallingPerformanceMetrics
+              callLeads={callLeads}
+              callDeals={callDeals}
+              callRevenue={callRevenue}
+            />
+          )}
+
+          {/* Combined Performance (if any additional channel is used) */}
           {(includeLinkedIn || includeColdCalling) && (
             <CombinedMetrics
               totalLeads={totalLeads}
               totalDeals={totalDeals}
               totalRevenue={totalRevenue}
               includeLinkedIn={includeLinkedIn}
-              linkedInLeads={linkedInLeads}
-              linkedInDeals={linkedInDeals}
               linkedInRevenue={linkedInRevenue}
               includeColdCalling={includeColdCalling}
-              callLeads={callLeads}
-              callDeals={callDeals}
               callRevenue={callRevenue}
               combinedRoi={combinedRoi}
             />

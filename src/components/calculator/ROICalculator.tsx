@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
@@ -73,8 +72,8 @@ export const ROICalculator = () => {
   const dialCount = includeColdCalling ? dailyDials * daysPerWeek * 4 * callerCount : 0; // 4 weeks in a month
   
   const callConnections = Math.round((dialCount * connectRate) / 100);
-  const callLeads = Math.round(callConnections * 0.5); // 50% of connections are positive on calls
-  const callDeals = Math.round((callLeads * callConvertRate * closeRate) / 10000);
+  const callLeads = Math.round((callConnections * callConvertRate) / 100);
+  const callDeals = Math.round((callLeads * closeRate) / 100);
   const callRevenue = callDeals * customerValue * 12;
   
   // Calculate total values
@@ -216,6 +215,7 @@ export const ROICalculator = () => {
               callLeads={callLeads}
               callDeals={callDeals}
               callRevenue={callRevenue}
+              callConvertRate={callConvertRate}
             />
           )}
 

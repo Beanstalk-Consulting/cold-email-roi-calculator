@@ -6,12 +6,14 @@ interface ColdCallingPerformanceMetricsProps {
   callLeads: number;
   callDeals: number;
   callRevenue: number;
+  callConvertRate: number; // Added this prop to show in the tooltip
 }
 
 export const ColdCallingPerformanceMetrics = ({
   callLeads,
   callDeals,
   callRevenue,
+  callConvertRate,
 }: ColdCallingPerformanceMetricsProps) => {
   return (
     <div>
@@ -22,7 +24,7 @@ export const ColdCallingPerformanceMetrics = ({
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(callLeads)}
-          tooltip="50% of call connections are considered qualified leads"
+          tooltip={`Based on your ${callConvertRate}% call to meeting conversion rate`}
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard

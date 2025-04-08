@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice } from "./useCalculatorState";
 
 interface CalculationsProps {
@@ -94,19 +93,19 @@ export const useCalculations = ({
   const dailyLeads = Math.round((dailyConnections * callConvertRate) / 100); // Warm leads (interested but not booked)
   
   // Calculate daily booked leads without a cap
-  // Based on the given range of 0-2 booked leads per day, we'll calculate this as a portion of interested leads
-  // For a typical call convert rate of 2%, this should work out to ~0-2 booked leads per day
-  const dailyBookedLeads = Math.max(Math.round((dailyLeads * 0.25)), 0); // About 25% of warm leads become booked
+  // Based on the given range of 0-3 booked leads per day
+  // We use the call convert rate to influence the calculation but ensure it falls within the 0-3 range
+  // The higher the call convert rate, the more booked leads (up to 3 per day)
+  const dailyBookedLeads = Math.min(Math.round((dailyLeads * 0.3)), 3); // Cap at 3 booked leads per day
   
   // Monthly metrics for all callers
   const callConnections = Math.round((dialCount * connectRate) / 100);
-  const callLeads = Math.round((dailyLeads * workingDaysPerMonth * callerCount)); // Just track interested leads
-  const callBookedLeads = Math.round(dailyBookedLeads * workingDaysPerMonth * callerCount); // Booked meetings
-  const callDeals = Math.round((callBookedLeads * closeRate) / 100);
+  const callLeads = Math.round(dailyBookedLeads * workingDaysPerMonth * callerCount); // Monthly booked meetings
+  const callDeals = Math.round((callLeads * closeRate) / 100);
   const callRevenue = callDeals * customerValue * 12;
   
   // Calculate total values
-  const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callBookedLeads : 0); // Use booked leads for cold calling
+  const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0); // Use booked leads for cold calling
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
@@ -160,7 +159,7 @@ export const useCalculations = ({
     dailyConnections,
     dailyLeads,
     dailyBookedLeads,
-    callBookedLeads,
+    callBookedLeads: callLeads,
     
     // Combined metrics
     totalLeads,

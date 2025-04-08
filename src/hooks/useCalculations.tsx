@@ -89,6 +89,9 @@ export const useCalculations = ({
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
   const workingDaysPerMonth = daysPerWeek * 4.4; // More accurately represent 22 working days per month
   
+  // Calculate monthly dials
+  const monthlyDialCount = includeColdCalling ? dailyDials * daysPerWeek * 4 * callerCount : 0;
+  
   // Daily metrics for a single caller
   const dailyConnections = Math.round((dailyDials * connectRate) / 100); // 8-12% connect rate means 80-120 connects/day
   const dailyLeads = Math.round((dailyConnections * callConvertRate) / 100); // Warm leads (interested but not booked)
@@ -168,7 +171,7 @@ export const useCalculations = ({
     linkedInRevenue,
     
     // Cold calling metrics
-    dialCount,
+    monthlyDialCount, // Renamed from dialCount to monthlyDialCount
     callConnections,
     callLeads,
     callDeals,

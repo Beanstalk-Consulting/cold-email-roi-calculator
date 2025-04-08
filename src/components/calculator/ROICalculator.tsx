@@ -70,7 +70,7 @@ export const ROICalculator = () => {
     linkedInRevenue,
     
     // Cold calling metrics
-    dialCount,
+    monthlyDialCount,
     callLeads,
     callDeals,
     callRevenue,
@@ -175,7 +175,7 @@ export const ROICalculator = () => {
         <ColdCallingInputs
           includeColdCalling={includeColdCalling}
           setIncludeColdCalling={setIncludeColdCalling}
-          dialCount={dialCount}
+          dialCount={monthlyDialCount}
           connectRate={connectRate}
           setConnectRate={setConnectRate}
           callConvertRate={callConvertRate}

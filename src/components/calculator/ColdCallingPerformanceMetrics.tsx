@@ -42,13 +42,13 @@ export const ColdCallingPerformanceMetrics = ({
         <ResultCard
           label="Daily Booked Meetings"
           value={formatNumber(dailyBookedLeads)}
-          tooltip="Hot leads that converted to booked meetings (1-2 per day typical)"
+          tooltip="Hot leads that converted to booked meetings (typically up to 2 per day)"
           className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
         />
         <ResultCard
-          label="Monthly Leads Generated"
+          label="Monthly Booked Meetings"
           value={formatNumber(callLeads)}
-          tooltip={`Based on your ${callConvertRate}% call to meeting conversion rate`}
+          tooltip="Total booked meetings generated per month across all callers"
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard

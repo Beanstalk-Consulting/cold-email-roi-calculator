@@ -38,8 +38,8 @@ export const useCalculatorState = () => {
   const [includeColdCalling, setIncludeColdCalling] = useState(false);
   const [isFullTimeDialer, setIsFullTimeDialer] = useState(false);
   const [callerCount, setCallerCount] = useState(1);
-  const [connectRate, setConnectRate] = useState(5); // Changed default from 20 to 5 to be within 1-8% range
-  const [callConvertRate, setCallConvertRate] = useState(60);
+  const [connectRate, setConnectRate] = useState(8); // Default to 8% (industry average)
+  const [callConvertRate, setCallConvertRate] = useState(2); // Default to 2% (middle of 1-8% range)
 
   return {
     // Global settings

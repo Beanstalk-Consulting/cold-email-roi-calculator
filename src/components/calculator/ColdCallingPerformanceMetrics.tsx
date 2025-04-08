@@ -6,7 +6,10 @@ interface ColdCallingPerformanceMetricsProps {
   callLeads: number;
   callDeals: number;
   callRevenue: number;
-  callConvertRate: number; // Added this prop to show in the tooltip
+  callConvertRate: number;
+  dailyConnections: number;
+  dailyLeads: number;
+  dailyBookedLeads: number;
 }
 
 export const ColdCallingPerformanceMetrics = ({
@@ -14,6 +17,9 @@ export const ColdCallingPerformanceMetrics = ({
   callDeals,
   callRevenue,
   callConvertRate,
+  dailyConnections,
+  dailyLeads,
+  dailyBookedLeads,
 }: ColdCallingPerformanceMetricsProps) => {
   return (
     <div>
@@ -21,6 +27,24 @@ export const ColdCallingPerformanceMetrics = ({
         Cold Calling Performance
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <ResultCard
+          label="Daily Phone Connects"
+          value={formatNumber(dailyConnections)}
+          tooltip="Average number of live conversations per day"
+          className="bg-gradient-to-br from-gray-50 to-gray-100 border-gray-200"
+        />
+        <ResultCard
+          label="Daily Warm Leads"
+          value={formatNumber(dailyLeads)}
+          tooltip="Interested prospects who haven't booked yet (1-8 per day typical)"
+          className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200"
+        />
+        <ResultCard
+          label="Daily Booked Meetings"
+          value={formatNumber(dailyBookedLeads)}
+          tooltip="Hot leads that converted to booked meetings (1-2 per day typical)"
+          className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
+        />
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(callLeads)}

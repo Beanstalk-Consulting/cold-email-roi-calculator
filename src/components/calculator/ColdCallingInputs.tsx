@@ -57,6 +57,9 @@ export const ColdCallingInputs = ({
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
   const monthlyDials = dailyDials * daysPerWeek * 4 * callerCount; // 4 weeks in a month
 
+  // Calculate expected daily connections based on connect rate
+  const dailyConnections = Math.round((dailyDials * connectRate) / 100);
+
   return (
     <Accordion 
       type="single" 
@@ -140,19 +143,28 @@ export const ColdCallingInputs = ({
                 value={connectRate}
                 onChange={setConnectRate}
                 min={1}
-                max={8}
+                max={12}
                 step={0.1}
-                tooltip="Percentage of dials that result in a live conversation"
+                tooltip="Percentage of dials that result in a live conversation (typically 8-12%)"
               />
+
+              <div className="bg-gray-50 p-3 rounded-md border border-gray-100 mb-4">
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium text-calculator-text">Daily Connections: {dailyConnections}</p>
+                  <p className="text-xs text-gray-500">
+                    Based on {connectRate}% connect rate (industry average: 8-12%, resulting in 80-120 connects/day)
+                  </p>
+                </div>
+              </div>
 
               <RangeInput
                 label="Call to Meeting Conversion Rate (%)"
                 value={callConvertRate}
                 onChange={setCallConvertRate}
-                min={0}
-                max={100}
-                step={1}
-                tooltip="Percentage of conversations that convert to sales meetings"
+                min={0.1}
+                max={8}
+                step={0.1}
+                tooltip="Percentage of conversations that convert to booked meetings (typically 1-8%)"
               />
 
               <div className="bg-gray-50 p-3 rounded-md border border-gray-100">

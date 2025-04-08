@@ -83,14 +83,22 @@ export const useCalculations = ({
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
-  // Cold calling calculated values
+  // Cold calling calculated values - updated with new logic
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
-  const dialCount = includeColdCalling ? dailyDials * daysPerWeek * 4 * callerCount : 0; // 4 weeks in a month
+  const workingDaysPerMonth = daysPerWeek * 4; // 4 weeks per month
+  const dialCount = includeColdCalling ? dailyDials * workingDaysPerMonth * callerCount : 0;
   
+  // Daily metrics for a single caller
+  const dailyConnections = Math.round((dailyDials * connectRate) / 100); // 8-12% connect rate means 80-120 connects/day
+  const dailyLeads = Math.round((dailyConnections * callConvertRate) / 100); // Warm leads (interested but not booked)
+  const dailyBookedLeads = Math.min(Math.round(dailyLeads / 4), 2); // Hot leads (booked) - typically 1-2 per day, max of 2
+  
+  // Monthly metrics for all callers
   const callConnections = Math.round((dialCount * connectRate) / 100);
   const callLeads = Math.round((callConnections * callConvertRate) / 100);
-  const callDeals = Math.round((callLeads * closeRate) / 100);
+  const callBookedLeads = Math.round(dailyBookedLeads * workingDaysPerMonth * callerCount);
+  const callDeals = Math.round((callBookedLeads * closeRate) / 100);
   const callRevenue = callDeals * customerValue * 12;
   
   // Calculate total values
@@ -145,6 +153,10 @@ export const useCalculations = ({
     callLeads,
     callDeals,
     callRevenue,
+    dailyConnections,
+    dailyLeads,
+    dailyBookedLeads,
+    callBookedLeads,
     
     // Combined metrics
     totalLeads,

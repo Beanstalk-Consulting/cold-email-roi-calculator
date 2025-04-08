@@ -1,4 +1,3 @@
-
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CalculatorInputs } from "./CalculatorInputs";
 import { LinkedInInputs } from "./LinkedInInputs";
@@ -75,6 +74,9 @@ export const ROICalculator = () => {
     callLeads,
     callDeals,
     callRevenue,
+    dailyConnections,
+    dailyLeads,
+    dailyBookedLeads,
     
     // Combined metrics
     totalLeads,
@@ -202,6 +204,9 @@ export const ROICalculator = () => {
           callDeals={callDeals}
           callRevenue={callRevenue}
           callConvertRate={callConvertRate}
+          dailyConnections={dailyConnections}
+          dailyLeads={dailyLeads}
+          dailyBookedLeads={dailyBookedLeads}
           
           totalLeads={totalLeads}
           totalDeals={totalDeals}

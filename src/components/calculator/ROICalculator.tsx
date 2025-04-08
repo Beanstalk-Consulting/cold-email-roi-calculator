@@ -1,12 +1,9 @@
+
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { CalculatorInputs } from "./CalculatorInputs";
-import { LinkedInInputs } from "./LinkedInInputs";
-import { ColdCallingInputs } from "./ColdCallingInputs";
-import { Card } from "@/components/ui/card";
 import { useCalculatorState } from "@/hooks/useCalculatorState";
 import { useCalculations } from "@/hooks/useCalculations";
-import { GlobalSettings } from "./GlobalSettings";
-import { ChannelResults } from "./ChannelResults";
+import { CalculatorHeader } from "./CalculatorHeader";
+import { CalculatorContent } from "./CalculatorContent";
 
 export const ROICalculator = () => {
   // Get all state variables from our hook
@@ -57,48 +54,7 @@ export const ROICalculator = () => {
   } = useCalculatorState();
 
   // Calculate all metrics based on the current state
-  const {
-    // Email metrics
-    monthlyProspects,
-    monthlyLeads,
-    monthlyDeals,
-    emailRevenue,
-    
-    // LinkedIn metrics
-    linkedInLeads,
-    linkedInDeals,
-    linkedInRevenue,
-    
-    // Cold calling metrics
-    monthlyDialCount,
-    callLeads,
-    callDeals,
-    callRevenue,
-    dailyConnections,
-    dailyLeads,
-    dailyBookedLeads,
-    
-    // Combined metrics
-    totalLeads,
-    totalDeals,
-    totalRevenue,
-    
-    // SDR metrics
-    requiredEmailSDRs,
-    requiredLinkedInSDRs,
-    requiredCallSDRs,
-    totalSDRs,
-    annualSdrSalaryCost,
-    sdrRoi,
-    
-    // Beanstalk metrics
-    monthlyBeanstalkCost,
-    annualBeanstalkCost,
-    beanstalkRoi,
-    
-    // Combined ROI
-    combinedRoi,
-  } = useCalculations({
+  const calculations = useCalculations({
     // Global settings
     closeRate,
     customerValue,
@@ -129,33 +85,25 @@ export const ROICalculator = () => {
   return (
     <TooltipProvider>
       <div className="max-w-4xl mx-auto p-6 space-y-8 bg-white rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-calculator-primary text-center">
-          Multi-Channel Outreach ROI Calculator
-        </h2>
-
-        <Card className="p-6">
-          <GlobalSettings 
-            closeRate={closeRate}
-            setCloseRate={setCloseRate}
-            customerValue={customerValue}
-            setCustomerValue={setCustomerValue}
-          />
-
-          <CalculatorInputs
-            emailCapacity={emailCapacity}
-            setEmailCapacity={setEmailCapacity}
-            replyRate={replyRate}
-            setReplyRate={setReplyRate}
-            convertRate={convertRate}
-            setConvertRate={setConvertRate}
-            closeRate={closeRate}
-            monthlyProspects={monthlyProspects}
-            includeEmail={includeEmail}
-            setIncludeEmail={setIncludeEmail}
-          />
-        </Card>
-
-        <LinkedInInputs
+        <CalculatorHeader />
+        <CalculatorContent
+          // Global settings
+          closeRate={closeRate}
+          setCloseRate={setCloseRate}
+          customerValue={customerValue}
+          setCustomerValue={setCustomerValue}
+          
+          // Email outreach state
+          includeEmail={includeEmail}
+          setIncludeEmail={setIncludeEmail}
+          emailCapacity={emailCapacity}
+          setEmailCapacity={setEmailCapacity}
+          replyRate={replyRate}
+          setReplyRate={setReplyRate}
+          convertRate={convertRate}
+          setConvertRate={setConvertRate}
+          
+          // LinkedIn outreach state
           includeLinkedIn={includeLinkedIn}
           setIncludeLinkedIn={setIncludeLinkedIn}
           linkedInMessages={linkedInMessages}
@@ -170,59 +118,21 @@ export const ROICalculator = () => {
           setLinkedInConnectRate={setLinkedInConnectRate}
           linkedInProfiles={linkedInProfiles}
           setLinkedInProfiles={setLinkedInProfiles}
-        />
-
-        <ColdCallingInputs
+          
+          // Cold calling outreach state
           includeColdCalling={includeColdCalling}
           setIncludeColdCalling={setIncludeColdCalling}
-          dialCount={monthlyDialCount}
-          connectRate={connectRate}
-          setConnectRate={setConnectRate}
-          callConvertRate={callConvertRate}
-          setCallConvertRate={setCallConvertRate}
           isFullTimeDialer={isFullTimeDialer}
           setIsFullTimeDialer={setIsFullTimeDialer}
           callerCount={callerCount}
           setCallerCount={setCallerCount}
-          closeRate={closeRate}
-        />
-
-        <ChannelResults
-          includeEmail={includeEmail}
-          includeLinkedIn={includeLinkedIn}
-          includeColdCalling={includeColdCalling}
-          
-          monthlyLeads={monthlyLeads}
-          monthlyDeals={monthlyDeals}
-          emailRevenue={emailRevenue}
-          
-          linkedInLeads={linkedInLeads}
-          linkedInDeals={linkedInDeals}
-          linkedInRevenue={linkedInRevenue}
-          
-          callLeads={callLeads}
-          callDeals={callDeals}
-          callRevenue={callRevenue}
+          connectRate={connectRate}
+          setConnectRate={setConnectRate}
           callConvertRate={callConvertRate}
-          dailyConnections={dailyConnections}
-          dailyLeads={dailyLeads}
-          dailyBookedLeads={dailyBookedLeads}
+          setCallConvertRate={setCallConvertRate}
           
-          totalLeads={totalLeads}
-          totalDeals={totalDeals}
-          totalRevenue={totalRevenue}
-          combinedRoi={combinedRoi}
-          
-          requiredEmailSDRs={requiredEmailSDRs}
-          requiredLinkedInSDRs={requiredLinkedInSDRs}
-          requiredCallSDRs={requiredCallSDRs}
-          totalSDRs={totalSDRs}
-          annualSdrSalaryCost={annualSdrSalaryCost}
-          sdrRoi={sdrRoi}
-          
-          monthlyBeanstalkCost={monthlyBeanstalkCost}
-          annualBeanstalkCost={annualBeanstalkCost}
-          beanstalkRoi={beanstalkRoi}
+          // Calculation results
+          calculations={calculations}
         />
       </div>
     </TooltipProvider>

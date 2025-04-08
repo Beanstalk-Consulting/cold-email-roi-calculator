@@ -1,4 +1,5 @@
 import { getBeanstalkPrice } from "./useCalculatorState";
+import { CalculationContextProps } from "./calculationTypes";
 
 interface CalculationsProps {
   // Global settings
@@ -54,7 +55,7 @@ export const useCalculations = ({
   callerCount,
   connectRate,
   callConvertRate,
-}: CalculationsProps) => {
+}: CalculationsProps): CalculationContextProps => {
   // Constants
   const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
   const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
@@ -170,7 +171,7 @@ export const useCalculations = ({
     linkedInRevenue,
     
     // Cold calling metrics
-    monthlyDialCount, // Renamed from dialCount to monthlyDialCount
+    monthlyDialCount,
     callConnections,
     callLeads,
     callDeals,

@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice } from "./useCalculatorState";
 
 interface CalculationsProps {

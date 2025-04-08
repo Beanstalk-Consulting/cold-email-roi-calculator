@@ -15,7 +15,7 @@ import { InfoIcon, PhoneCall } from "lucide-react";
 interface ColdCallingInputsProps {
   includeColdCalling: boolean;
   setIncludeColdCalling: (value: boolean) => void;
-  dialCount: number; // This will now receive monthlyDialCount
+  dialCount: number; // This is monthlyDialCount from useCalculations
   connectRate: number;
   setConnectRate: (value: number) => void;
   callConvertRate: number;

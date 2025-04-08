@@ -41,8 +41,8 @@ export const ColdCallingPerformanceMetrics = ({
         />
         <ResultCard
           label="Daily Booked Meetings"
-          value={formatNumber(dailyBookedLeads)}
-          tooltip="Hot leads that convert to booked meetings (0-3 per day typical)"
+          value="1-3"
+          tooltip="Random number of booked meetings generated each day (1-3 per day)"
           className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
         />
         <ResultCard

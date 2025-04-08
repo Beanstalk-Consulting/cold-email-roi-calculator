@@ -1,3 +1,4 @@
+
 import { getBeanstalkPrice } from "./useCalculatorState";
 
 interface CalculationsProps {
@@ -58,6 +59,7 @@ export const useCalculations = ({
   // Constants
   const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
   const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
+  const WORKING_DAYS_PER_MONTH = 22; // 22 working days per month
 
   // Email calculated values
   const monthlyProspects = includeEmail ? Math.round(emailCapacity / 2) : 0; // 2-step sequence
@@ -85,27 +87,42 @@ export const useCalculations = ({
   // Cold calling calculated values - updated with new logic
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
-  const workingDaysPerMonth = daysPerWeek * 4; // 4 weeks per month
-  const dialCount = includeColdCalling ? dailyDials * workingDaysPerMonth * callerCount : 0;
+  const workingDaysPerMonth = daysPerWeek * 4.4; // More accurately represent 22 working days per month
   
   // Daily metrics for a single caller
   const dailyConnections = Math.round((dailyDials * connectRate) / 100); // 8-12% connect rate means 80-120 connects/day
   const dailyLeads = Math.round((dailyConnections * callConvertRate) / 100); // Warm leads (interested but not booked)
   
-  // Calculate daily booked leads without a cap
-  // Based on the given range of 0-3 booked leads per day
-  // We use the call convert rate to influence the calculation but ensure it falls within the 0-3 range
-  // The higher the call convert rate, the more booked leads (up to 3 per day)
-  const dailyBookedLeads = Math.min(Math.round((dailyLeads * 0.3)), 3); // Cap at 3 booked leads per day
+  // Daily booked leads is now fixed to be between 0-3
+  // We'll display this as a fixed range in the UI
+  const dailyBookedLeads = 3; // This is now just a display value showing the upper limit
+  
+  // Calculate monthly booked leads using a random approach
+  // For each caller, randomly select between 1-3 booked meetings for each working day
+  const randomizedMonthlyBookedLeads = () => {
+    let totalBookings = 0;
+    // For each caller
+    for (let c = 0; c < callerCount; c++) {
+      // For each working day in a month (based on full-time or part-time)
+      const callerWorkingDays = daysPerWeek * 4; // 4 weeks per month
+      for (let d = 0; d < callerWorkingDays; d++) {
+        // Random number between 1 and 3
+        const dailyBookings = Math.floor(Math.random() * 3) + 1;
+        totalBookings += dailyBookings;
+      }
+    }
+    return totalBookings;
+  };
   
   // Monthly metrics for all callers
-  const callConnections = Math.round((dialCount * connectRate) / 100);
-  const callLeads = Math.round(dailyBookedLeads * workingDaysPerMonth * callerCount); // Monthly booked meetings
+  const callConnections = Math.round((dailyDials * daysPerWeek * 4 * connectRate * callerCount) / 100);
+  // Use our randomized function to calculate monthly booked leads
+  const callLeads = includeColdCalling ? randomizedMonthlyBookedLeads() : 0;
   const callDeals = Math.round((callLeads * closeRate) / 100);
   const callRevenue = callDeals * customerValue * 12;
   
   // Calculate total values
-  const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0); // Use booked leads for cold calling
+  const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   

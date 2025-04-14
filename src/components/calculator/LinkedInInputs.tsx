@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Accordion,
@@ -178,13 +177,13 @@ export const LinkedInInputs = ({
               />
 
               <RangeInput
-                label="Reply to Call Conversion Rate (%)"
+                label="Lead Conversion Rate (%)"
                 value={linkedInReplyToCallRate}
                 onChange={setLinkedInReplyToCallRate}
                 min={0}
                 max={100}
                 step={1}
-                tooltip="Percentage of LinkedIn replies that convert to sales calls"
+                tooltip="Percentage of leads that convert to sales calls or meetings"
               />
             </div>
           )}

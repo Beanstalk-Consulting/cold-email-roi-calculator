@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 
 // Constants from the original file
@@ -34,8 +35,8 @@ export const useCalculatorState = () => {
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
   const [linkedInMessages, setLinkedInMessages] = useState(473);
   const [linkedInMessageReplyRate, setLinkedInMessageReplyRate] = useState(15);
-  const [linkedInResponseRate, setLinkedInResponseRate] = useState(20);
-  const [linkedInReplyToCallRate, setLinkedInReplyToCallRate] = useState(10);
+  const [linkedInResponseRate, setLinkedInResponseRate] = useState(10); // Changed from 20 to 10
+  const [linkedInReplyToCallRate, setLinkedInReplyToCallRate] = useState(20); // Changed from 10 to 20
   const [linkedInConnectRate, setLinkedInConnectRate] = useState(15);
   const [linkedInProfiles, setLinkedInProfiles] = useState(1);
   

@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -65,10 +64,9 @@ export const useCalculations = ({
   const totalReplies = Math.round((monthlyProspects * replyRate) / 100);
   const monthlyLeads = Math.round(totalReplies * 0.2); // 20% of replies are positive
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
-  const emailRevenue = monthlyDeals * customerValue * 12;
+  const emailRevenue = calculateRampedRevenue(monthlyDeals);
   
   // LinkedIn calculated values
-  // Total connection requests sent based on profiles (22 requests/day * 22 days * profiles)
   const totalLinkedInRequests = includeLinkedIn ? linkedInMessages : 0;
   
   // Calculate direct replies to connection requests before acceptance
@@ -90,7 +88,7 @@ export const useCalculations = ({
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
   
   // Calculate annual revenue from LinkedIn deals
-  const linkedInRevenue = linkedInDeals * customerValue * 12;
+  const linkedInRevenue = calculateRampedRevenue(linkedInDeals);
 
   // Cold calling calculated values - updated with new logic
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
@@ -129,7 +127,7 @@ export const useCalculations = ({
   // Use our randomized function to calculate monthly booked leads
   const callLeads = includeColdCalling ? randomizedMonthlyBookedLeads() : 0;
   const callDeals = Math.round((callLeads * closeRate) / 100);
-  const callRevenue = callDeals * customerValue * 12;
+  const callRevenue = calculateRampedRevenue(callDeals);
   
   // Calculate total values
   const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
@@ -211,4 +209,30 @@ export const useCalculations = ({
     combinedCost,
     combinedRoi,
   };
+};
+
+const calculateRampedRevenue = (monthlyDeals: number) => {
+  // Ramp percentages for months 1-12
+  const rampSchedule = [
+    0.275, // Month 1: 27.5% (middle of 25-30%)
+    0.55,  // Month 2: 55% (middle of 50-60%)
+    0.80,  // Month 3: 80% (middle of 75-85%)
+    0.95,  // Month 4: 95% (middle of 90-100%)
+    1.0,   // Month 5: 100%
+    1.0,   // Month 6: 100%
+    1.0,   // Months 7-12: 100%
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ];
+  
+  // Calculate revenue for each month based on ramp schedule
+  const monthlyRevenue = rampSchedule.map(rampPercentage => 
+    Math.round(monthlyDeals * customerValue * rampPercentage)
+  );
+  
+  // Sum up the annual revenue
+  return monthlyRevenue.reduce((sum, rev) => sum + rev, 0);
 };

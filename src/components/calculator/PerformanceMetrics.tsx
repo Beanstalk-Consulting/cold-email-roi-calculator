@@ -28,13 +28,13 @@ export const PerformanceMetrics = ({
         <ResultCard
           label="Monthly Closed Deals"
           value={formatNumber(monthlyDeals)}
-          tooltip="Based on your conversion and close rates"
+          tooltip="Based on your conversion and close rates (fully ramped)*"
           className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
         />
         <ResultCard
           label="Annual New Revenue"
           value={formatCurrency(annualRevenue)}
-          tooltip="Monthly deals × Customer value × 12 months"
+          tooltip="Monthly deals × Customer value × 12 months (includes ramp time)"
           className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
         />
       </div>

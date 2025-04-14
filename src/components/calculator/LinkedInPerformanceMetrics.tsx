@@ -30,15 +30,15 @@ export const LinkedInPerformanceMetrics = ({
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard
-          label="Monthly Closed Deals"
+          label="Monthly Closed Deals (Fully Ramped)"
           value={formatNumber(linkedInDeals)}
-          tooltip="Based on your lead generation rate and close rate"
+          tooltip="Based on your lead generation rate and close rate at full productivity"
           className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
         />
         <ResultCard
           label="Annual New Revenue"
           value={formatCurrency(linkedInRevenue)}
-          tooltip="Monthly LinkedIn deals × Customer value × 12 months"
+          tooltip="Includes ~11% year-one productivity handicap to account for typical ramp-up time"
           className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
         />
       </div>

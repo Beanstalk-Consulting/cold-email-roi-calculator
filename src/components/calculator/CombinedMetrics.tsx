@@ -1,6 +1,7 @@
 
 import { ResultCard } from "./ResultCard";
 import { formatNumber, formatCurrency, formatPercent } from "@/lib/formatters";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 interface CombinedMetricsProps {
   totalLeads: number;
@@ -30,6 +31,14 @@ export const CombinedMetrics = ({
   return (
     <div>
       <div className="grid grid-cols-1 gap-4">
+        <Alert className="mb-4 bg-blue-50 border-blue-200">
+          <AlertTitle className="text-blue-800">Year One Productivity Adjustment</AlertTitle>
+          <AlertDescription className="text-blue-700">
+            All revenue calculations include an ~11% year-one productivity handicap to account for typical 
+            ramp-up time for new sales activities. Monthly deal figures show fully ramped performance.
+          </AlertDescription>
+        </Alert>
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <ResultCard
             label="Total Monthly Leads"
@@ -38,15 +47,15 @@ export const CombinedMetrics = ({
             className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
           />
           <ResultCard
-            label="Total Monthly Deals"
+            label="Monthly Deals (Fully Ramped)"
             value={formatNumber(totalDeals)}
-            tooltip="Combined deals from all active channels (fully ramped)*"
+            tooltip="Combined deals from all active channels at full productivity"
             className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
           />
           <ResultCard
             label="Total Annual Revenue"
             value={formatCurrency(totalRevenue)}
-            tooltip="Combined revenue from all active channels (includes ramp time)"
+            tooltip="Combined revenue from all active channels (includes ~11% year-one productivity handicap)"
             className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
           />
         </div>
@@ -90,13 +99,13 @@ export const CombinedMetrics = ({
         </div>
 
         <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Ramp Time Schedule:</h4>
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Typical Sales Ramp Schedule:</h4>
           <div className="text-sm text-gray-600 space-y-1">
-            <p>Month 1: 25-30% of full capacity</p>
-            <p>Month 2: 50-60% of full capacity</p>
-            <p>Month 3: 75-85% of full capacity</p>
-            <p>Month 4: 90-100% of full capacity</p>
-            <p>Month 5-6: 100%+ of full capacity</p>
+            <p>Month 1: 30% of full capacity</p>
+            <p>Month 2: 55% of full capacity</p>
+            <p>Month 3: 80% of full capacity</p>
+            <p>Months 4-12: 100% of full capacity</p>
+            <p className="pt-2 font-medium">This results in ~89% effective productivity for year one (or ~11% handicap).</p>
           </div>
         </div>
       </div>

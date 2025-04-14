@@ -26,15 +26,15 @@ export const PerformanceMetrics = ({
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard
-          label="Monthly Closed Deals"
+          label="Monthly Closed Deals (Fully Ramped)"
           value={formatNumber(monthlyDeals)}
-          tooltip="Based on your conversion and close rates (fully ramped)*"
+          tooltip="Based on your conversion and close rates at full productivity"
           className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
         />
         <ResultCard
           label="Annual New Revenue"
           value={formatCurrency(annualRevenue)}
-          tooltip="Monthly deals × Customer value × 12 months (includes ramp time)"
+          tooltip="Includes ~11% year-one productivity handicap to account for typical ramp-up time"
           className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
         />
       </div>

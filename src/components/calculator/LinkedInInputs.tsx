@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import { 
   Accordion,
   AccordionContent,
@@ -114,7 +114,7 @@ export const LinkedInInputs = ({
                       <InfoIcon className="h-4 w-4 text-calculator-accent" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p className="w-[200px]">First profile: $1,499/mo, Additional profiles: $149/mo each</p>
+                      <p className="w-[250px]">First profile: $1,499/mo, Additional profiles: $149/mo each</p>
                     </TooltipContent>
                   </Tooltip>
                 </div>

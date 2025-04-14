@@ -1,4 +1,3 @@
-
 import { ResultCard } from "./ResultCard";
 import { formatNumber, formatCurrency, formatPercent } from "@/lib/formatters";
 import { TrendingDown } from "lucide-react";
@@ -79,7 +78,7 @@ export const SDRMetrics = ({
           <ResultCard
             label="Projected Revenue"
             value={formatCurrency(projectedRevenue)}
-            tooltip="Projected annual revenue based on SDR performance with reduced efficiency"
+            tooltip={`Projected annual revenue is adjusted to reflect reduced efficiency of omnichannel SDRs. While email output remains at 250 per day, LinkedIn and cold calling performance is reduced by 50% compared to dedicated channel specialists. This is because each SDR must divide their time across multiple channels instead of focusing on one.`}
             className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
           />
           <ResultCard
@@ -93,4 +92,3 @@ export const SDRMetrics = ({
     </div>
   );
 };
-

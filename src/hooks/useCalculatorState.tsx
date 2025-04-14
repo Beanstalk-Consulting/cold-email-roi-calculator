@@ -6,8 +6,8 @@ const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22
 
 export const getLinkedInPrice = (profileCount: number): number => {
   if (profileCount <= 0) return 0;
-  // First profile costs $1499, additional profiles cost $499
-  return 1499 + (Math.max(0, profileCount - 1) * 499);
+  // First profile costs $1499, additional profiles now cost $149
+  return 1499 + (Math.max(0, profileCount - 1) * 149);
 };
 
 export const getBeanstalkPrice = (emailCount: number): number => {

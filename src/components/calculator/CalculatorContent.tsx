@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { GlobalSettings } from "./GlobalSettings";
@@ -118,11 +119,13 @@ export const CalculatorContent = ({
     annualSdrSalaryCost,
     sdrRoi,
     monthlyBeanstalkCost,
+    discountedMonthlyBeanstalkCost,  // Make sure to destructure this
     annualBeanstalkCost,
     beanstalkRoi,
     combinedRoi,
     monthlyLinkedInCost,
     linkedInRoi,
+    activeChannelCount,  // Also destructure this
   } = calculations;
 
   return (
@@ -241,9 +244,11 @@ export const CalculatorContent = ({
         annualSdrSalaryCost={annualSdrSalaryCost}
         sdrRoi={sdrRoi}
         monthlyBeanstalkCost={monthlyBeanstalkCost}
+        discountedMonthlyBeanstalkCost={discountedMonthlyBeanstalkCost}  // Add this prop
         annualBeanstalkCost={annualBeanstalkCost}
         beanstalkRoi={beanstalkRoi}
         combinedRoi={combinedRoi}
+        activeChannelCount={activeChannelCount}  // Add this prop
       />
     </div>
   );

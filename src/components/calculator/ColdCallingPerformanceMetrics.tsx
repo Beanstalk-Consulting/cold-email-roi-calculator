@@ -36,13 +36,13 @@ export const ColdCallingPerformanceMetrics = ({
         <ResultCard
           label="Daily Warm Leads"
           value={formatNumber(dailyLeads)}
-          tooltip="Interested prospects who haven't booked yet (1-8 per day typical)"
+          tooltip="Interested prospects who haven't booked yet"
           className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200"
         />
         <ResultCard
           label="Daily Booked Meetings"
-          value="1-3"
-          tooltip="Random number of booked meetings generated each day (1-3 per day)"
+          value={formatNumber(dailyBookedLeads)}
+          tooltip="Booked meetings generated based on daily connections"
           className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
         />
         <ResultCard
@@ -67,3 +67,4 @@ export const ColdCallingPerformanceMetrics = ({
     </div>
   );
 };
+

@@ -1,6 +1,7 @@
 import React from "react";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
+import { SDRModelLandscape } from "./SDRModelLandscape";
 
 interface CalculatorResultsProps {
   // Control flags
@@ -91,7 +92,7 @@ export const CalculatorResults = ({
 }: CalculatorResultsProps) => {
   return (
     <div className="space-y-8">
-      {/* Beanstalk Combined Performance - Always Visible */}
+      {/* Beanstalk Performance Summary - Always Visible */}
       <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
         <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
           Beanstalk Performance Summary
@@ -119,6 +120,20 @@ export const CalculatorResults = ({
             beanstalkRoi={beanstalkRoi}
             includeLinkedIn={includeLinkedIn}
             includeColdCalling={includeColdCalling}
+          />
+        </div>
+        
+        {/* New SDR Model Landscape */}
+        <div className="bg-slate-50 p-6 rounded-lg">
+          <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+            Channel Efficiency Landscape
+          </h3>
+          <SDRModelLandscape 
+            channelEfficiency={{
+              email: 0.5,  // 50% efficiency for email
+              linkedIn: 0.5,  // 50% efficiency for LinkedIn
+              coldCalling: 0.5  // 50% efficiency for cold calling
+            }} 
           />
         </div>
       </div>

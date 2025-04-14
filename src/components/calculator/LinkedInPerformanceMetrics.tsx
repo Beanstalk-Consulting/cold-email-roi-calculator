@@ -46,7 +46,7 @@ export const LinkedInPerformanceMetrics = ({
         <ResultCard
           label="Monthly LinkedIn Cost"
           value={formatCurrency(monthlyLinkedInCost)}
-          tooltip="First profile: $1,499/mo, Additional profiles: $499/mo each"
+          tooltip="First profile: $1,499/mo, Additional profiles: $149/mo each"
           className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
         />
         <ResultCard

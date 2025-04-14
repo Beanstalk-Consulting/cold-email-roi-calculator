@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -56,11 +55,12 @@ export const useCalculations = ({
   connectRate,
 }: CalculationsProps): CalculationContextProps => {
   // Constants
-  const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
-  const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
-  const WORKING_DAYS_PER_MONTH = 22; // 22 working days per month
-  const SDR_ANNUAL_SALARY = 82470; // Average SDR salary
-  
+  const EMAILS_PER_SDR_PER_MONTH = 125 * 22; // Reduced from 250 to 125 emails per day * 22 working days
+  const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 11 * 22; // Reduced from 22 to 11 messages per day * 22 working days
+  const WORKING_DAYS_PER_MONTH = 22;
+  const SDR_ANNUAL_SALARY = 82470;
+  const YEAR_ONE_PRODUCTIVITY = 0.89;
+
   // Year one productivity handicap - approximately 89% based on ramp calculation
   const YEAR_ONE_PRODUCTIVITY = 0.89;
 
@@ -127,17 +127,24 @@ export const useCalculations = ({
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
-  // SDR calculations
+  // SDR calculations with reduced efficiency
   const requiredEmailCapacity = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   const requiredLinkedInCapacity = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
-  const requiredCallCapacity = includeColdCalling ? callerCount : 0;
+  const requiredCallCapacity = includeColdCalling ? Math.ceil(callerCount * 2) : 0; // Double the SDRs needed due to reduced efficiency
   
   const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Calculate SDR ROI using ramped deals
-  const sdrRevenue = totalRevenue; // Already includes the handicap
-  const sdrRoi = totalSDRs > 0 ? ((sdrRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
+  // Calculate SDR ROI using reduced performance metrics
+  const sdrEmailRevenue = emailRevenue * 0.5; // 50% efficiency for email
+  const sdrLinkedInRevenue = linkedInRevenue * 0.5; // 50% efficiency for LinkedIn
+  const sdrCallRevenue = callRevenue * 0.5; // 50% efficiency for cold calling
+  
+  const sdrTotalRevenue = (includeEmail ? sdrEmailRevenue : 0) +
+                         (includeLinkedIn ? sdrLinkedInRevenue : 0) +
+                         (includeColdCalling ? sdrCallRevenue : 0);
+  
+  const sdrRoi = totalSDRs > 0 ? ((sdrTotalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);

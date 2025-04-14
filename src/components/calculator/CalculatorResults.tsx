@@ -1,5 +1,4 @@
 import React from "react";
-import { CombinedMetrics } from "./CombinedMetrics";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
 
@@ -92,57 +91,34 @@ export const CalculatorResults = ({
 }: CalculatorResultsProps) => {
   return (
     <div className="space-y-8">
-      <div className="mt-12 space-y-8">
+      {/* Beanstalk Combined Performance - Always Visible */}
+      <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
         <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
-          Performance & Cost Comparison
+          Beanstalk Performance Summary
         </h2>
-        
-        {((includeEmail && includeLinkedIn) || 
-          (includeEmail && includeColdCalling) || 
-          (includeLinkedIn && includeColdCalling)) && (
-          <div className="bg-slate-50 p-6 rounded-lg">
-            <CombinedMetrics
-              totalLeads={totalLeads}
-              totalDeals={totalDeals}
-              totalRevenue={totalRevenue}
-              includeEmail={includeEmail}
-              emailRevenue={emailRevenue}
-              includeLinkedIn={includeLinkedIn}
-              linkedInRevenue={linkedInRevenue}
-              includeColdCalling={includeColdCalling}
-              callRevenue={callRevenue}
-              combinedRoi={combinedRoi}
-            />
-          </div>
-        )}
+        <BeanstalkMetrics
+          monthlyBeanstalkCost={monthlyBeanstalkCost}
+          annualBeanstalkCost={annualBeanstalkCost}
+          beanstalkRoi={beanstalkRoi}
+          totalLeads={totalLeads}
+          totalDeals={totalDeals}
+          totalRevenue={totalRevenue}
+        />
+      </div>
 
-        {/* SDR vs Beanstalk Comparison */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-slate-50 p-6 rounded-lg">
-            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-              In-House SDR Model
-            </h3>
-            <SDRMetrics
-              requiredSDRs={totalSDRs}
-              annualSdrSalaryCost={annualSdrSalaryCost}
-              sdrRoi={sdrRoi}
-              includeLinkedIn={includeLinkedIn}
-              includeColdCalling={includeColdCalling}
-            />
-          </div>
-
-          {includeEmail && (
-            <div className="bg-slate-50 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-                Beanstalk Automated Approach
-              </h3>
-              <BeanstalkMetrics
-                monthlyBeanstalkCost={monthlyBeanstalkCost}
-                annualBeanstalkCost={annualBeanstalkCost}
-                beanstalkRoi={beanstalkRoi}
-              />
-            </div>
-          )}
+      {/* SDR vs Beanstalk Comparison */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-slate-50 p-6 rounded-lg">
+          <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+            In-House SDR Model
+          </h3>
+          <SDRMetrics
+            requiredSDRs={totalSDRs}
+            annualSdrSalaryCost={annualSdrSalaryCost}
+            sdrRoi={sdrRoi}
+            includeLinkedIn={includeLinkedIn}
+            includeColdCalling={includeColdCalling}
+          />
         </div>
       </div>
     </div>

@@ -6,7 +6,6 @@ interface ColdCallingPerformanceMetricsProps {
   callLeads: number;
   callDeals: number;
   callRevenue: number;
-  callConvertRate: number;
   dailyConnections: number;
   dailyLeads: number;
   dailyBookedLeads: number;
@@ -16,7 +15,6 @@ export const ColdCallingPerformanceMetrics = ({
   callLeads,
   callDeals,
   callRevenue,
-  callConvertRate,
   dailyConnections,
   dailyLeads,
   dailyBookedLeads,
@@ -67,4 +65,3 @@ export const ColdCallingPerformanceMetrics = ({
     </div>
   );
 };
-

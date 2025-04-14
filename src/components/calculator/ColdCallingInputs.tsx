@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Accordion,
@@ -21,7 +22,6 @@ interface ColdCallingInputsProps {
   setIsFullTimeDialer: (value: boolean) => void;
   callerCount: number;
   setCallerCount: (value: number) => void;
-  closeRate: number;
 }
 
 export const ColdCallingInputs = ({

@@ -50,8 +50,6 @@ interface CalculatorContentProps {
   setCallerCount: (value: number) => void;
   connectRate: number;
   setConnectRate: (value: number) => void;
-  callConvertRate: number;
-  setCallConvertRate: (value: number) => void;
   
   // Calculation results
   calculations: CalculationContextProps;
@@ -99,8 +97,6 @@ export const CalculatorContent = ({
   setCallerCount,
   connectRate,
   setConnectRate,
-  callConvertRate,
-  setCallConvertRate,
   
   // Calculation results
   calculations,
@@ -132,7 +128,6 @@ export const CalculatorContent = ({
     monthlyBeanstalkCost,
     annualBeanstalkCost,
     beanstalkRoi,
-    combinedRoi,
   } = calculations;
 
   return (
@@ -182,13 +177,10 @@ export const CalculatorContent = ({
         dialCount={monthlyDialCount}
         connectRate={connectRate}
         setConnectRate={setConnectRate}
-        callConvertRate={callConvertRate}
-        setCallConvertRate={setCallConvertRate}
         isFullTimeDialer={isFullTimeDialer}
         setIsFullTimeDialer={setIsFullTimeDialer}
         callerCount={callerCount}
         setCallerCount={setCallerCount}
-        closeRate={closeRate}
       />
 
       <CalculatorResults
@@ -207,7 +199,6 @@ export const CalculatorContent = ({
         callLeads={callLeads}
         callDeals={callDeals}
         callRevenue={callRevenue}
-        callConvertRate={callConvertRate}
         dailyConnections={dailyConnections}
         dailyLeads={dailyLeads}
         dailyBookedLeads={dailyBookedLeads}

@@ -49,8 +49,6 @@ export const ROICalculator = () => {
     setCallerCount,
     connectRate,
     setConnectRate,
-    callConvertRate,
-    setCallConvertRate,
   } = useCalculatorState();
 
   // Calculate all metrics based on the current state
@@ -79,7 +77,6 @@ export const ROICalculator = () => {
     isFullTimeDialer,
     callerCount,
     connectRate,
-    callConvertRate,
   });
 
   return (
@@ -128,8 +125,6 @@ export const ROICalculator = () => {
           setCallerCount={setCallerCount}
           connectRate={connectRate}
           setConnectRate={setConnectRate}
-          callConvertRate={callConvertRate}
-          setCallConvertRate={setCallConvertRate}
           
           // Calculation results
           calculations={calculations}

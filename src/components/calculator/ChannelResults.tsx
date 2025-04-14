@@ -26,7 +26,6 @@ interface ChannelResultsProps {
   callLeads: number;
   callDeals: number;
   callRevenue: number;
-  callConvertRate: number;
   dailyConnections?: number;
   dailyLeads?: number;
   dailyBookedLeads?: number;
@@ -71,7 +70,6 @@ export const ChannelResults = ({
   callLeads,
   callDeals,
   callRevenue,
-  callConvertRate,
   dailyConnections = 0,
   dailyLeads = 0,
   dailyBookedLeads = 0,
@@ -121,7 +119,6 @@ export const ChannelResults = ({
           callLeads={callLeads}
           callDeals={callDeals}
           callRevenue={callRevenue}
-          callConvertRate={callConvertRate}
           dailyConnections={dailyConnections}
           dailyLeads={dailyLeads}
           dailyBookedLeads={dailyBookedLeads}

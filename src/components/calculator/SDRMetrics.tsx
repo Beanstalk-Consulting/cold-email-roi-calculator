@@ -11,6 +11,7 @@ interface SDRMetricsProps {
   beanstalkRoi?: number;
   includeLinkedIn?: boolean;
   includeColdCalling?: boolean;
+  projectedRevenue?: number;
 }
 
 export const SDRMetrics = ({
@@ -20,6 +21,7 @@ export const SDRMetrics = ({
   beanstalkRoi,
   includeLinkedIn = false,
   includeColdCalling = false,
+  projectedRevenue = 0,
 }: SDRMetricsProps) => {
   const channels = [
     "email outreach",
@@ -58,26 +60,37 @@ export const SDRMetrics = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <ResultCard
-          label="Required SDRs"
-          value={formatNumber(requiredSDRs)}
-          tooltip="Total number of Sales Development Representatives needed to handle your selected outreach volume across all channels"
-          className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
-        />
-        <ResultCard
-          label="Annual SDR Cost"
-          value={formatCurrency(annualSdrSalaryCost)}
-          tooltip="Total annual cost of employing SDRs including benefits and overhead expenses"
-          className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
-        />
-        <ResultCard
-          label="SDR Model ROI"
-          value={`${formatPercent(sdrRoi)}`}
-          tooltip="Return on investment for the in-house SDR model - typically lower than using our automated solutions"
-          className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
+          <ResultCard
+            label="Required SDRs"
+            value={formatNumber(requiredSDRs)}
+            tooltip="Total number of Sales Development Representatives needed to handle your selected outreach volume across all channels"
+            className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
+          />
+          <ResultCard
+            label="Annual SDR Cost"
+            value={formatCurrency(annualSdrSalaryCost)}
+            tooltip="Total annual cost of employing SDRs including benefits and overhead expenses"
+            className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <ResultCard
+            label="Projected Revenue"
+            value={formatCurrency(projectedRevenue)}
+            tooltip="Projected annual revenue based on SDR performance with reduced efficiency"
+            className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
+          />
+          <ResultCard
+            label="SDR Model ROI"
+            value={`${formatPercent(sdrRoi)}`}
+            tooltip="Return on investment for the in-house SDR model - typically lower than using our automated solutions"
+            className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
+          />
+        </div>
       </div>
     </div>
   );
 };
+

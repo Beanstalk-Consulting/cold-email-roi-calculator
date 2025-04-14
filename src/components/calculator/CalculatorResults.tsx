@@ -1,3 +1,4 @@
+
 import React from "react";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
@@ -118,6 +119,7 @@ export const CalculatorResults = ({
           beanstalkRoi={beanstalkRoi}
           includeLinkedIn={includeLinkedIn}
           includeColdCalling={includeColdCalling}
+          projectedRevenue={totalRevenue * 0.5} // Using 50% efficiency as per existing calculations
         />
       </div>
     </div>

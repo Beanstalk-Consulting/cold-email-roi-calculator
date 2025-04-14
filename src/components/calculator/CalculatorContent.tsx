@@ -119,9 +119,6 @@ export const CalculatorContent = ({
     totalLeads,
     totalDeals,
     totalRevenue,
-    requiredEmailSDRs,
-    requiredLinkedInSDRs,
-    requiredCallSDRs,
     totalSDRs,
     annualSdrSalaryCost,
     sdrRoi,
@@ -209,9 +206,6 @@ export const CalculatorContent = ({
         totalRevenue={totalRevenue}
         combinedRoi={combinedRoi}
         
-        requiredEmailSDRs={requiredEmailSDRs}
-        requiredLinkedInSDRs={requiredLinkedInSDRs}
-        requiredCallSDRs={requiredCallSDRs}
         totalSDRs={totalSDRs}
         annualSdrSalaryCost={annualSdrSalaryCost}
         sdrRoi={sdrRoi}

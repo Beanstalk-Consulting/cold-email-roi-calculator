@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 // Constants from the original file
@@ -39,7 +38,6 @@ export const useCalculatorState = () => {
   const [isFullTimeDialer, setIsFullTimeDialer] = useState(false);
   const [callerCount, setCallerCount] = useState(1);
   const [connectRate, setConnectRate] = useState(8); // Default to 8% (industry average)
-  const [callConvertRate, setCallConvertRate] = useState(2); // Default to 2% (middle of 1-8% range)
 
   return {
     // Global settings
@@ -83,7 +81,5 @@ export const useCalculatorState = () => {
     setCallerCount,
     connectRate,
     setConnectRate,
-    callConvertRate,
-    setCallConvertRate,
   };
 };

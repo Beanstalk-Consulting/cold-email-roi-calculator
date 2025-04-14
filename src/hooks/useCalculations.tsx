@@ -26,7 +26,6 @@ interface CalculationsProps {
   isFullTimeDialer: boolean;
   callerCount: number;
   connectRate: number;
-  callConvertRate: number;
 }
 
 export const useCalculations = ({
@@ -54,7 +53,6 @@ export const useCalculations = ({
   isFullTimeDialer,
   callerCount,
   connectRate,
-  callConvertRate,
 }: CalculationsProps): CalculationContextProps => {
   // Constants
   const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days

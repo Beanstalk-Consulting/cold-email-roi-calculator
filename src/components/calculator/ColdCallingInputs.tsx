@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Accordion,
@@ -15,11 +14,9 @@ import { InfoIcon, PhoneCall } from "lucide-react";
 interface ColdCallingInputsProps {
   includeColdCalling: boolean;
   setIncludeColdCalling: (value: boolean) => void;
-  dialCount: number; // This is monthlyDialCount from useCalculations
+  dialCount: number;
   connectRate: number;
   setConnectRate: (value: number) => void;
-  callConvertRate: number;
-  setCallConvertRate: (value: number) => void;
   isFullTimeDialer: boolean;
   setIsFullTimeDialer: (value: boolean) => void;
   callerCount: number;
@@ -33,8 +30,6 @@ export const ColdCallingInputs = ({
   dialCount,
   connectRate,
   setConnectRate,
-  callConvertRate,
-  setCallConvertRate,
   isFullTimeDialer,
   setIsFullTimeDialer,
   callerCount,
@@ -156,16 +151,6 @@ export const ColdCallingInputs = ({
                   </p>
                 </div>
               </div>
-
-              <RangeInput
-                label="Call to Meeting Conversion Rate (%)"
-                value={callConvertRate}
-                onChange={setCallConvertRate}
-                min={0.1}
-                max={8}
-                step={0.1}
-                tooltip="Percentage of conversations that convert to booked meetings (typically 1-8%)"
-              />
 
               <div className="bg-gray-50 p-3 rounded-md border border-gray-100">
                 <div className="flex flex-col gap-1">

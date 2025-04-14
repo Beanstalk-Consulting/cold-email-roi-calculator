@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { GlobalSettings } from "./GlobalSettings";
@@ -170,6 +169,9 @@ export const CalculatorContent = ({
         setLinkedInConnectRate={setLinkedInConnectRate}
         linkedInProfiles={linkedInProfiles}
         setLinkedInProfiles={setLinkedInProfiles}
+        linkedInLeads={linkedInLeads}
+        linkedInDeals={linkedInDeals}
+        linkedInRevenue={linkedInRevenue}
       />
 
       <ColdCallingInputs
@@ -182,21 +184,6 @@ export const CalculatorContent = ({
         setIsFullTimeDialer={setIsFullTimeDialer}
         callerCount={callerCount}
         setCallerCount={setCallerCount}
-      />
-
-      <CalculatorResults
-        includeEmail={includeEmail}
-        includeLinkedIn={includeLinkedIn}
-        includeColdCalling={includeColdCalling}
-        
-        monthlyLeads={monthlyLeads}
-        monthlyDeals={monthlyDeals}
-        emailRevenue={emailRevenue}
-        
-        linkedInLeads={linkedInLeads}
-        linkedInDeals={linkedInDeals}
-        linkedInRevenue={linkedInRevenue}
-        
         callLeads={callLeads}
         callDeals={callDeals}
         callRevenue={callRevenue}
@@ -206,20 +193,60 @@ export const CalculatorContent = ({
         monthlyCallingCost={monthlyCallingCost}
         annualCallingCost={annualCallingCost}
         callRoi={callRoi}
-        
-        totalLeads={totalLeads}
-        totalDeals={totalDeals}
-        totalRevenue={totalRevenue}
-        combinedRoi={combinedRoi}
-        
-        totalSDRs={totalSDRs}
-        annualSdrSalaryCost={annualSdrSalaryCost}
-        sdrRoi={sdrRoi}
-        
-        monthlyBeanstalkCost={monthlyBeanstalkCost}
-        annualBeanstalkCost={annualBeanstalkCost}
-        beanstalkRoi={beanstalkRoi}
       />
+
+      <div className="mt-12 space-y-8">
+        <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
+          Performance & Cost Comparison
+        </h2>
+        
+        {((includeEmail && includeLinkedIn) || 
+          (includeEmail && includeColdCalling) || 
+          (includeLinkedIn && includeColdCalling)) && (
+          <div className="bg-slate-50 p-6 rounded-lg">
+            <CombinedMetrics
+              totalLeads={totalLeads}
+              totalDeals={totalDeals}
+              totalRevenue={totalRevenue}
+              includeEmail={includeEmail}
+              emailRevenue={emailRevenue}
+              includeLinkedIn={includeLinkedIn}
+              linkedInRevenue={linkedInRevenue}
+              includeColdCalling={includeColdCalling}
+              callRevenue={callRevenue}
+              combinedRoi={combinedRoi}
+            />
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <SDRMetrics
+            totalLeads={totalLeads}
+            totalDeals={totalDeals}
+            totalRevenue={totalRevenue}
+            includeEmail={includeEmail}
+            emailRevenue={emailRevenue}
+            includeLinkedIn={includeLinkedIn}
+            linkedInRevenue={linkedInRevenue}
+            includeColdCalling={includeColdCalling}
+            callRevenue={callRevenue}
+            combinedRoi={combinedRoi}
+          />
+
+          <BeanstalkMetrics
+            totalLeads={totalLeads}
+            totalDeals={totalDeals}
+            totalRevenue={totalRevenue}
+            includeEmail={includeEmail}
+            emailRevenue={emailRevenue}
+            includeLinkedIn={includeLinkedIn}
+            linkedInRevenue={linkedInRevenue}
+            includeColdCalling={includeColdCalling}
+            callRevenue={callRevenue}
+            combinedRoi={combinedRoi}
+          />
+        </div>
+      </div>
     </div>
   );
 };

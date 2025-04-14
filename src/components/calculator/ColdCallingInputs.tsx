@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Accordion,
@@ -11,6 +10,9 @@ import { RangeInput } from "./RangeInput";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { InfoIcon, PhoneCall } from "lucide-react";
+import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 
 interface ColdCallingInputsProps {
   includeColdCalling: boolean;
@@ -22,6 +24,15 @@ interface ColdCallingInputsProps {
   setIsFullTimeDialer: (value: boolean) => void;
   callerCount: number;
   setCallerCount: (value: number) => void;
+  callLeads: number;
+  callDeals: number;
+  callRevenue: number;
+  dailyConnections: number;
+  dailyLeads: number;
+  dailyBookedLeads: number;
+  monthlyCallingCost: number;
+  annualCallingCost: number;
+  callRoi: number;
 }
 
 export const ColdCallingInputs = ({
@@ -34,8 +45,18 @@ export const ColdCallingInputs = ({
   setIsFullTimeDialer,
   callerCount,
   setCallerCount,
+  callLeads,
+  callDeals,
+  callRevenue,
+  dailyConnections,
+  dailyLeads,
+  dailyBookedLeads,
+  monthlyCallingCost,
+  annualCallingCost,
+  callRoi,
 }: ColdCallingInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeColdCalling ? "cold-calling" : "");
+  const [showPerformance, setShowPerformance] = useState(false);
 
   const handleAccordionChange = (value: string) => {
     setAccordionValue(value);
@@ -150,6 +171,28 @@ export const ColdCallingInputs = ({
                   </p>
                 </div>
               </div>
+
+              <Collapsible>
+                <CollapsibleTrigger className="flex items-center gap-2 text-sm font-medium text-calculator-text hover:text-calculator-primary">
+                  <ChevronDown className={`h-4 w-4 transition-transform ${showPerformance ? 'transform rotate-180' : ''}`} />
+                  Show Cold Calling Performance
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="mt-4">
+                    <ColdCallingPerformanceMetrics
+                      callLeads={callLeads}
+                      callDeals={callDeals}
+                      callRevenue={callRevenue}
+                      dailyConnections={dailyConnections}
+                      dailyLeads={dailyLeads}
+                      dailyBookedLeads={dailyBookedLeads}
+                      monthlyCallingCost={monthlyCallingCost}
+                      annualCallingCost={annualCallingCost}
+                      callRoi={callRoi}
+                    />
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
             </div>
           )}
         </AccordionContent>

@@ -1,12 +1,7 @@
-
 import React from "react";
-import { PerformanceMetrics } from "./PerformanceMetrics";
-import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
-import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
 import { CombinedMetrics } from "./CombinedMetrics";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface CalculatorResultsProps {
   // Control flags
@@ -97,44 +92,12 @@ export const CalculatorResults = ({
 }: CalculatorResultsProps) => {
   return (
     <div className="space-y-8">
-      {/* Individual Channel Performance */}
-      {includeEmail && (
-        <PerformanceMetrics
-          monthlyLeads={monthlyLeads}
-          monthlyDeals={monthlyDeals}
-          annualRevenue={emailRevenue}
-        />
-      )}
-
-      {includeLinkedIn && (
-        <LinkedInPerformanceMetrics
-          linkedInLeads={linkedInLeads}
-          linkedInDeals={linkedInDeals}
-          linkedInRevenue={linkedInRevenue}
-        />
-      )}
-
-      {includeColdCalling && (
-        <ColdCallingPerformanceMetrics
-          callLeads={callLeads}
-          callDeals={callDeals}
-          callRevenue={callRevenue}
-          dailyConnections={dailyConnections}
-          dailyLeads={dailyLeads}
-          dailyBookedLeads={dailyBookedLeads}
-          monthlyCallingCost={monthlyCallingCost}
-          annualCallingCost={annualCallingCost}
-          callRoi={callRoi}
-        />
-      )}
-
       {/* Performance Comparison Section */}
       <div className="mt-12 space-y-8">
         <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
           Performance & Cost Comparison
         </h2>
         
-        {/* Combined Performance First (without additional "Combined Channel Performance" label) */}
         {((includeEmail && includeLinkedIn) || 
           (includeEmail && includeColdCalling) || 
           (includeLinkedIn && includeColdCalling)) && (

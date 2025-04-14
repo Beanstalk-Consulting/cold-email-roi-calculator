@@ -20,8 +20,8 @@ export const getBeanstalkPrice = (emailCount: number): number => {
 };
 
 export const useCalculatorState = () => {
-  // Global settings
-  const [closeRate, setCloseRate] = useState(25);
+  // Update global settings default close rate from 25 to 15
+  const [closeRate, setCloseRate] = useState(15);
   const [customerValue, setCustomerValue] = useState(3000);
   
   // Email outreach state

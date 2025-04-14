@@ -1,3 +1,4 @@
+
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
 import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
@@ -49,8 +50,10 @@ interface ChannelResultsProps {
   
   // Beanstalk metrics
   monthlyBeanstalkCost: number;
+  discountedMonthlyBeanstalkCost: number;
   annualBeanstalkCost: number;
   beanstalkRoi: number;
+  activeChannelCount: number;
 }
 
 export const ChannelResults = ({
@@ -96,8 +99,10 @@ export const ChannelResults = ({
   
   // Beanstalk metrics
   monthlyBeanstalkCost,
+  discountedMonthlyBeanstalkCost,
   annualBeanstalkCost,
   beanstalkRoi,
+  activeChannelCount,
 }: ChannelResultsProps) => {
   return (
     <div className="space-y-8">
@@ -181,11 +186,13 @@ export const ChannelResults = ({
       {/* Beanstalk Metrics - Now including all required props */}
       <BeanstalkMetrics
         monthlyBeanstalkCost={monthlyBeanstalkCost}
+        discountedMonthlyBeanstalkCost={discountedMonthlyBeanstalkCost}
         annualBeanstalkCost={annualBeanstalkCost}
         beanstalkRoi={beanstalkRoi}
         totalLeads={totalLeads}
         totalDeals={totalDeals}
         totalRevenue={totalRevenue}
+        activeChannelCount={activeChannelCount}
       />
     </div>
   );

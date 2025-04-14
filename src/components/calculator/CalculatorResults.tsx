@@ -43,8 +43,10 @@ interface CalculatorResultsProps {
   
   // Beanstalk metrics
   monthlyBeanstalkCost: number;
+  discountedMonthlyBeanstalkCost: number;
   annualBeanstalkCost: number;
   beanstalkRoi: number;
+  activeChannelCount: number;
 }
 
 export const CalculatorResults = ({
@@ -87,8 +89,10 @@ export const CalculatorResults = ({
   
   // Beanstalk metrics
   monthlyBeanstalkCost,
+  discountedMonthlyBeanstalkCost,
   annualBeanstalkCost,
   beanstalkRoi,
+  activeChannelCount,
 }: CalculatorResultsProps) => {
   // Calculate sdrTotalRevenue correctly
   const sdrEmailRevenue = emailRevenue; // Email at 100% efficiency
@@ -106,11 +110,13 @@ export const CalculatorResults = ({
         </h2>
         <BeanstalkMetrics
           monthlyBeanstalkCost={monthlyBeanstalkCost}
+          discountedMonthlyBeanstalkCost={discountedMonthlyBeanstalkCost}
           annualBeanstalkCost={annualBeanstalkCost}
           beanstalkRoi={beanstalkRoi}
           totalLeads={totalLeads}
           totalDeals={totalDeals}
           totalRevenue={totalRevenue}
+          activeChannelCount={activeChannelCount}
         />
       </div>
 

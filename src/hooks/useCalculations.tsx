@@ -1,3 +1,4 @@
+
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -150,9 +151,7 @@ export const useCalculations = ({
   const monthlyBeanstalkCost = (includeEmail ? emailCapacity * monthlyEmailPrice : 0) + 
                                (includeColdCalling ? monthlyCallingCost : 0) + 
                                (includeLinkedIn ? monthlyLinkedInCost : 0);
-  const annualBeanstalkCost = monthlyBeanstalkCost * 12;
-  const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
-
+                               
   // Calculate active channel count and discount
   const activeChannelCount = [includeEmail, includeLinkedIn, includeColdCalling].filter(Boolean).length;
   const discountRate = activeChannelCount === 3 ? 0.25 : (activeChannelCount === 2 ? 0.15 : 0);
@@ -213,15 +212,13 @@ export const useCalculations = ({
     // Beanstalk metrics - updated
     monthlyEmailPrice,
     monthlyBeanstalkCost,
+    discountedMonthlyBeanstalkCost,
     annualBeanstalkCost,
     beanstalkRoi,
+    activeChannelCount,
     
     // Combined ROI
     combinedCost,
     combinedRoi,
-    
-    // Active channel count and discount
-    activeChannelCount,
-    discountedMonthlyBeanstalkCost,
   };
 };

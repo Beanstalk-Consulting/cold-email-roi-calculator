@@ -1,3 +1,4 @@
+
 import { getBeanstalkPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -58,13 +59,14 @@ export const useCalculations = ({
   const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
   const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
   const WORKING_DAYS_PER_MONTH = 22; // 22 working days per month
+  const SDR_ANNUAL_SALARY = 82470; // Average SDR salary
 
   // Email calculated values
   const monthlyProspects = includeEmail ? Math.round(emailCapacity / 2) : 0; // 2-step sequence
   const totalReplies = Math.round((monthlyProspects * replyRate) / 100);
   const monthlyLeads = Math.round(totalReplies * 0.2); // 20% of replies are positive
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
-  const emailRevenue = calculateRampedRevenue(monthlyDeals);
+  const emailRevenue = calculateRampedRevenue(monthlyDeals, customerValue);
   
   // LinkedIn calculated values
   const totalLinkedInRequests = includeLinkedIn ? linkedInMessages : 0;
@@ -88,7 +90,7 @@ export const useCalculations = ({
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
   
   // Calculate annual revenue from LinkedIn deals
-  const linkedInRevenue = calculateRampedRevenue(linkedInDeals);
+  const linkedInRevenue = calculateRampedRevenue(linkedInDeals, customerValue);
 
   // Cold calling calculated values - updated with new logic
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
@@ -127,25 +129,31 @@ export const useCalculations = ({
   // Use our randomized function to calculate monthly booked leads
   const callLeads = includeColdCalling ? randomizedMonthlyBookedLeads() : 0;
   const callDeals = Math.round((callLeads * closeRate) / 100);
-  const callRevenue = calculateRampedRevenue(callDeals);
+  const callRevenue = calculateRampedRevenue(callDeals, customerValue);
   
   // Calculate total values
   const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
-  // SDR calculations for email
+  // SDR calculations for email - based on required capacity
   const requiredEmailSDRs = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   
   // SDR calculations for LinkedIn - based on profiles
-  const requiredLinkedInSDRs = includeLinkedIn ? linkedInProfiles : 0;
+  // Each SDR can handle approximately LINKEDIN_MESSAGES_PER_SDR_PER_MONTH per month
+  const requiredLinkedInSDRsCapacity = includeLinkedIn ? 
+    Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
+  
+  // Use the higher of profile count or capacity-based calculation
+  const requiredLinkedInSDRs = includeLinkedIn ? 
+    Math.max(linkedInProfiles, requiredLinkedInSDRsCapacity) : 0;
   
   // SDR calculations for cold calling
   const requiredCallSDRs = includeColdCalling ? callerCount : 0;
   
   // Total SDR requirement and cost
   const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallSDRs;
-  const annualSdrSalaryCost = totalSDRs * 82470; // Average SDR salary
+  const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   const sdrRoi = totalSDRs > 0 ? ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
   // Beanstalk calculations
@@ -155,7 +163,7 @@ export const useCalculations = ({
   const beanstalkRoi = annualBeanstalkCost > 0 ? ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
   // Combined ROI for all channels using Beanstalk for email automation
-  const combinedCost = annualBeanstalkCost + (requiredLinkedInSDRs + requiredCallSDRs) * 82470;
+  const combinedCost = annualBeanstalkCost + (requiredLinkedInSDRs + requiredCallSDRs) * SDR_ANNUAL_SALARY;
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
   return {
@@ -211,7 +219,7 @@ export const useCalculations = ({
   };
 };
 
-const calculateRampedRevenue = (monthlyDeals: number) => {
+const calculateRampedRevenue = (monthlyDeals: number, customerValue: number) => {
   // Ramp percentages for months 1-12
   const rampSchedule = [
     0.275, // Month 1: 27.5% (middle of 25-30%)

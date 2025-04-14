@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
@@ -5,6 +6,7 @@ import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
 import { CombinedMetrics } from "./CombinedMetrics";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface CalculatorResultsProps {
   // Control flags
@@ -143,16 +145,32 @@ export const CalculatorResults = ({
         />
       )}
 
-      <SDRMetrics
-        requiredSDRs={totalSDRs}
-        annualSdrSalaryCost={annualSdrSalaryCost}
-        sdrRoi={sdrRoi}
-        requiredEmailSDRs={requiredEmailSDRs}
-        requiredLinkedInSDRs={requiredLinkedInSDRs}
-        requiredCallSDRs={requiredCallSDRs}
-        includeLinkedIn={includeLinkedIn}
-        includeColdCalling={includeColdCalling}
-      />
+      {/* SDR Model Comparison - Updated as an expandable accordion */}
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="sdr-comparison">
+          <AccordionTrigger className="text-xl font-semibold text-calculator-primary">
+            In-House SDR Model Comparison
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg mb-4">
+              <p className="text-sm text-amber-800">
+                This section compares the cost and performance of hiring in-house SDRs versus using our automated service. 
+                The calculations show why hiring in-house is generally less cost-effective.
+              </p>
+            </div>
+            <SDRMetrics
+              requiredSDRs={totalSDRs}
+              annualSdrSalaryCost={annualSdrSalaryCost}
+              sdrRoi={sdrRoi}
+              requiredEmailSDRs={requiredEmailSDRs}
+              requiredLinkedInSDRs={requiredLinkedInSDRs}
+              requiredCallSDRs={requiredCallSDRs}
+              includeLinkedIn={includeLinkedIn}
+              includeColdCalling={includeColdCalling}
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
       {includeEmail && (
         <BeanstalkMetrics

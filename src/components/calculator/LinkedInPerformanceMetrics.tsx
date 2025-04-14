@@ -50,9 +50,9 @@ export const LinkedInPerformanceMetrics = ({
           className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
         />
         <ResultCard
-          label="ROI"
+          label="Annual ROI"
           value={formatPercent(linkedInRoi)}
-          tooltip="Return on Investment from LinkedIn outreach"
+          tooltip="Annual Return on Investment from LinkedIn outreach, calculated as (Annual Revenue - Annual Cost) / Annual Cost"
           className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200"
         />
       </div>

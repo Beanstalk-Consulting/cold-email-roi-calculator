@@ -34,9 +34,9 @@ export const useCalculatorState = () => {
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
   const [linkedInMessages, setLinkedInMessages] = useState(473); // Preset to 473
   const [linkedInMessageReplyRate, setLinkedInMessageReplyRate] = useState(15); // Message reply rate (0-50%)
-  const [linkedInResponseRate, setLinkedInResponseRate] = useState(30);
-  const [linkedInReplyToCallRate, setLinkedInReplyToCallRate] = useState(50); // Renamed from linkedInConvertRate
-  const [linkedInConnectRate, setLinkedInConnectRate] = useState(40);
+  const [linkedInResponseRate, setLinkedInResponseRate] = useState(20); // Updated from 30 to 20
+  const [linkedInReplyToCallRate, setLinkedInReplyToCallRate] = useState(35); // Updated from 50 to 35
+  const [linkedInConnectRate, setLinkedInConnectRate] = useState(15); // Updated from 40 to 15
   const [linkedInProfiles, setLinkedInProfiles] = useState(1);
   
   // Cold calling outreach state

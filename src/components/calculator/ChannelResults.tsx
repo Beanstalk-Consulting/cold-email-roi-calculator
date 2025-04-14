@@ -1,3 +1,4 @@
+
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
 import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
@@ -170,13 +171,15 @@ export const ChannelResults = ({
         </AccordionItem>
       </Accordion>
 
-      {includeEmail && (
-        <BeanstalkMetrics
-          monthlyBeanstalkCost={monthlyBeanstalkCost}
-          annualBeanstalkCost={annualBeanstalkCost}
-          beanstalkRoi={beanstalkRoi}
-        />
-      )}
+      {/* Beanstalk Metrics - Now including all required props */}
+      <BeanstalkMetrics
+        monthlyBeanstalkCost={monthlyBeanstalkCost}
+        annualBeanstalkCost={annualBeanstalkCost}
+        beanstalkRoi={beanstalkRoi}
+        totalLeads={totalLeads}
+        totalDeals={totalDeals}
+        totalRevenue={totalRevenue}
+      />
     </div>
   );
 };

@@ -156,15 +156,19 @@ export const useCalculations = ({
   // Calculate ROI based on total revenue across all channels vs SDR cost
   const sdrRoi = totalSDRs > 0 ? ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
-  // Beanstalk calculations
+  // Beanstalk calculations - Updated to include LinkedIn
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
-  const monthlyBeanstalkCost = (includeEmail ? emailCapacity * monthlyEmailPrice : 0) + monthlyCallingCost;
+  const monthlyBeanstalkCost = (includeEmail ? emailCapacity * monthlyEmailPrice : 0) + 
+                               (includeColdCalling ? monthlyCallingCost : 0) + 
+                               (includeLinkedIn ? monthlyLinkedInCost : 0);
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
-  const totalBeanstalkRevenue = emailRevenue + (includeColdCalling ? callRevenue : 0);
+  const totalBeanstalkRevenue = emailRevenue + 
+                               (includeColdCalling ? callRevenue : 0) + 
+                               (includeLinkedIn ? linkedInRevenue : 0);
   const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalBeanstalkRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
-  // Combined costs to include LinkedIn costs
-  const combinedCost = annualBeanstalkCost + annualLinkedInCost + (totalSDRs * SDR_ANNUAL_SALARY);
+  // Combined costs to include all channels
+  const combinedCost = annualBeanstalkCost + (totalSDRs * SDR_ANNUAL_SALARY);
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
   return {
@@ -211,7 +215,7 @@ export const useCalculations = ({
     annualSdrSalaryCost,
     sdrRoi,
     
-    // Beanstalk metrics
+    // Beanstalk metrics - updated
     monthlyEmailPrice,
     monthlyBeanstalkCost,
     annualBeanstalkCost,

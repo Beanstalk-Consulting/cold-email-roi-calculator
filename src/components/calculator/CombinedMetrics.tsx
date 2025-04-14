@@ -32,10 +32,22 @@ export const CombinedMetrics = ({
     <div>
       <div className="grid grid-cols-1 gap-4">
         <Alert className="mb-4 bg-blue-50 border-blue-200">
-          <AlertTitle className="text-blue-800">Year One Productivity Adjustment</AlertTitle>
+          <AlertTitle className="text-blue-800">Year One Productivity Explanation</AlertTitle>
           <AlertDescription className="text-blue-700">
-            All revenue calculations include an ~11% year-one productivity handicap to account for typical 
-            ramp-up time for new sales activities. Monthly deal figures show fully ramped performance.
+            <p>Our calculations apply an ~89% year-one productivity factor to account for typical sales ramp-up time.</p>
+            <div className="mt-2">
+              <strong>Typical Sales Ramp Schedule:</strong>
+              <ul className="list-disc list-inside">
+                <li>Month 1: 30% of full capacity</li>
+                <li>Month 2: 55% of full capacity</li>
+                <li>Month 3: 80% of full capacity</li>
+                <li>Months 4-12: 100% of full capacity</li>
+              </ul>
+            </div>
+            <p className="mt-2 font-semibold">
+              This results in approximately 88.75% effective productivity for year one, 
+              translating to an ~11-12% handicap in annual projections.
+            </p>
           </AlertDescription>
         </Alert>
         

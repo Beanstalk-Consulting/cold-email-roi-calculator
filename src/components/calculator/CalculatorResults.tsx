@@ -95,7 +95,7 @@ export const CalculatorResults = ({
   activeChannelCount,
 }: CalculatorResultsProps) => {
   // Calculate sdrTotalRevenue correctly
-  const sdrEmailRevenue = emailRevenue; // Email at 100% efficiency
+  const sdrEmailRevenue = includeEmail ? emailRevenue : 0; // Email at 100% efficiency
   const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // LinkedIn at 50% efficiency
   const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // Cold calling at 50% efficiency
   

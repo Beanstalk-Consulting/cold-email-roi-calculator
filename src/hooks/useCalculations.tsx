@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -136,15 +135,13 @@ export const useCalculations = ({
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
   // Calculate SDR ROI using updated performance metrics
-  const sdrEmailRevenue = emailRevenue; // Email efficiency stays at 100%
-  const sdrLinkedInRevenue = linkedInRevenue * 0.5; // 50% efficiency for LinkedIn
-  const sdrCallRevenue = callRevenue * 0.5; // 50% efficiency for cold calling
+  const sdrEmailRevenue = includeEmail ? emailRevenue : 0; // Email efficiency stays at 100%
+  const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // 50% efficiency for LinkedIn
+  const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // 50% efficiency for cold calling
   
-  const sdrTotalRevenue = (includeEmail ? sdrEmailRevenue : 0) +
-                         (includeLinkedIn ? sdrLinkedInRevenue : 0) +
-                         (includeColdCalling ? sdrCallRevenue : 0);
+  const sdrTotalRevenue = sdrEmailRevenue + sdrLinkedInRevenue + sdrCallRevenue;
   
-  const sdrRoi = totalSDRs > 0 ? ((sdrTotalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
+  const sdrRoi = annualSdrSalaryCost > 0 ? ((sdrTotalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);

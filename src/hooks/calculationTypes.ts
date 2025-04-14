@@ -1,4 +1,3 @@
-
 export interface CalculationContextProps {
   // Email metrics
   monthlyProspects: number;
@@ -15,6 +14,9 @@ export interface CalculationContextProps {
   linkedInLeads: number;
   linkedInDeals: number;
   linkedInRevenue: number;
+  monthlyLinkedInCost: number;
+  annualLinkedInCost: number;
+  linkedInRoi: number;
   
   // Cold calling metrics
   monthlyDialCount: number;

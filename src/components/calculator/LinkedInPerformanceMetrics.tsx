@@ -6,19 +6,23 @@ interface LinkedInPerformanceMetricsProps {
   linkedInLeads: number;
   linkedInDeals: number;
   linkedInRevenue: number;
+  monthlyLinkedInCost?: number;
+  linkedInRoi?: number;
 }
 
 export const LinkedInPerformanceMetrics = ({
   linkedInLeads,
   linkedInDeals,
   linkedInRevenue,
+  monthlyLinkedInCost = 0,
+  linkedInRoi = 0,
 }: LinkedInPerformanceMetricsProps) => {
   return (
     <div>
       <h3 className="text-xl font-semibold text-calculator-primary mb-4">
         LinkedIn Outreach Performance
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(linkedInLeads)}
@@ -36,6 +40,20 @@ export const LinkedInPerformanceMetrics = ({
           value={formatCurrency(linkedInRevenue)}
           tooltip="Monthly LinkedIn deals × Customer value × 12 months"
           className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
+        />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ResultCard
+          label="Monthly LinkedIn Cost"
+          value={formatCurrency(monthlyLinkedInCost)}
+          tooltip="First profile: $1,499/mo, Additional profiles: $499/mo each"
+          className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
+        />
+        <ResultCard
+          label="ROI"
+          value={`${formatNumber(linkedInRoi)}%`}
+          tooltip="Return on Investment from LinkedIn outreach"
+          className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200"
         />
       </div>
     </div>

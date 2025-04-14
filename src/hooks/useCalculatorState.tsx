@@ -4,6 +4,12 @@ import { useState } from "react";
 const EMAILS_PER_SDR_PER_MONTH = 250 * 22; // 250 emails per day * 22 working days
 const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22 working days
 
+export const getLinkedInPrice = (profileCount: number): number => {
+  if (profileCount <= 0) return 0;
+  // First profile costs $1499, additional profiles cost $499
+  return 1499 + (Math.max(0, profileCount - 1) * 499);
+};
+
 export const getBeanstalkPrice = (emailCount: number): number => {
   if (emailCount <= 8000) return 0.40;
   if (emailCount <= 20000) return 0.20;

@@ -1,4 +1,4 @@
-import { getBeanstalkPrice } from "./useCalculatorState";
+import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
 interface CalculationsProps {
@@ -67,8 +67,11 @@ export const useCalculations = ({
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
   const emailRevenue = calculateRampedRevenue(monthlyDeals, customerValue);
   
-  // LinkedIn calculated values
+  // LinkedIn calculated values and costs
   const totalLinkedInRequests = includeLinkedIn ? linkedInMessages : 0;
+  const monthlyLinkedInCost = includeLinkedIn ? getLinkedInPrice(linkedInProfiles) : 0;
+  const annualLinkedInCost = monthlyLinkedInCost * 12;
+  const linkedInRoi = annualLinkedInCost > 0 ? ((linkedInRevenue - annualLinkedInCost) / annualLinkedInCost) * 100 : 0;
   
   // Calculate direct replies to connection requests before acceptance
   const directReplies = Math.round((totalLinkedInRequests * linkedInMessageReplyRate) / 100);
@@ -154,8 +157,8 @@ export const useCalculations = ({
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
   const beanstalkRoi = annualBeanstalkCost > 0 ? ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
-  // Combined ROI for all channels using Beanstalk for email automation
-  const combinedCost = annualBeanstalkCost + (totalSDRs) * SDR_ANNUAL_SALARY;
+  // Combined costs to include LinkedIn costs
+  const combinedCost = annualBeanstalkCost + annualLinkedInCost + (totalSDRs * SDR_ANNUAL_SALARY);
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
   return {
@@ -166,7 +169,7 @@ export const useCalculations = ({
     monthlyDeals,
     emailRevenue,
     
-    // LinkedIn metrics
+    // LinkedIn metrics with costs
     directReplies,
     linkedInConnections,
     linkedInResponses,
@@ -174,6 +177,9 @@ export const useCalculations = ({
     linkedInLeads,
     linkedInDeals,
     linkedInRevenue,
+    monthlyLinkedInCost,
+    annualLinkedInCost,
+    linkedInRoi,
     
     // Cold calling metrics
     monthlyDialCount,

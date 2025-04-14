@@ -1,6 +1,6 @@
 
 import { ResultCard } from "./ResultCard";
-import { formatNumber, formatCurrency } from "@/lib/formatters";
+import { formatNumber, formatCurrency, formatPercent } from "@/lib/formatters";
 
 interface LinkedInPerformanceMetricsProps {
   linkedInLeads: number;
@@ -51,7 +51,7 @@ export const LinkedInPerformanceMetrics = ({
         />
         <ResultCard
           label="ROI"
-          value={`${formatNumber(linkedInRoi)}%`}
+          value={formatPercent(linkedInRoi)}
           tooltip="Return on Investment from LinkedIn outreach"
           className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200"
         />

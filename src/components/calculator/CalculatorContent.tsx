@@ -121,6 +121,8 @@ export const CalculatorContent = ({
     annualBeanstalkCost,
     beanstalkRoi,
     combinedRoi,
+    monthlyLinkedInCost,
+    linkedInRoi,
   } = calculations;
 
   return (
@@ -188,6 +190,8 @@ export const CalculatorContent = ({
         linkedInLeads={linkedInLeads}
         linkedInDeals={linkedInDeals}
         linkedInRevenue={linkedInRevenue}
+        monthlyLinkedInCost={monthlyLinkedInCost}
+        linkedInRoi={linkedInRoi}
       />
 
       <ColdCallingInputs

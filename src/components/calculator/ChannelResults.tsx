@@ -1,4 +1,3 @@
-
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
 import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
@@ -22,6 +21,9 @@ interface ChannelResultsProps {
   linkedInLeads: number;
   linkedInDeals: number;
   linkedInRevenue: number;
+  monthlyLinkedInCost: number;
+  annualLinkedInCost: number;
+  linkedInRoi: number;
   
   // Cold calling metrics
   callLeads: number;
@@ -66,6 +68,9 @@ export const ChannelResults = ({
   linkedInLeads,
   linkedInDeals,
   linkedInRevenue,
+  monthlyLinkedInCost,
+  annualLinkedInCost,
+  linkedInRoi,
   
   // Cold calling metrics
   callLeads,
@@ -111,6 +116,8 @@ export const ChannelResults = ({
           linkedInLeads={linkedInLeads}
           linkedInDeals={linkedInDeals}
           linkedInRevenue={linkedInRevenue}
+          monthlyLinkedInCost={monthlyLinkedInCost}
+          linkedInRoi={linkedInRoi}
         />
       )}
 

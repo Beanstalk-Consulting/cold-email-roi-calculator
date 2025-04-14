@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { GlobalSettings } from "./GlobalSettings";
@@ -195,58 +196,49 @@ export const CalculatorContent = ({
         callRoi={callRoi}
       />
 
-      <div className="mt-12 space-y-8">
-        <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
-          Performance & Cost Comparison
-        </h2>
+      <CalculatorResults
+        // Control flags
+        includeEmail={includeEmail}
+        includeLinkedIn={includeLinkedIn}
+        includeColdCalling={includeColdCalling}
         
-        {((includeEmail && includeLinkedIn) || 
-          (includeEmail && includeColdCalling) || 
-          (includeLinkedIn && includeColdCalling)) && (
-          <div className="bg-slate-50 p-6 rounded-lg">
-            <CombinedMetrics
-              totalLeads={totalLeads}
-              totalDeals={totalDeals}
-              totalRevenue={totalRevenue}
-              includeEmail={includeEmail}
-              emailRevenue={emailRevenue}
-              includeLinkedIn={includeLinkedIn}
-              linkedInRevenue={linkedInRevenue}
-              includeColdCalling={includeColdCalling}
-              callRevenue={callRevenue}
-              combinedRoi={combinedRoi}
-            />
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <SDRMetrics
-            totalLeads={totalLeads}
-            totalDeals={totalDeals}
-            totalRevenue={totalRevenue}
-            includeEmail={includeEmail}
-            emailRevenue={emailRevenue}
-            includeLinkedIn={includeLinkedIn}
-            linkedInRevenue={linkedInRevenue}
-            includeColdCalling={includeColdCalling}
-            callRevenue={callRevenue}
-            combinedRoi={combinedRoi}
-          />
-
-          <BeanstalkMetrics
-            totalLeads={totalLeads}
-            totalDeals={totalDeals}
-            totalRevenue={totalRevenue}
-            includeEmail={includeEmail}
-            emailRevenue={emailRevenue}
-            includeLinkedIn={includeLinkedIn}
-            linkedInRevenue={linkedInRevenue}
-            includeColdCalling={includeColdCalling}
-            callRevenue={callRevenue}
-            combinedRoi={combinedRoi}
-          />
-        </div>
-      </div>
+        // Email metrics
+        monthlyLeads={monthlyLeads}
+        monthlyDeals={monthlyDeals}
+        emailRevenue={emailRevenue}
+        
+        // LinkedIn metrics
+        linkedInLeads={linkedInLeads}
+        linkedInDeals={linkedInDeals}
+        linkedInRevenue={linkedInRevenue}
+        
+        // Cold calling metrics
+        callLeads={callLeads}
+        callDeals={callDeals}
+        callRevenue={callRevenue}
+        dailyConnections={dailyConnections}
+        dailyLeads={dailyLeads}
+        dailyBookedLeads={dailyBookedLeads}
+        monthlyCallingCost={monthlyCallingCost}
+        annualCallingCost={annualCallingCost}
+        callRoi={callRoi}
+        
+        // Combined metrics
+        totalLeads={totalLeads}
+        totalDeals={totalDeals}
+        totalRevenue={totalRevenue}
+        combinedRoi={combinedRoi}
+        
+        // SDR metrics
+        totalSDRs={totalSDRs}
+        annualSdrSalaryCost={annualSdrSalaryCost}
+        sdrRoi={sdrRoi}
+        
+        // Beanstalk metrics
+        monthlyBeanstalkCost={monthlyBeanstalkCost}
+        annualBeanstalkCost={annualBeanstalkCost}
+        beanstalkRoi={beanstalkRoi}
+      />
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { 
   Accordion,
@@ -11,6 +12,9 @@ import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { InfoIcon, Linkedin, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 
 interface LinkedInInputsProps {
   includeLinkedIn: boolean;
@@ -27,6 +31,9 @@ interface LinkedInInputsProps {
   setLinkedInConnectRate: (value: number) => void;
   linkedInProfiles: number;
   setLinkedInProfiles: (value: number) => void;
+  linkedInLeads: number;
+  linkedInDeals: number;
+  linkedInRevenue: number;
 }
 
 export const LinkedInInputs = ({
@@ -44,8 +51,12 @@ export const LinkedInInputs = ({
   setLinkedInConnectRate,
   linkedInProfiles,
   setLinkedInProfiles,
+  linkedInLeads,
+  linkedInDeals,
+  linkedInRevenue
 }: LinkedInInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeLinkedIn ? "linkedin" : "");
+  const [showPerformance, setShowPerformance] = useState(false);
 
   const handleAccordionChange = (value: string) => {
     setAccordionValue(value);
@@ -185,6 +196,22 @@ export const LinkedInInputs = ({
                 step={1}
                 tooltip="Percentage of leads that convert to sales calls or meetings"
               />
+
+              <Collapsible>
+                <CollapsibleTrigger className="flex items-center gap-2 text-sm font-medium text-calculator-text hover:text-calculator-primary">
+                  <ChevronDown className={`h-4 w-4 transition-transform ${showPerformance ? 'transform rotate-180' : ''}`} />
+                  Show LinkedIn Performance
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="mt-4">
+                    <LinkedInPerformanceMetrics
+                      linkedInLeads={linkedInLeads}
+                      linkedInDeals={linkedInDeals}
+                      linkedInRevenue={linkedInRevenue}
+                    />
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
             </div>
           )}
         </AccordionContent>

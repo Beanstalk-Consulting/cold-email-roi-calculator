@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Accordion,
@@ -73,7 +74,7 @@ export const ColdCallingInputs = ({
   const monthlyDials = dailyDials * daysPerWeek * 4 * callerCount; // 4 weeks in a month
 
   // Calculate expected daily connections based on connect rate
-  const dailyConnections = Math.round((dailyDials * connectRate) / 100);
+  const calculatedDailyConnections = Math.round((dailyDials * connectRate) / 100);
 
   return (
     <Accordion 
@@ -165,7 +166,7 @@ export const ColdCallingInputs = ({
 
               <div className="bg-gray-50 p-3 rounded-md border border-gray-100 mb-4">
                 <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium text-calculator-text">Daily Connections: {dailyConnections}</p>
+                  <p className="text-sm font-medium text-calculator-text">Daily Connections: {calculatedDailyConnections}</p>
                   <p className="text-xs text-gray-500">
                     Based on {connectRate}% connect rate (industry average: 8-12%, resulting in 80-120 connects/day)
                   </p>

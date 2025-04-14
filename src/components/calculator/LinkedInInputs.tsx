@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Accordion,
@@ -11,6 +10,7 @@ import { RangeInput } from "./RangeInput";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { InfoIcon, Linkedin, Users } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface LinkedInInputsProps {
   includeLinkedIn: boolean;
@@ -56,9 +56,7 @@ export const LinkedInInputs = ({
     }
   };
 
-  // Calculate the maximum recommended connection requests per month
-  // Based on 22 per day, 5 days a week, ~4.3 weeks per month
-  const maxRecommendedMonthly = 22 * 5 * 4.3;
+  const calculatedMonthlyRequests = linkedInProfiles * 22 * 22;
 
   return (
     <Accordion 
@@ -95,30 +93,6 @@ export const LinkedInInputs = ({
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <label className="text-sm font-medium text-calculator-text">
-                    Monthly Connection Requests
-                  </label>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <InfoIcon className="h-4 w-4 text-calculator-accent" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="w-[200px]">Recommended connections per month preset to 473 (based on LinkedIn limits)</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-                <Input
-                  type="number"
-                  value={linkedInMessages}
-                  onChange={(e) => setLinkedInMessages(Number(e.target.value))}
-                  min={0}
-                  max={Math.round(maxRecommendedMonthly)}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <label className="text-sm font-medium text-calculator-text">
                     Number of LinkedIn Profiles for Outreach
                   </label>
                   <Tooltip>
@@ -134,11 +108,41 @@ export const LinkedInInputs = ({
                   <Input
                     type="number"
                     value={linkedInProfiles}
-                    onChange={(e) => setLinkedInProfiles(Number(e.target.value))}
+                    onChange={(e) => {
+                      const value = Number(e.target.value);
+                      setLinkedInProfiles(value);
+                      setLinkedInMessages(value * 22 * 22);
+                    }}
                     min={1}
                     className="w-full"
                   />
                   <Users className="h-4 w-4 text-calculator-accent" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-calculator-text">
+                    Monthly Connection Requests (Calculated)
+                  </label>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <InfoIcon className="h-4 w-4 text-calculator-accent" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="w-[200px]">Based on 22 connection requests per day for 22 working days per month per profile</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                <div className={cn(
+                  "w-full p-3",
+                  "bg-gray-100",
+                  "border border-gray-200",
+                  "rounded-md",
+                  "text-gray-600",
+                  "font-medium"
+                )}>
+                  {calculatedMonthlyRequests.toLocaleString()}
                 </div>
               </div>
 

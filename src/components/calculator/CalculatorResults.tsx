@@ -1,4 +1,3 @@
-
 import React from "react";
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
@@ -91,7 +90,7 @@ export const CalculatorResults = ({
 }: CalculatorResultsProps) => {
   return (
     <div className="space-y-8">
-      {/* Email Performance */}
+      {/* Individual Channel Performance */}
       {includeEmail && (
         <PerformanceMetrics
           monthlyLeads={monthlyLeads}
@@ -100,7 +99,6 @@ export const CalculatorResults = ({
         />
       )}
 
-      {/* LinkedIn Performance (if included) */}
       {includeLinkedIn && (
         <LinkedInPerformanceMetrics
           linkedInLeads={linkedInLeads}
@@ -109,7 +107,6 @@ export const CalculatorResults = ({
         />
       )}
 
-      {/* Cold Calling Performance (if included) */}
       {includeColdCalling && (
         <ColdCallingPerformanceMetrics
           callLeads={callLeads}
@@ -121,37 +118,42 @@ export const CalculatorResults = ({
         />
       )}
 
-      {/* Combined Performance (if more than one channel is used) */}
-      {((includeEmail && includeLinkedIn) || 
-        (includeEmail && includeColdCalling) || 
-        (includeLinkedIn && includeColdCalling)) && (
-        <CombinedMetrics
-          totalLeads={totalLeads}
-          totalDeals={totalDeals}
-          totalRevenue={totalRevenue}
-          includeEmail={includeEmail}
-          emailRevenue={emailRevenue}
-          includeLinkedIn={includeLinkedIn}
-          linkedInRevenue={linkedInRevenue}
-          includeColdCalling={includeColdCalling}
-          callRevenue={callRevenue}
-          combinedRoi={combinedRoi}
-        />
-      )}
+      {/* Performance Comparison Section */}
+      <div className="mt-12 space-y-8">
+        <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
+          Performance & Cost Comparison
+        </h2>
+        
+        {/* Combined Performance First */}
+        {((includeEmail && includeLinkedIn) || 
+          (includeEmail && includeColdCalling) || 
+          (includeLinkedIn && includeColdCalling)) && (
+          <div className="bg-slate-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+              Combined Channel Performance
+            </h3>
+            <CombinedMetrics
+              totalLeads={totalLeads}
+              totalDeals={totalDeals}
+              totalRevenue={totalRevenue}
+              includeEmail={includeEmail}
+              emailRevenue={emailRevenue}
+              includeLinkedIn={includeLinkedIn}
+              linkedInRevenue={linkedInRevenue}
+              includeColdCalling={includeColdCalling}
+              callRevenue={callRevenue}
+              combinedRoi={combinedRoi}
+            />
+          </div>
+        )}
 
-      {/* SDR Model Comparison - Updated as an expandable accordion */}
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="sdr-comparison">
-          <AccordionTrigger className="text-xl font-semibold text-calculator-primary">
-            In-House SDR Model Comparison
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg mb-4">
-              <p className="text-sm text-amber-800">
-                This section compares the cost and performance of hiring in-house SDRs versus using our automated service. 
-                The calculations show why hiring in-house is generally less cost-effective.
-              </p>
-            </div>
+        {/* Comparison Models */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* SDR Model */}
+          <div className="bg-slate-50 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+              In-House SDR Model
+            </h3>
             <SDRMetrics
               requiredSDRs={totalSDRs}
               annualSdrSalaryCost={annualSdrSalaryCost}
@@ -159,17 +161,23 @@ export const CalculatorResults = ({
               includeLinkedIn={includeLinkedIn}
               includeColdCalling={includeColdCalling}
             />
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+          </div>
 
-      {includeEmail && (
-        <BeanstalkMetrics
-          monthlyBeanstalkCost={monthlyBeanstalkCost}
-          annualBeanstalkCost={annualBeanstalkCost}
-          beanstalkRoi={beanstalkRoi}
-        />
-      )}
+          {/* Beanstalk Model */}
+          {includeEmail && (
+            <div className="bg-slate-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+                Beanstalk Automated Approach
+              </h3>
+              <BeanstalkMetrics
+                monthlyBeanstalkCost={monthlyBeanstalkCost}
+                annualBeanstalkCost={annualBeanstalkCost}
+                beanstalkRoi={beanstalkRoi}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

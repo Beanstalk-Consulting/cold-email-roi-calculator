@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -136,24 +135,17 @@ export const useCalculations = ({
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
-  // SDR calculations for email - based on required capacity
-  const requiredEmailSDRs = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
+  // Updated SDR calculations - treating SDRs as omnichannel representatives
+  const requiredEmailCapacity = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
+  const requiredLinkedInCapacity = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
+  const requiredCallCapacity = includeColdCalling ? callerCount : 0;
   
-  // SDR calculations for LinkedIn - based on profiles
-  // Each SDR can handle approximately LINKEDIN_MESSAGES_PER_SDR_PER_MONTH per month
-  const requiredLinkedInSDRsCapacity = includeLinkedIn ? 
-    Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
-  
-  // Use the higher of profile count or capacity-based calculation
-  const requiredLinkedInSDRs = includeLinkedIn ? 
-    Math.max(linkedInProfiles, requiredLinkedInSDRsCapacity) : 0;
-  
-  // SDR calculations for cold calling
-  const requiredCallSDRs = includeColdCalling ? callerCount : 0;
-  
-  // Total SDR requirement and cost
-  const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallSDRs;
+  // Take the maximum capacity requirement as the total SDR need
+  // This assumes SDRs can handle multiple channels as part of their role
+  const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
+  
+  // Calculate ROI based on total revenue across all channels vs SDR cost
   const sdrRoi = totalSDRs > 0 ? ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
   // Beanstalk calculations
@@ -163,7 +155,7 @@ export const useCalculations = ({
   const beanstalkRoi = annualBeanstalkCost > 0 ? ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
   // Combined ROI for all channels using Beanstalk for email automation
-  const combinedCost = annualBeanstalkCost + (requiredLinkedInSDRs + requiredCallSDRs) * SDR_ANNUAL_SALARY;
+  const combinedCost = annualBeanstalkCost + (totalSDRs) * SDR_ANNUAL_SALARY;
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
   return {
@@ -199,10 +191,7 @@ export const useCalculations = ({
     totalDeals,
     totalRevenue,
     
-    // SDR metrics
-    requiredEmailSDRs,
-    requiredLinkedInSDRs,
-    requiredCallSDRs,
+    // Updated SDR metrics - we're not returning individual channel SDR counts anymore
     totalSDRs,
     annualSdrSalaryCost,
     sdrRoi,

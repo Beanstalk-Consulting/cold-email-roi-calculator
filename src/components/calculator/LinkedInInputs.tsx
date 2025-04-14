@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Accordion,
@@ -34,6 +33,8 @@ interface LinkedInInputsProps {
   linkedInLeads: number;
   linkedInDeals: number;
   linkedInRevenue: number;
+  monthlyLinkedInCost?: number;
+  linkedInRoi?: number;
 }
 
 export const LinkedInInputs = ({
@@ -53,7 +54,9 @@ export const LinkedInInputs = ({
   setLinkedInProfiles,
   linkedInLeads,
   linkedInDeals,
-  linkedInRevenue
+  linkedInRevenue,
+  monthlyLinkedInCost = 0,
+  linkedInRoi = 0
 }: LinkedInInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeLinkedIn ? "linkedin" : "");
   const [showPerformance, setShowPerformance] = useState(false);
@@ -208,6 +211,8 @@ export const LinkedInInputs = ({
                       linkedInLeads={linkedInLeads}
                       linkedInDeals={linkedInDeals}
                       linkedInRevenue={linkedInRevenue}
+                      monthlyLinkedInCost={monthlyLinkedInCost}
+                      linkedInRoi={linkedInRoi}
                     />
                   </div>
                 </CollapsibleContent>

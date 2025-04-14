@@ -34,19 +34,19 @@ export const ColdCallingPerformanceMetrics = ({
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(callLeads)}
-          tooltip="Based on your connect rate and total dials"
+          tooltip="Based on your connect rate and total dials, calculated from your daily booked leads × working days"
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard
           label="Monthly Closed Deals"
           value={formatNumber(callDeals)}
-          tooltip="Based on your lead generation rate and close rate"
+          tooltip="Based on your lead generation rate and close rate, accounting for actual performance data"
           className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
         />
         <ResultCard
           label="Annual New Revenue"
           value={formatCurrency(callRevenue)}
-          tooltip="Monthly deals × Customer value × 12 months"
+          tooltip="Monthly deals × Customer value × 12 months, with an 11% reduction in year one to account for ramp-up time"
           className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
         />
       </div>
@@ -54,13 +54,13 @@ export const ColdCallingPerformanceMetrics = ({
         <ResultCard
           label="Monthly Calling Cost"
           value={formatCurrency(monthlyCallingCost)}
-          tooltip="Part-time: $2,999/mo, Full-time: $4,499/mo per caller"
+          tooltip="Monthly cost per caller: Part-time ($2,999/mo) or Full-time ($4,499/mo) × number of callers"
           className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200"
         />
         <ResultCard
-          label="ROI"
+          label="Annual ROI"
           value={`${formatNumber(callRoi)}%`}
-          tooltip="Return on Investment from cold calling"
+          tooltip="Annual Return on Investment from cold calling, calculated as (Annual Revenue - Annual Calling Cost) / Annual Calling Cost"
           className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200"
         />
       </div>

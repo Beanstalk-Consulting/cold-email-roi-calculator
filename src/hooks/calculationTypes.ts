@@ -28,6 +28,9 @@ export interface CalculationContextProps {
   dailyLeads: number;
   dailyBookedLeads: number;
   callBookedLeads: number;
+  monthlyCallingCost: number;
+  annualCallingCost: number;
+  callRoi: number;
   
   // Combined metrics
   totalLeads: number;

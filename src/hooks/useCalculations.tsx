@@ -71,7 +71,6 @@ export const useCalculations = ({
   const totalLinkedInRequests = includeLinkedIn ? linkedInMessages : 0;
   const monthlyLinkedInCost = includeLinkedIn ? getLinkedInPrice(linkedInProfiles) : 0;
   const annualLinkedInCost = monthlyLinkedInCost * 12;
-  const linkedInRoi = annualLinkedInCost > 0 ? ((linkedInRevenue - annualLinkedInCost) / annualLinkedInCost) * 100 : 0;
   
   // Calculate direct replies to connection requests before acceptance
   const directReplies = Math.round((totalLinkedInRequests * linkedInMessageReplyRate) / 100);
@@ -93,6 +92,7 @@ export const useCalculations = ({
   
   // Calculate annual revenue from LinkedIn deals
   const linkedInRevenue = calculateRampedRevenue(linkedInDeals, customerValue);
+  const linkedInRoi = annualLinkedInCost > 0 ? ((linkedInRevenue - annualLinkedInCost) / annualLinkedInCost) * 100 : 0;
 
   // Cold calling calculated values - updated with new logic
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
@@ -133,6 +133,11 @@ export const useCalculations = ({
   const callDeals = Math.round((callLeads * closeRate) / 100);
   const callRevenue = calculateRampedRevenue(callDeals, customerValue);
   
+  // Calculate calling costs
+  const monthlyCallingCost = includeColdCalling ? callerCount * (isFullTimeDialer ? 4499 : 2999) : 0;
+  const annualCallingCost = monthlyCallingCost * 12;
+  const callRoi = annualCallingCost > 0 ? ((callRevenue - annualCallingCost) / annualCallingCost) * 100 : 0;
+
   // Calculate total values
   const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
@@ -153,9 +158,10 @@ export const useCalculations = ({
 
   // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
-  const monthlyBeanstalkCost = includeEmail ? emailCapacity * monthlyEmailPrice : 0;
+  const monthlyBeanstalkCost = (includeEmail ? emailCapacity * monthlyEmailPrice : 0) + monthlyCallingCost;
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
-  const beanstalkRoi = annualBeanstalkCost > 0 ? ((emailRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
+  const totalBeanstalkRevenue = emailRevenue + (includeColdCalling ? callRevenue : 0);
+  const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalBeanstalkRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
   // Combined costs to include LinkedIn costs
   const combinedCost = annualBeanstalkCost + annualLinkedInCost + (totalSDRs * SDR_ANNUAL_SALARY);
@@ -181,7 +187,7 @@ export const useCalculations = ({
     annualLinkedInCost,
     linkedInRoi,
     
-    // Cold calling metrics
+    // Cold calling metrics with costs
     monthlyDialCount,
     callConnections,
     callLeads,
@@ -191,6 +197,9 @@ export const useCalculations = ({
     dailyLeads,
     dailyBookedLeads,
     callBookedLeads: callLeads,
+    monthlyCallingCost,
+    annualCallingCost,
+    callRoi,
     
     // Combined metrics
     totalLeads,

@@ -36,12 +36,12 @@ export const SDRMetrics = ({
       <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
         <h4 className="text-sm font-medium text-red-800 mb-2">Traditional In-House SDR Model Analysis:</h4>
         <div className="text-sm text-red-700 space-y-1">
-          <p>This analysis shows the limitations of using in-house SDRs compared to our automated service.</p>
+          <p>This analysis shows the limitations of using in-house SDRs compared to Beanstalk dedicated channel experts.</p>
           <p>When SDRs manage multiple channels, their effectiveness is significantly reduced:</p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
             <p>• SDRs can manage 250 emails per day</p>
-            {includeLinkedIn && <p>• LinkedIn outreach drops to 11 messages per day (vs. 22 with automation)</p>}
-            {includeColdCalling && <p>• Cold calling requires twice as many SDRs to match automated performance</p>}
+            {includeLinkedIn && <p>• LinkedIn outreach drops to 11 messages per day (vs. 22 with Beanstalk dedicated channel experts)</p>}
+            {includeColdCalling && <p>• Cold calling requires twice as many SDRs to match Beanstalk dedicated channel experts performance</p>}
           </ul>
           <p>The average fully-loaded annual cost per SDR is {formatCurrency(82470)} including benefits and overhead.</p>
           {beanstalkRoi && (
@@ -51,7 +51,7 @@ export const SDRMetrics = ({
                   <TrendingDown className="h-4 w-4" />
                   <span>
                     The traditional SDR model ROI is {formatPercent(Math.abs(roiDifference))} lower 
-                    than Beanstalk's automated solution due to reduced efficiency and higher costs
+                    than Beanstalk's dedicated channel experts solution due to reduced efficiency and higher costs
                   </span>
                 </div>
               </AlertDescription>

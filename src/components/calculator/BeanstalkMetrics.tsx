@@ -1,3 +1,4 @@
+
 import { ResultCard } from "./ResultCard";
 import { formatCurrency, formatPercent, formatNumber } from "@/lib/formatters";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,8 +26,8 @@ export const BeanstalkMetrics = ({
 }: BeanstalkMetricsProps) => {
   const discountRate = activeChannelCount === 3 ? 25 : (activeChannelCount === 2 ? 15 : 0);
   const discountMessage = activeChannelCount >= 2 
-    ? `Your ${discountRate}% multi-channel discount is applied automatically when using ${activeChannelCount} channels` 
-    : "Enable multiple channels to unlock discounts: 15% off for 2 channels, 25% off for all 3 channels!";
+    ? `Your ${discountRate}% multi-channel Beanstalk discount is automatically applied when using ${activeChannelCount} channels` 
+    : "Enable multiple channels to unlock Beanstalk discounts: 15% off for 2 channels, 25% off for all 3 channels!";
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -73,7 +74,7 @@ export const BeanstalkMetrics = ({
         </div>
         <div className="col-span-full">
           <ResultCard
-            label="Multi-Channel Discounted Cost"
+            label="Beanstalk Multi-Channel Discounted Cost"
             value={formatCurrency(discountedMonthlyBeanstalkCost)}
             tooltip={discountMessage}
             className="bg-gradient-to-br from-emerald-100 to-emerald-200 border-2 border-emerald-400 font-bold"
@@ -83,3 +84,4 @@ export const BeanstalkMetrics = ({
     </TooltipProvider>
   );
 };
+

@@ -116,6 +116,7 @@ export const CalculatorResults = ({
             requiredSDRs={totalSDRs}
             annualSdrSalaryCost={annualSdrSalaryCost}
             sdrRoi={sdrRoi}
+            beanstalkRoi={beanstalkRoi}
             includeLinkedIn={includeLinkedIn}
             includeColdCalling={includeColdCalling}
           />

@@ -61,13 +61,15 @@ export const useCalculations = ({
   const SDR_ANNUAL_SALARY = 82470; // Average SDR salary
 
   // Email calculated values
-  const monthlyProspects = includeEmail ? Math.round(emailCapacity / 2) : 0; // 2-step sequence
+  const monthlyProspects = includeEmail ? Math.round(emailCapacity / 2) : 0;
   const totalReplies = Math.round((monthlyProspects * replyRate) / 100);
-  const monthlyLeads = Math.round(totalReplies * 0.2); // 20% of replies are positive
+  const monthlyLeads = Math.round(totalReplies * 0.2);
   const monthlyDeals = Math.round((monthlyLeads * convertRate * closeRate) / 10000);
-  const emailRevenue = calculateRampedRevenue(monthlyDeals, customerValue);
+  // Apply ramp to email deals only
+  const rampedEmailDeals = applyRampToDeals(monthlyDeals);
+  const emailRevenue = rampedEmailDeals * customerValue * 12;
   
-  // LinkedIn calculated values and costs
+  // LinkedIn calculated values
   const totalLinkedInRequests = includeLinkedIn ? linkedInMessages : 0;
   const monthlyLinkedInCost = includeLinkedIn ? getLinkedInPrice(linkedInProfiles) : 0;
   const annualLinkedInCost = monthlyLinkedInCost * 12;
@@ -85,16 +87,14 @@ export const useCalculations = ({
   const totalLinkedInResponses = directReplies + linkedInResponses;
   
   // Now calculate leads based on the reply to call conversion rate
-  const linkedInLeads = totalLinkedInResponses; // All responses are now considered leads
-  
-  // Calculate deals from leads
+  const linkedInLeads = totalLinkedInResponses;
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
-  
-  // Calculate annual revenue from LinkedIn deals WITH RAMP
-  const linkedInRevenue = calculateRampedRevenue(linkedInDeals, customerValue);
+  // Apply ramp to LinkedIn deals only
+  const rampedLinkedInDeals = applyRampToDeals(linkedInDeals);
+  const linkedInRevenue = rampedLinkedInDeals * customerValue * 12;
   const linkedInRoi = annualLinkedInCost > 0 ? ((linkedInRevenue - annualLinkedInCost) / annualLinkedInCost) * 100 : 0;
 
-  // Cold calling calculated values - updated with ramp logic
+  // Cold calling calculated values
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
   const workingDaysPerMonth = daysPerWeek * 4.4; // More accurately represent 22 working days per month
@@ -109,21 +109,26 @@ export const useCalculations = ({
   
   // Monthly metrics for all callers
   const callConnections = Math.round((dailyDials * daysPerWeek * 4 * connectRate * callerCount) / 100);
+  
   const callLeads = includeColdCalling ? Math.round(dailyBookedLeads * daysPerWeek * 4 * callerCount) : 0;
   const callDeals = Math.round((callLeads * closeRate) / 100);
-  const callRevenue = calculateRampedRevenue(callDeals, customerValue);
+  // Apply ramp to cold calling deals only
+  const rampedCallDeals = applyRampToDeals(callDeals);
+  const callRevenue = rampedCallDeals * customerValue * 12;
   
   // Calculate calling costs
   const monthlyCallingCost = includeColdCalling ? callerCount * (isFullTimeDialer ? 4499 : 2999) : 0;
   const annualCallingCost = monthlyCallingCost * 12;
   const callRoi = annualCallingCost > 0 ? ((callRevenue - annualCallingCost) / annualCallingCost) * 100 : 0;
 
-  // Calculate total values with ramp applied
+  // Calculate total values with ramped deals
   const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
-  const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
-  const totalRevenue = calculateRampedRevenue(totalDeals, customerValue);
+  const totalRampedDeals = rampedEmailDeals + 
+                          (includeLinkedIn ? rampedLinkedInDeals : 0) + 
+                          (includeColdCalling ? rampedCallDeals : 0);
+  const totalRevenue = totalRampedDeals * customerValue * 12;
   
-  // Updated SDR calculations with ramp logic
+  // SDR calculations with ramped deals
   const requiredEmailCapacity = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   const requiredLinkedInCapacity = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
   const requiredCallCapacity = includeColdCalling ? callerCount : 0;
@@ -131,11 +136,11 @@ export const useCalculations = ({
   const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Apply ramp logic to SDR revenue calculations
-  const sdrRevenue = calculateRampedRevenue(totalDeals, customerValue);
+  // Calculate SDR ROI using ramped deals
+  const sdrRevenue = totalRampedDeals * customerValue * 12;
   const sdrRoi = totalSDRs > 0 ? ((sdrRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
-  // Beanstalk calculations with ramp
+  // Beanstalk calculations
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
   const monthlyBeanstalkCost = (includeEmail ? emailCapacity * monthlyEmailPrice : 0) + 
                                (includeColdCalling ? monthlyCallingCost : 0) + 
@@ -143,9 +148,33 @@ export const useCalculations = ({
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
   const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
-  // Combined costs to include all channels
   const combinedCost = annualBeanstalkCost + annualSdrSalaryCost;
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
+
+  // Helper function to apply ramp to monthly deals
+  function applyRampToDeals(monthlyDeals: number): number {
+    const rampSchedule = [
+      0.275, // Month 1: 27.5% (middle of 25-30%)
+      0.55,  // Month 2: 55% (middle of 50-60%)
+      0.80,  // Month 3: 80% (middle of 75-85%)
+      0.95,  // Month 4: 95% (middle of 90-100%)
+      1.0,   // Month 5: 100%
+      1.0,   // Month 6: 100%
+      1.0,   // Months 7-12: 100%
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ];
+    
+    // Calculate average monthly deals accounting for ramp
+    const totalRampedDeals = rampSchedule.reduce((sum, rampPercentage) => 
+      sum + (monthlyDeals * rampPercentage), 0
+    );
+    
+    return Math.round(totalRampedDeals / 12); // Return average monthly deals after ramp
+  }
 
   return {
     // Email metrics
@@ -201,30 +230,4 @@ export const useCalculations = ({
     combinedCost,
     combinedRoi,
   };
-};
-
-const calculateRampedRevenue = (monthlyDeals: number, customerValue: number) => {
-  // Ramp percentages for months 1-12
-  const rampSchedule = [
-    0.275, // Month 1: 27.5% (middle of 25-30%)
-    0.55,  // Month 2: 55% (middle of 50-60%)
-    0.80,  // Month 3: 80% (middle of 75-85%)
-    0.95,  // Month 4: 95% (middle of 90-100%)
-    1.0,   // Month 5: 100%
-    1.0,   // Month 6: 100%
-    1.0,   // Months 7-12: 100%
-    1.0,
-    1.0,
-    1.0,
-    1.0,
-    1.0
-  ];
-  
-  // Calculate revenue for each month based on ramp schedule
-  const monthlyRevenue = rampSchedule.map(rampPercentage => 
-    Math.round(monthlyDeals * customerValue * rampPercentage)
-  );
-  
-  // Sum up the annual revenue
-  return monthlyRevenue.reduce((sum, rev) => sum + rev, 0);
 };

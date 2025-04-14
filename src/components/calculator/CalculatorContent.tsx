@@ -6,7 +6,7 @@ import { CalculatorInputs } from "./CalculatorInputs";
 import { LinkedInInputs } from "./LinkedInInputs";
 import { ColdCallingInputs } from "./ColdCallingInputs";
 import { CalculatorResults } from "./CalculatorResults";
-import { CalculationContextProps } from "@/hooks/useCalculations";
+import { CalculationContextProps } from "@/hooks/calculationTypes";
 
 interface CalculatorContentProps {
   // Global settings

@@ -6,12 +6,15 @@ import { LinkedInInputs } from "./LinkedInInputs";
 import { ColdCallingInputs } from "./ColdCallingInputs";
 import { CalculatorResults } from "./CalculatorResults";
 import { CalculationContextProps } from "@/hooks/calculationTypes";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
+import { PerformanceMetrics } from "./PerformanceMetrics";
 
 interface CalculatorContentProps {
   closeRate: number;
   setCloseRate: (value: number) => void;
   customerValue: number;
-  setCustomerValue: (value: number) => void;
+  setCustomerValue: (number) => void;
   
   includeEmail: boolean;
   setIncludeEmail: (value: boolean) => void;
@@ -130,18 +133,41 @@ export const CalculatorContent = ({
           setCustomerValue={setCustomerValue}
         />
 
-        <CalculatorInputs
-          emailCapacity={emailCapacity}
-          setEmailCapacity={setEmailCapacity}
-          replyRate={replyRate}
-          setReplyRate={setReplyRate}
-          convertRate={convertRate}
-          setConvertRate={setConvertRate}
-          closeRate={closeRate}
-          monthlyProspects={monthlyProspects}
-          includeEmail={includeEmail}
-          setIncludeEmail={setIncludeEmail}
-        />
+        <Collapsible>
+          <div className="flex flex-col space-y-4">
+            <CalculatorInputs
+              emailCapacity={emailCapacity}
+              setEmailCapacity={setEmailCapacity}
+              replyRate={replyRate}
+              setReplyRate={setReplyRate}
+              convertRate={convertRate}
+              setConvertRate={setConvertRate}
+              closeRate={closeRate}
+              monthlyProspects={monthlyProspects}
+              includeEmail={includeEmail}
+              setIncludeEmail={setIncludeEmail}
+            />
+            
+            {includeEmail && (
+              <CollapsibleTrigger className="flex items-center justify-between w-full p-2 text-sm font-medium text-left text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                <span>Show Email Performance Details</span>
+                <ChevronDown className="w-4 h-4" />
+              </CollapsibleTrigger>
+            )}
+            
+            <CollapsibleContent>
+              {includeEmail && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  <PerformanceMetrics
+                    monthlyLeads={monthlyLeads}
+                    monthlyDeals={monthlyDeals}
+                    annualRevenue={emailRevenue}
+                  />
+                </div>
+              )}
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
       </Card>
 
       <LinkedInInputs

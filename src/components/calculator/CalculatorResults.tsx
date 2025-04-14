@@ -1,7 +1,8 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
+import { Button } from "@/components/ui/button";
 
 interface CalculatorResultsProps {
   // Control flags
@@ -94,11 +95,12 @@ export const CalculatorResults = ({
   beanstalkRoi,
   activeChannelCount,
 }: CalculatorResultsProps) => {
+  const [showSdrComparison, setShowSdrComparison] = useState(false);
+  
   // Calculate sdrTotalRevenue without considering part-time/full-time distinction
-  // since SDR efficiency is already handicapped by 50% for non-email channels
   const sdrEmailRevenue = includeEmail ? emailRevenue : 0;
   const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0;
-  const sdrCallRevenue = includeColdCalling ? callRevenue : 0; // Remove the 0.5 multiplier here since efficiency is based on channel division, not hours
+  const sdrCallRevenue = includeColdCalling ? callRevenue : 0;
 
   const sdrTotalRevenue = sdrEmailRevenue + sdrLinkedInRevenue + sdrCallRevenue;
 
@@ -121,21 +123,32 @@ export const CalculatorResults = ({
         />
       </div>
 
-      {/* SDR Model - Now Full Width */}
-      <div className="bg-slate-50 p-6 rounded-lg">
-        <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-          In-House SDR Model
-        </h3>
-        <SDRMetrics
-          requiredSDRs={totalSDRs}
-          annualSdrSalaryCost={annualSdrSalaryCost}
-          sdrRoi={sdrRoi}
-          beanstalkRoi={beanstalkRoi}
-          includeLinkedIn={includeLinkedIn}
-          includeColdCalling={includeColdCalling}
-          projectedRevenue={sdrTotalRevenue}
-        />
+      <div className="flex justify-center">
+        <Button 
+          variant="outline"
+          onClick={() => setShowSdrComparison(!showSdrComparison)}
+          className="text-calculator-primary border-calculator-primary hover:bg-calculator-primary hover:text-white"
+        >
+          Compare To Cost Of Doing Outbound In-House
+        </Button>
       </div>
+
+      {showSdrComparison && (
+        <div className="bg-slate-50 p-6 rounded-lg">
+          <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+            In-House SDR Model
+          </h3>
+          <SDRMetrics
+            requiredSDRs={totalSDRs}
+            annualSdrSalaryCost={annualSdrSalaryCost}
+            sdrRoi={sdrRoi}
+            beanstalkRoi={beanstalkRoi}
+            includeLinkedIn={includeLinkedIn}
+            includeColdCalling={includeColdCalling}
+            projectedRevenue={sdrTotalRevenue}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -116,6 +116,9 @@ export const CalculatorContent = ({
     dailyConnections,
     dailyLeads,
     dailyBookedLeads,
+    monthlyCallingCost,
+    annualCallingCost,
+    callRoi,
     totalLeads,
     totalDeals,
     totalRevenue,
@@ -200,6 +203,9 @@ export const CalculatorContent = ({
         dailyConnections={dailyConnections}
         dailyLeads={dailyLeads}
         dailyBookedLeads={dailyBookedLeads}
+        monthlyCallingCost={monthlyCallingCost}
+        annualCallingCost={annualCallingCost}
+        callRoi={callRoi}
         
         totalLeads={totalLeads}
         totalDeals={totalDeals}

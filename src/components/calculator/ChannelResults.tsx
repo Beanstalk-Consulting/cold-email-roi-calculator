@@ -1,4 +1,3 @@
-
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
 import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
@@ -30,6 +29,9 @@ interface ChannelResultsProps {
   dailyConnections?: number;
   dailyLeads?: number;
   dailyBookedLeads?: number;
+  monthlyCallingCost?: number;
+  annualCallingCost?: number;
+  callRoi?: number;
   
   // Combined metrics
   totalLeads: number;
@@ -71,6 +73,9 @@ export const ChannelResults = ({
   dailyConnections = 0,
   dailyLeads = 0,
   dailyBookedLeads = 0,
+  monthlyCallingCost = 0,
+  annualCallingCost = 0,
+  callRoi = 0,
   
   // Combined metrics
   totalLeads,
@@ -117,6 +122,9 @@ export const ChannelResults = ({
           dailyConnections={dailyConnections}
           dailyLeads={dailyLeads}
           dailyBookedLeads={dailyBookedLeads}
+          monthlyCallingCost={monthlyCallingCost}
+          annualCallingCost={annualCallingCost}
+          callRoi={callRoi}
         />
       )}
 

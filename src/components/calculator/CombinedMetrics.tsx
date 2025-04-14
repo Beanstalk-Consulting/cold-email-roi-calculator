@@ -29,9 +29,6 @@ export const CombinedMetrics = ({
 }: CombinedMetricsProps) => {
   return (
     <div>
-      <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-        Combined Channel Performance
-      </h3>
       <div className="grid grid-cols-1 gap-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <ResultCard

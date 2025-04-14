@@ -1,3 +1,4 @@
+
 import React from "react";
 import { PerformanceMetrics } from "./PerformanceMetrics";
 import { LinkedInPerformanceMetrics } from "./LinkedInPerformanceMetrics";
@@ -30,6 +31,9 @@ interface CalculatorResultsProps {
   dailyConnections?: number;
   dailyLeads?: number;
   dailyBookedLeads?: number;
+  monthlyCallingCost?: number;
+  annualCallingCost?: number;
+  callRoi?: number;
   
   // Combined metrics
   totalLeads: number;
@@ -71,6 +75,9 @@ export const CalculatorResults = ({
   dailyConnections = 0,
   dailyLeads = 0,
   dailyBookedLeads = 0,
+  monthlyCallingCost = 0,
+  annualCallingCost = 0,
+  callRoi = 0,
   
   // Combined metrics
   totalLeads,
@@ -115,6 +122,9 @@ export const CalculatorResults = ({
           dailyConnections={dailyConnections}
           dailyLeads={dailyLeads}
           dailyBookedLeads={dailyBookedLeads}
+          monthlyCallingCost={monthlyCallingCost}
+          annualCallingCost={annualCallingCost}
+          callRoi={callRoi}
         />
       )}
 
@@ -124,14 +134,11 @@ export const CalculatorResults = ({
           Performance & Cost Comparison
         </h2>
         
-        {/* Combined Performance First */}
+        {/* Combined Performance First (without additional "Combined Channel Performance" label) */}
         {((includeEmail && includeLinkedIn) || 
           (includeEmail && includeColdCalling) || 
           (includeLinkedIn && includeColdCalling)) && (
           <div className="bg-slate-50 p-6 rounded-lg">
-            <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-              Combined Channel Performance
-            </h3>
             <CombinedMetrics
               totalLeads={totalLeads}
               totalDeals={totalDeals}

@@ -10,6 +10,7 @@ interface ColdCallingPerformanceMetricsProps {
   dailyLeads?: number;
   dailyBookedLeads?: number;
   monthlyCallingCost?: number;
+  annualCallingCost?: number;
   callRoi?: number;
 }
 
@@ -21,6 +22,7 @@ export const ColdCallingPerformanceMetrics = ({
   dailyLeads = 0,
   dailyBookedLeads = 0,
   monthlyCallingCost = 0,
+  annualCallingCost = 0,
   callRoi = 0,
 }: ColdCallingPerformanceMetricsProps) => {
   return (

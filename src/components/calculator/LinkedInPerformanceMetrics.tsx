@@ -22,13 +22,13 @@ export const LinkedInPerformanceMetrics = ({
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(linkedInLeads)}
-          tooltip="Based on your LinkedIn reply to call conversion rate"
+          tooltip="Based on replies to connection requests and positive responses from connections"
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard
           label="Monthly Closed Deals"
           value={formatNumber(linkedInDeals)}
-          tooltip="Based on your LinkedIn conversion and close rates"
+          tooltip="Based on your lead generation rate and close rate"
           className="bg-gradient-to-br from-green-50 to-green-100 border-green-200"
         />
         <ResultCard

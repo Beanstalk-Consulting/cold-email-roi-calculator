@@ -1,3 +1,4 @@
+
 import { getBeanstalkPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -67,19 +68,28 @@ export const useCalculations = ({
   const emailRevenue = monthlyDeals * customerValue * 12;
   
   // LinkedIn calculated values
-  // Total connection requests available based on profiles
-  const totalLinkedInRequests = includeLinkedIn ? linkedInMessages * linkedInProfiles : 0;
-  // First calculate direct replies to messages before connection
+  // Total connection requests sent based on profiles (22 requests/day * 22 days * profiles)
+  const totalLinkedInRequests = includeLinkedIn ? linkedInMessages : 0;
+  
+  // Calculate direct replies to connection requests before acceptance
   const directReplies = Math.round((totalLinkedInRequests * linkedInMessageReplyRate) / 100);
-  // Then calculate accepted connections
-  const linkedInConnections = includeLinkedIn ? Math.round((totalLinkedInRequests * linkedInConnectRate) / 100) : 0;
-  // Then calculate responses from those connections
+  
+  // Calculate accepted connections
+  const linkedInConnections = Math.round((totalLinkedInRequests * linkedInConnectRate) / 100);
+  
+  // Calculate leads from connections (based on the renamed "Lead Generation Rate")
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
+  
   // Total responses are direct replies + connection responses
   const totalLinkedInResponses = directReplies + linkedInResponses;
+  
   // Now calculate leads based on the reply to call conversion rate
-  const linkedInLeads = Math.round((totalLinkedInResponses * linkedInReplyToCallRate) / 100);
+  const linkedInLeads = totalLinkedInResponses; // All responses are now considered leads
+  
+  // Calculate deals from leads
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
+  
+  // Calculate annual revenue from LinkedIn deals
   const linkedInRevenue = linkedInDeals * customerValue * 12;
 
   // Cold calling calculated values - updated with new logic

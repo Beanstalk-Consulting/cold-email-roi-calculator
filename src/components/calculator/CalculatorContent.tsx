@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card } from "@/components/ui/card";
 import { GlobalSettings } from "./GlobalSettings";
@@ -9,13 +8,11 @@ import { CalculatorResults } from "./CalculatorResults";
 import { CalculationContextProps } from "@/hooks/calculationTypes";
 
 interface CalculatorContentProps {
-  // Global settings
   closeRate: number;
   setCloseRate: (value: number) => void;
   customerValue: number;
   setCustomerValue: (value: number) => void;
   
-  // Email outreach state
   includeEmail: boolean;
   setIncludeEmail: (value: boolean) => void;
   emailCapacity: number;
@@ -25,7 +22,6 @@ interface CalculatorContentProps {
   convertRate: number;
   setConvertRate: (value: number) => void;
   
-  // LinkedIn outreach state
   includeLinkedIn: boolean;
   setIncludeLinkedIn: (value: boolean) => void;
   linkedInMessages: number;
@@ -41,7 +37,6 @@ interface CalculatorContentProps {
   linkedInProfiles: number;
   setLinkedInProfiles: (value: number) => void;
   
-  // Cold calling outreach state
   includeColdCalling: boolean;
   setIncludeColdCalling: (value: boolean) => void;
   isFullTimeDialer: boolean;
@@ -51,18 +46,15 @@ interface CalculatorContentProps {
   connectRate: number;
   setConnectRate: (value: number) => void;
   
-  // Calculation results
   calculations: CalculationContextProps;
 }
 
 export const CalculatorContent = ({
-  // Global settings
   closeRate,
   setCloseRate,
   customerValue,
   setCustomerValue,
   
-  // Email outreach state
   includeEmail,
   setIncludeEmail,
   emailCapacity,
@@ -72,7 +64,6 @@ export const CalculatorContent = ({
   convertRate,
   setConvertRate,
   
-  // LinkedIn outreach state
   includeLinkedIn,
   setIncludeLinkedIn,
   linkedInMessages,
@@ -88,7 +79,6 @@ export const CalculatorContent = ({
   linkedInProfiles,
   setLinkedInProfiles,
   
-  // Cold calling outreach state
   includeColdCalling,
   setIncludeColdCalling,
   isFullTimeDialer,
@@ -98,7 +88,6 @@ export const CalculatorContent = ({
   connectRate,
   setConnectRate,
   
-  // Calculation results
   calculations,
 }: CalculatorContentProps) => {
   const {
@@ -197,22 +186,15 @@ export const CalculatorContent = ({
       />
 
       <CalculatorResults
-        // Control flags
         includeEmail={includeEmail}
         includeLinkedIn={includeLinkedIn}
         includeColdCalling={includeColdCalling}
-        
-        // Email metrics
         monthlyLeads={monthlyLeads}
         monthlyDeals={monthlyDeals}
         emailRevenue={emailRevenue}
-        
-        // LinkedIn metrics
         linkedInLeads={linkedInLeads}
         linkedInDeals={linkedInDeals}
         linkedInRevenue={linkedInRevenue}
-        
-        // Cold calling metrics
         callLeads={callLeads}
         callDeals={callDeals}
         callRevenue={callRevenue}
@@ -222,22 +204,16 @@ export const CalculatorContent = ({
         monthlyCallingCost={monthlyCallingCost}
         annualCallingCost={annualCallingCost}
         callRoi={callRoi}
-        
-        // Combined metrics
         totalLeads={totalLeads}
         totalDeals={totalDeals}
         totalRevenue={totalRevenue}
-        combinedRoi={combinedRoi}
-        
-        // SDR metrics
         totalSDRs={totalSDRs}
         annualSdrSalaryCost={annualSdrSalaryCost}
         sdrRoi={sdrRoi}
-        
-        // Beanstalk metrics
         monthlyBeanstalkCost={monthlyBeanstalkCost}
         annualBeanstalkCost={annualBeanstalkCost}
         beanstalkRoi={beanstalkRoi}
+        combinedRoi={combinedRoi}
       />
     </div>
   );

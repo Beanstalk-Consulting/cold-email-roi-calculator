@@ -92,7 +92,6 @@ export const CalculatorResults = ({
 }: CalculatorResultsProps) => {
   return (
     <div className="space-y-8">
-      {/* Performance Comparison Section */}
       <div className="mt-12 space-y-8">
         <h2 className="text-2xl font-semibold text-calculator-primary mb-6">
           Performance & Cost Comparison
@@ -117,9 +116,8 @@ export const CalculatorResults = ({
           </div>
         )}
 
-        {/* Comparison Models */}
+        {/* SDR vs Beanstalk Comparison */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* SDR Model */}
           <div className="bg-slate-50 p-6 rounded-lg">
             <h3 className="text-xl font-semibold text-calculator-primary mb-4">
               In-House SDR Model
@@ -133,7 +131,6 @@ export const CalculatorResults = ({
             />
           </div>
 
-          {/* Beanstalk Model */}
           {includeEmail && (
             <div className="bg-slate-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-calculator-primary mb-4">

@@ -39,7 +39,7 @@ export const SDRMetrics = ({
           <p>This analysis shows the limitations of using in-house SDRs compared to our automated service.</p>
           <p>When SDRs manage multiple channels, their effectiveness is significantly reduced:</p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <p>• SDRs can manage 250 emails per day (same as with automation)</p>
+            <p>• SDRs can manage 250 emails per day</p>
             {includeLinkedIn && <p>• LinkedIn outreach drops to 11 messages per day (vs. 22 with automation)</p>}
             {includeColdCalling && <p>• Cold calling requires twice as many SDRs to match automated performance</p>}
           </ul>

@@ -128,6 +128,7 @@ export const CalculatorContent = ({
     monthlyBeanstalkCost,
     annualBeanstalkCost,
     beanstalkRoi,
+    combinedRoi,
   } = calculations;
 
   return (

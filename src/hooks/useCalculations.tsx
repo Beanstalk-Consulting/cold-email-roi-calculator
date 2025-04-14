@@ -90,11 +90,11 @@ export const useCalculations = ({
   // Calculate deals from leads
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
   
-  // Calculate annual revenue from LinkedIn deals
+  // Calculate annual revenue from LinkedIn deals WITH RAMP
   const linkedInRevenue = calculateRampedRevenue(linkedInDeals, customerValue);
   const linkedInRoi = annualLinkedInCost > 0 ? ((linkedInRevenue - annualLinkedInCost) / annualLinkedInCost) * 100 : 0;
 
-  // Cold calling calculated values - updated with new logic
+  // Cold calling calculated values - updated with ramp logic
   const dailyDials = 1000; // Constant value of 1000 dials per day per caller
   const daysPerWeek = isFullTimeDialer ? 5 : 3; // 5 days for full-time, 3 for part-time
   const workingDaysPerMonth = daysPerWeek * 4.4; // More accurately represent 22 working days per month
@@ -103,35 +103,15 @@ export const useCalculations = ({
   const monthlyDialCount = includeColdCalling ? dailyDials * daysPerWeek * 4 * callerCount : 0;
   
   // Daily metrics for a single caller
-  const dailyConnections = Math.round((dailyDials * connectRate) / 100); // 8-12% connect rate means 80-120 connects/day
-  const dailyLeads = Math.round((dailyConnections * 5) / 100); // Warm leads based on daily connections * 5%
-  
-  // Update daily booked leads calculation to be based on daily connections * 1.85%
+  const dailyConnections = Math.round((dailyDials * connectRate) / 100);
+  const dailyLeads = Math.round((dailyConnections * 5) / 100);
   const dailyBookedLeads = Math.round((dailyConnections * 1.85) / 100);
-  
-  // Calculate monthly booked leads using a random approach
-  // For each caller, randomly select between 1-3 booked meetings for each working day
-  const randomizedMonthlyBookedLeads = () => {
-    let totalBookings = 0;
-    // For each caller
-    for (let c = 0; c < callerCount; c++) {
-      // For each working day in a month (based on full-time or part-time)
-      const callerWorkingDays = daysPerWeek * 4; // 4 weeks per month
-      for (let d = 0; d < callerWorkingDays; d++) {
-        // Random number between 1 and 3
-        const dailyBookings = Math.floor(Math.random() * 3) + 1;
-        totalBookings += dailyBookings;
-      }
-    }
-    return totalBookings;
-  };
   
   // Monthly metrics for all callers
   const callConnections = Math.round((dailyDials * daysPerWeek * 4 * connectRate * callerCount) / 100);
-  // Use our randomized function to calculate monthly booked leads
   const callLeads = includeColdCalling ? randomizedMonthlyBookedLeads() : 0;
   const callDeals = Math.round((callLeads * closeRate) / 100);
-  const callRevenue = calculateRampedRevenue(callDeals, customerValue);
+  const callRevenue = calculateRampedRevenue(callDeals, customerValue); // Now using ramp logic
   
   // Calculate calling costs
   const monthlyCallingCost = includeColdCalling ? callerCount * (isFullTimeDialer ? 4499 : 2999) : 0;

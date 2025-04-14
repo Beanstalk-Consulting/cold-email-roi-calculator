@@ -109,46 +109,42 @@ export const useCalculations = ({
   
   // Monthly metrics for all callers
   const callConnections = Math.round((dailyDials * daysPerWeek * 4 * connectRate * callerCount) / 100);
-  const callLeads = includeColdCalling ? randomizedMonthlyBookedLeads() : 0;
+  const callLeads = includeColdCalling ? Math.round(dailyBookedLeads * daysPerWeek * 4 * callerCount) : 0;
   const callDeals = Math.round((callLeads * closeRate) / 100);
-  const callRevenue = calculateRampedRevenue(callDeals, customerValue); // Now using ramp logic
+  const callRevenue = calculateRampedRevenue(callDeals, customerValue);
   
   // Calculate calling costs
   const monthlyCallingCost = includeColdCalling ? callerCount * (isFullTimeDialer ? 4499 : 2999) : 0;
   const annualCallingCost = monthlyCallingCost * 12;
   const callRoi = annualCallingCost > 0 ? ((callRevenue - annualCallingCost) / annualCallingCost) * 100 : 0;
 
-  // Calculate total values
+  // Calculate total values with ramp applied
   const totalLeads = monthlyLeads + (includeLinkedIn ? linkedInLeads : 0) + (includeColdCalling ? callLeads : 0);
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
-  const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
+  const totalRevenue = calculateRampedRevenue(totalDeals, customerValue);
   
-  // Updated SDR calculations - treating SDRs as omnichannel representatives
+  // Updated SDR calculations with ramp logic
   const requiredEmailCapacity = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   const requiredLinkedInCapacity = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
   const requiredCallCapacity = includeColdCalling ? callerCount : 0;
   
-  // Take the maximum capacity requirement as the total SDR need
-  // This assumes SDRs can handle multiple channels as part of their role
   const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Calculate ROI based on total revenue across all channels vs SDR cost
-  const sdrRoi = totalSDRs > 0 ? ((totalRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
+  // Apply ramp logic to SDR revenue calculations
+  const sdrRevenue = calculateRampedRevenue(totalDeals, customerValue);
+  const sdrRoi = totalSDRs > 0 ? ((sdrRevenue - annualSdrSalaryCost) / annualSdrSalaryCost) * 100 : 0;
 
-  // Beanstalk calculations - Updated to include LinkedIn
+  // Beanstalk calculations with ramp
   const monthlyEmailPrice = getBeanstalkPrice(emailCapacity);
   const monthlyBeanstalkCost = (includeEmail ? emailCapacity * monthlyEmailPrice : 0) + 
                                (includeColdCalling ? monthlyCallingCost : 0) + 
                                (includeLinkedIn ? monthlyLinkedInCost : 0);
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
-  const totalBeanstalkRevenue = emailRevenue + 
-                               (includeColdCalling ? callRevenue : 0) + 
-                               (includeLinkedIn ? linkedInRevenue : 0);
-  const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalBeanstalkRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
+  const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
   // Combined costs to include all channels
-  const combinedCost = annualBeanstalkCost + (totalSDRs * SDR_ANNUAL_SALARY);
+  const combinedCost = annualBeanstalkCost + annualSdrSalaryCost;
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
   return {

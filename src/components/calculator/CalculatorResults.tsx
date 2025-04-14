@@ -39,9 +39,6 @@ interface CalculatorResultsProps {
   combinedRoi: number;
   
   // SDR metrics
-  requiredEmailSDRs: number;
-  requiredLinkedInSDRs: number;
-  requiredCallSDRs: number;
   totalSDRs: number;
   annualSdrSalaryCost: number;
   sdrRoi: number;
@@ -83,9 +80,6 @@ export const CalculatorResults = ({
   combinedRoi,
   
   // SDR metrics
-  requiredEmailSDRs,
-  requiredLinkedInSDRs,
-  requiredCallSDRs,
   totalSDRs,
   annualSdrSalaryCost,
   sdrRoi,
@@ -162,9 +156,6 @@ export const CalculatorResults = ({
               requiredSDRs={totalSDRs}
               annualSdrSalaryCost={annualSdrSalaryCost}
               sdrRoi={sdrRoi}
-              requiredEmailSDRs={requiredEmailSDRs}
-              requiredLinkedInSDRs={requiredLinkedInSDRs}
-              requiredCallSDRs={requiredCallSDRs}
               includeLinkedIn={includeLinkedIn}
               includeColdCalling={includeColdCalling}
             />

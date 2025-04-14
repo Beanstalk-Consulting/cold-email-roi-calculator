@@ -33,9 +33,6 @@ export interface CalculationContextProps {
   totalRevenue: number;
   
   // SDR metrics
-  requiredEmailSDRs: number;
-  requiredLinkedInSDRs: number;
-  requiredCallSDRs: number;
   totalSDRs: number;
   annualSdrSalaryCost: number;
   sdrRoi: number;

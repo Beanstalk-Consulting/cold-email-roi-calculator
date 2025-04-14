@@ -38,9 +38,6 @@ interface ChannelResultsProps {
   combinedRoi: number;
   
   // SDR metrics
-  requiredEmailSDRs: number;
-  requiredLinkedInSDRs: number;
-  requiredCallSDRs: number;
   totalSDRs: number;
   annualSdrSalaryCost: number;
   sdrRoi: number;
@@ -82,9 +79,6 @@ export const ChannelResults = ({
   combinedRoi,
   
   // SDR metrics
-  requiredEmailSDRs,
-  requiredLinkedInSDRs,
-  requiredCallSDRs,
   totalSDRs,
   annualSdrSalaryCost,
   sdrRoi,
@@ -161,9 +155,6 @@ export const ChannelResults = ({
               requiredSDRs={totalSDRs}
               annualSdrSalaryCost={annualSdrSalaryCost}
               sdrRoi={sdrRoi}
-              requiredEmailSDRs={requiredEmailSDRs}
-              requiredLinkedInSDRs={requiredLinkedInSDRs}
-              requiredCallSDRs={requiredCallSDRs}
               includeLinkedIn={includeLinkedIn}
               includeColdCalling={includeColdCalling}
             />

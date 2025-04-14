@@ -94,11 +94,10 @@ export const useCalculations = ({
   
   // Daily metrics for a single caller
   const dailyConnections = Math.round((dailyDials * connectRate) / 100); // 8-12% connect rate means 80-120 connects/day
-  const dailyLeads = Math.round((dailyConnections * 5) / 100); // Update dailyLeads calculation to be based on daily connections * 5%
+  const dailyLeads = Math.round((dailyConnections * 5) / 100); // Warm leads based on daily connections * 5%
   
-  // Daily booked leads is now fixed to be between 0-3
-  // We'll display this as a fixed range in the UI
-  const dailyBookedLeads = 3; // This is now just a display value showing the upper limit
+  // Update daily booked leads calculation to be based on daily connections * 1.85%
+  const dailyBookedLeads = Math.round((dailyConnections * 1.85) / 100);
   
   // Calculate monthly booked leads using a random approach
   // For each caller, randomly select between 1-3 booked meetings for each working day

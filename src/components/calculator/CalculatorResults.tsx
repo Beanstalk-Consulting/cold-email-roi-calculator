@@ -94,11 +94,12 @@ export const CalculatorResults = ({
   beanstalkRoi,
   activeChannelCount,
 }: CalculatorResultsProps) => {
-  // Calculate sdrTotalRevenue correctly
-  const sdrEmailRevenue = includeEmail ? emailRevenue : 0; // Email at 100% efficiency
-  const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // LinkedIn at 50% efficiency
-  const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // Cold calling at 50% efficiency
-  
+  // Calculate sdrTotalRevenue without considering part-time/full-time distinction
+  // since SDR efficiency is already handicapped by 50% for non-email channels
+  const sdrEmailRevenue = includeEmail ? emailRevenue : 0;
+  const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0;
+  const sdrCallRevenue = includeColdCalling ? callRevenue : 0; // Remove the 0.5 multiplier here since efficiency is based on channel division, not hours
+
   const sdrTotalRevenue = sdrEmailRevenue + sdrLinkedInRevenue + sdrCallRevenue;
 
   return (

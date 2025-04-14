@@ -1,3 +1,4 @@
+
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -129,15 +130,15 @@ export const useCalculations = ({
   // SDR calculations with reduced efficiency
   const requiredEmailCapacity = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
   const requiredLinkedInCapacity = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
-  const requiredCallCapacity = includeColdCalling ? Math.ceil(callerCount * 2) : 0; // Double the SDRs needed due to reduced efficiency
-  
+  const requiredCallCapacity = includeColdCalling ? callerCount : 0; // Don't double the count, efficiency is from channel division
+
   const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Calculate SDR ROI using updated performance metrics
+  // Calculate SDR ROI using updated performance metrics - part-time/full-time distinction is ignored
   const sdrEmailRevenue = includeEmail ? emailRevenue : 0; // Email efficiency stays at 100%
   const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // 50% efficiency for LinkedIn
-  const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // 50% efficiency for cold calling
+  const sdrCallRevenue = includeColdCalling ? callRevenue : 0; // Efficiency is from channel division, not hours worked
   
   const sdrTotalRevenue = sdrEmailRevenue + sdrLinkedInRevenue + sdrCallRevenue;
   

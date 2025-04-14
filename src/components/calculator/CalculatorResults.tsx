@@ -1,7 +1,6 @@
 import React from "react";
 import { SDRMetrics } from "./SDRMetrics";
 import { BeanstalkMetrics } from "./BeanstalkMetrics";
-import { SDRModelLandscape } from "./SDRModelLandscape";
 
 interface CalculatorResultsProps {
   // Control flags
@@ -107,35 +106,19 @@ export const CalculatorResults = ({
         />
       </div>
 
-      {/* SDR vs Beanstalk Comparison */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-slate-50 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-            In-House SDR Model
-          </h3>
-          <SDRMetrics
-            requiredSDRs={totalSDRs}
-            annualSdrSalaryCost={annualSdrSalaryCost}
-            sdrRoi={sdrRoi}
-            beanstalkRoi={beanstalkRoi}
-            includeLinkedIn={includeLinkedIn}
-            includeColdCalling={includeColdCalling}
-          />
-        </div>
-        
-        {/* New SDR Model Landscape */}
-        <div className="bg-slate-50 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-calculator-primary mb-4">
-            Channel Efficiency Landscape
-          </h3>
-          <SDRModelLandscape 
-            channelEfficiency={{
-              email: 0.5,  // 50% efficiency for email
-              linkedIn: 0.5,  // 50% efficiency for LinkedIn
-              coldCalling: 0.5  // 50% efficiency for cold calling
-            }} 
-          />
-        </div>
+      {/* SDR Model - Now Full Width */}
+      <div className="bg-slate-50 p-6 rounded-lg">
+        <h3 className="text-xl font-semibold text-calculator-primary mb-4">
+          In-House SDR Model
+        </h3>
+        <SDRMetrics
+          requiredSDRs={totalSDRs}
+          annualSdrSalaryCost={annualSdrSalaryCost}
+          sdrRoi={sdrRoi}
+          beanstalkRoi={beanstalkRoi}
+          includeLinkedIn={includeLinkedIn}
+          includeColdCalling={includeColdCalling}
+        />
       </div>
     </div>
   );

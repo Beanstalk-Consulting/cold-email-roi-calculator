@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Mountain, Trees, ChartBar, Grid2x2, MapPin } from 'lucide-react';
+import { Mountain, Trees, ChartBar, Grid2x2, MapPin, StretchHorizontal } from 'lucide-react';
 
 interface SDRModelLandscapeProps {
   channelEfficiency: {
@@ -17,10 +17,10 @@ export const SDRModelLandscape: React.FC<SDRModelLandscapeProps> = ({
     <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-md">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-xl font-semibold text-gray-800">In-House SDR Model Landscape</h3>
-        <MapPin className="text-red-500" />
+        <StretchHorizontal className="text-red-500" />
       </div>
       
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Email Channel */}
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-2">

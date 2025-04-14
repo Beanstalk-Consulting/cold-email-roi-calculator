@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -135,8 +134,8 @@ export const useCalculations = ({
   const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Calculate SDR ROI using reduced performance metrics
-  const sdrEmailRevenue = emailRevenue * 0.5; // 50% efficiency for email
+  // Calculate SDR ROI using updated performance metrics
+  const sdrEmailRevenue = emailRevenue; // Email efficiency stays at 100%
   const sdrLinkedInRevenue = linkedInRevenue * 0.5; // 50% efficiency for LinkedIn
   const sdrCallRevenue = callRevenue * 0.5; // 50% efficiency for cold calling
   

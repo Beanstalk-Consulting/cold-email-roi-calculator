@@ -78,7 +78,7 @@ export const SDRMetrics = ({
           <ResultCard
             label="Projected Revenue"
             value={formatCurrency(projectedRevenue)}
-            tooltip={`Projected annual revenue is adjusted to reflect reduced efficiency of omnichannel SDRs. While email output remains at 250 per day, LinkedIn and cold calling performance is reduced by 50% compared to dedicated channel specialists. This is because each SDR must divide their time across multiple channels instead of focusing on one.`}
+            tooltip={`Projected annual revenue reflects the mixed efficiency of omnichannel SDRs. Email outreach maintains full effectiveness at 250 emails per day, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels.`}
             className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
           />
           <ResultCard

@@ -90,6 +90,13 @@ export const CalculatorResults = ({
   annualBeanstalkCost,
   beanstalkRoi,
 }: CalculatorResultsProps) => {
+  // Calculate sdrTotalRevenue correctly
+  const sdrEmailRevenue = emailRevenue; // Email at 100% efficiency
+  const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // LinkedIn at 50% efficiency
+  const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // Cold calling at 50% efficiency
+  
+  const sdrTotalRevenue = sdrEmailRevenue + sdrLinkedInRevenue + sdrCallRevenue;
+
   return (
     <div className="space-y-8">
       {/* Beanstalk Performance Summary - Always Visible */}
@@ -119,7 +126,7 @@ export const CalculatorResults = ({
           beanstalkRoi={beanstalkRoi}
           includeLinkedIn={includeLinkedIn}
           includeColdCalling={includeColdCalling}
-          projectedRevenue={totalRevenue * 0.5} // Using 50% efficiency as per existing calculations
+          projectedRevenue={sdrTotalRevenue}
         />
       </div>
     </div>

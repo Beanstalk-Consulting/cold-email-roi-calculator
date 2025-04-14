@@ -1,3 +1,4 @@
+
 import { ResultCard } from "./ResultCard";
 import { formatNumber, formatCurrency, formatPercent } from "@/lib/formatters";
 import { TrendingDown } from "lucide-react";
@@ -38,7 +39,7 @@ export const SDRMetrics = ({
           <p>This analysis shows the limitations of using in-house SDRs compared to our automated service.</p>
           <p>When SDRs manage multiple channels, their effectiveness is significantly reduced:</p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <p>• SDRs can only manage about 125 emails per day (vs. 250 with automation)</p>
+            <p>• SDRs can manage 250 emails per day (same as with automation)</p>
             {includeLinkedIn && <p>• LinkedIn outreach drops to 11 messages per day (vs. 22 with automation)</p>}
             {includeColdCalling && <p>• Cold calling requires twice as many SDRs to match automated performance</p>}
           </ul>
@@ -78,7 +79,7 @@ export const SDRMetrics = ({
           <ResultCard
             label="Projected Revenue"
             value={formatCurrency(projectedRevenue)}
-            tooltip={`Projected annual revenue reflects the mixed efficiency of omnichannel SDRs. Email outreach maintains full effectiveness at 250 emails per day, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels.`}
+            tooltip={`Projected annual revenue reflects the efficiency of omnichannel SDRs. Email outreach maintains full effectiveness at 250 emails per day, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels.`}
             className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
           />
           <ResultCard

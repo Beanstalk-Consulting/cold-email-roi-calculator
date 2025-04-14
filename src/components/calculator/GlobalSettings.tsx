@@ -4,6 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Input } from "@/components/ui/input";
 import { InfoIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BoxIcon } from "lucide-react";
 
 interface GlobalSettingsProps {
   closeRate: number;
@@ -21,16 +22,26 @@ export const GlobalSettings = ({
   return (
     <div className={cn(
       "space-y-5 mb-6", 
-      "bg-soft-purple", // Using a soft purple background from the color palette
+      "bg-white", // Changed to white for clarity
       "p-6", 
       "rounded-lg", 
-      "border", 
-      "border-vivid-purple/20", 
-      "shadow-sm"
+      "border-2", // Increased border width
+      "border-primary-purple", // Use a more distinctive purple border
+      "shadow-md", // Slightly increased shadow
+      "relative" // For positioning the icon
     )}>
-      <h3 className="text-xl font-semibold text-dark-charcoal">Global Settings</h3>
+      <div className="absolute top-4 right-4">
+        <BoxIcon 
+          className="text-primary-purple opacity-30" 
+          size={32} 
+        />
+      </div>
+      <h3 className="text-xl font-semibold text-dark-charcoal flex items-center gap-2">
+        <BoxIcon className="text-primary-purple" size={24} />
+        Global Settings
+      </h3>
       
-      <div className="bg-white p-4 rounded-md border border-soft-purple/30">
+      <div className="bg-soft-purple/10 p-4 rounded-md border border-soft-purple/30">
         <RangeInput
           label="Meeting Close Rate (%)"
           value={closeRate}

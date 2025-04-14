@@ -5,21 +5,30 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface BeanstalkMetricsProps {
   monthlyBeanstalkCost: number;
+  discountedMonthlyBeanstalkCost: number;
   annualBeanstalkCost: number;
   beanstalkRoi: number;
   totalLeads: number;
   totalDeals: number;
   totalRevenue: number;
+  activeChannelCount: number;
 }
 
 export const BeanstalkMetrics = ({
   monthlyBeanstalkCost,
+  discountedMonthlyBeanstalkCost,
   annualBeanstalkCost,
   beanstalkRoi,
   totalLeads,
   totalDeals,
   totalRevenue,
+  activeChannelCount,
 }: BeanstalkMetricsProps) => {
+  const discountRate = activeChannelCount === 3 ? 25 : (activeChannelCount === 2 ? 15 : 0);
+  const discountMessage = activeChannelCount >= 2 
+    ? `Your ${discountRate}% multi-channel discount is applied automatically when using ${activeChannelCount} channels` 
+    : "Enable multiple channels to unlock discounts: 15% off for 2 channels, 25% off for all 3 channels!";
+
   return (
     <TooltipProvider delayDuration={0}>
       <div>
@@ -43,16 +52,17 @@ export const BeanstalkMetrics = ({
             className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200"
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <ResultCard
             label="Monthly Beanstalk Cost"
             value={formatCurrency(monthlyBeanstalkCost)}
+            tooltip="Base monthly cost before multi-channel discount"
             className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
           />
           <ResultCard
             label="Annual Beanstalk Cost"
             value={formatCurrency(annualBeanstalkCost)}
-            tooltip="Your monthly Beanstalk cost multiplied by 12 months"
+            tooltip="Your discounted monthly Beanstalk cost multiplied by 12 months"
             className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
           />
           <ResultCard
@@ -60,6 +70,14 @@ export const BeanstalkMetrics = ({
             value={formatPercent(beanstalkRoi)}
             tooltip="Return on Investment calculation: (Annual Revenue - Annual Beanstalk Cost) / Annual Beanstalk Cost"
             className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
+          />
+        </div>
+        <div className="col-span-full">
+          <ResultCard
+            label="Multi-Channel Discounted Cost"
+            value={formatCurrency(discountedMonthlyBeanstalkCost)}
+            tooltip={discountMessage}
+            className="bg-gradient-to-br from-emerald-100 to-emerald-200 border-2 border-emerald-400 font-bold"
           />
         </div>
       </div>

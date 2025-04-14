@@ -1,3 +1,4 @@
+
 export interface CalculationContextProps {
   // Email metrics
   monthlyProspects: number;
@@ -45,8 +46,10 @@ export interface CalculationContextProps {
   // Beanstalk metrics
   monthlyEmailPrice: number;
   monthlyBeanstalkCost: number;
+  discountedMonthlyBeanstalkCost: number;
   annualBeanstalkCost: number;
   beanstalkRoi: number;
+  activeChannelCount: number;
   
   // Combined ROI
   combinedCost: number;

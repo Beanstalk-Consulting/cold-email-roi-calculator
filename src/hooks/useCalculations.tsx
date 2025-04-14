@@ -153,6 +153,16 @@ export const useCalculations = ({
   const annualBeanstalkCost = monthlyBeanstalkCost * 12;
   const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
 
+  // Calculate active channel count and discount
+  const activeChannelCount = [includeEmail, includeLinkedIn, includeColdCalling].filter(Boolean).length;
+  const discountRate = activeChannelCount === 3 ? 0.25 : (activeChannelCount === 2 ? 0.15 : 0);
+  
+  // Apply discount to monthly cost
+  const discountedMonthlyBeanstalkCost = monthlyBeanstalkCost * (1 - discountRate);
+  const annualBeanstalkCost = discountedMonthlyBeanstalkCost * 12;
+  const beanstalkRoi = annualBeanstalkCost > 0 ? ((totalRevenue - annualBeanstalkCost) / annualBeanstalkCost) * 100 : 0;
+
+  // Calculate combined cost
   const combinedCost = annualBeanstalkCost + annualSdrSalaryCost;
   const combinedRoi = combinedCost > 0 ? ((totalRevenue - combinedCost) / combinedCost) * 100 : 0;
 
@@ -209,5 +219,9 @@ export const useCalculations = ({
     // Combined ROI
     combinedCost,
     combinedRoi,
+    
+    // Active channel count and discount
+    activeChannelCount,
+    discountedMonthlyBeanstalkCost,
   };
 };

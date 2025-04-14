@@ -21,15 +21,21 @@ export const GlobalSettings = ({
     <div className="space-y-5 mb-6">
       <h3 className="text-xl font-semibold">Global Settings</h3>
       
-      <RangeInput
-        label="Meeting Close Rate (%)"
-        value={closeRate}
-        onChange={setCloseRate}
-        min={0}
-        max={100}
-        step={1}
-        tooltip="Percentage of meetings that convert to closed deals - this rate applies to all channels"
-      />
+      <div className="bg-blue-50 p-4 rounded-md border border-blue-100 mb-4">
+        <RangeInput
+          label="Meeting Close Rate (%)"
+          value={closeRate}
+          onChange={setCloseRate}
+          min={0}
+          max={100}
+          step={1}
+          tooltip="Percentage of meetings that convert to closed deals - this rate applies to all channels"
+          className="mb-2"
+        />
+        <p className="text-xs text-blue-600">
+          This is the percentage of meetings that convert to closed deals across all channels
+        </p>
+      </div>
       
       <div className="space-y-2">
         <div className="flex items-center gap-2">

@@ -34,7 +34,6 @@ export const ColdCallingInputs = ({
   setIsFullTimeDialer,
   callerCount,
   setCallerCount,
-  closeRate,
 }: ColdCallingInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeColdCalling ? "cold-calling" : "");
 
@@ -148,15 +147,6 @@ export const ColdCallingInputs = ({
                   <p className="text-sm font-medium text-calculator-text">Daily Connections: {dailyConnections}</p>
                   <p className="text-xs text-gray-500">
                     Based on {connectRate}% connect rate (industry average: 8-12%, resulting in 80-120 connects/day)
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 p-3 rounded-md border border-gray-100">
-                <div className="flex flex-col gap-1">
-                  <p className="text-sm font-medium text-calculator-text">Meeting Close Rate: {closeRate}%</p>
-                  <p className="text-xs text-gray-500">
-                    This rate is shared across all channels and can be adjusted in the main Email settings
                   </p>
                 </div>
               </div>

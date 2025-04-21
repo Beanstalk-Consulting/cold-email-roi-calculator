@@ -185,7 +185,7 @@ export const LinkedInInputs = ({
                 value={linkedInResponseRate}
                 onChange={setLinkedInResponseRate}
                 min={0}
-                max={100}
+                max={20}
                 step={1}
                 tooltip="Percentage of accepted connections that reply positively and become leads"
               />

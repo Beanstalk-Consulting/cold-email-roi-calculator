@@ -34,9 +34,11 @@ export const useCalculatorState = () => {
   // LinkedIn outreach state
   const [includeLinkedIn, setIncludeLinkedIn] = useState(false);
   const [linkedInMessages, setLinkedInMessages] = useState(473);
-  const [linkedInMessageReplyRate, setLinkedInMessageReplyRate] = useState(10); // Changed from 15 to 10
-  const [linkedInResponseRate, setLinkedInResponseRate] = useState(5); // Changed from 10 to 5 and from 20 to 5 for default
-  const [linkedInReplyToCallRate, setLinkedInReplyToCallRate] = useState(20); // Changed from 10 to 20
+  // **Updated defaults as requested**
+  const [linkedInMessageReplyRate, setLinkedInMessageReplyRate] = useState(10); // Default 10%
+  // Connection-to-lead rate: default 5%, max allowed will be enforced in slider
+  const [linkedInResponseRate, setLinkedInResponseRate] = useState(5); // Default 5%
+  const [linkedInReplyToCallRate, setLinkedInReplyToCallRate] = useState(20);
   const [linkedInConnectRate, setLinkedInConnectRate] = useState(15);
   const [linkedInProfiles, setLinkedInProfiles] = useState(1);
   

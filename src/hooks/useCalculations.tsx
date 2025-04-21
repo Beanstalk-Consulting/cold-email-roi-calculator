@@ -1,3 +1,4 @@
+
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -76,20 +77,20 @@ export const useCalculations = ({
   const monthlyLinkedInCost = includeLinkedIn ? getLinkedInPrice(linkedInProfiles) : 0;
   const annualLinkedInCost = monthlyLinkedInCost * 12;
   
-  // Calculate direct replies to connection requests before acceptance
-  const directReplies = Math.round((totalLinkedInRequests * linkedInMessageReplyRate) / 100);
-  
-  // Calculate accepted connections
+  // Calculate accepted connections first
   const linkedInConnections = Math.round((totalLinkedInRequests * linkedInConnectRate) / 100);
   
-  // Calculate leads from connections (based on the renamed "Lead Generation Rate")
+  // Calculate replies from accepted connections (based on message reply rate)
+  const directReplies = Math.round((linkedInConnections * linkedInMessageReplyRate) / 100);
+  
+  // Calculate leads from connections (based on the Lead Generation Rate)
   const linkedInResponses = Math.round((linkedInConnections * linkedInResponseRate) / 100);
   
   // Total responses are direct replies + connection responses
   const totalLinkedInResponses = directReplies + linkedInResponses;
   
   // Now calculate leads based on the reply to call conversion rate
-  const linkedInLeads = totalLinkedInResponses;
+  const linkedInLeads = Math.round((totalLinkedInResponses * linkedInReplyToCallRate) / 100);
   const linkedInDeals = Math.round((linkedInLeads * closeRate) / 100);
   // Apply year one productivity handicap to annual revenue
   const linkedInRevenue = linkedInDeals * customerValue * 12 * YEAR_ONE_PRODUCTIVITY;

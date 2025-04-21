@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Accordion,
@@ -165,16 +166,6 @@ export const LinkedInInputs = ({
               </div>
 
               <RangeInput
-                label="Reply Rate from Messages (%)"
-                value={linkedInMessageReplyRate}
-                onChange={setLinkedInMessageReplyRate}
-                min={0}
-                max={50}
-                step={1}
-                tooltip="Percentage of connection requests that receive a reply"
-              />
-
-              <RangeInput
                 label="Connection Acceptance Rate (%)"
                 value={linkedInConnectRate}
                 onChange={setLinkedInConnectRate}
@@ -185,13 +176,23 @@ export const LinkedInInputs = ({
               />
 
               <RangeInput
+                label="Reply Rate from Connections (%)"
+                value={linkedInMessageReplyRate}
+                onChange={setLinkedInMessageReplyRate}
+                min={0}
+                max={50}
+                step={1}
+                tooltip="Percentage of accepted connections that reply to messages"
+              />
+
+              <RangeInput
                 label="Lead Generation Rate from Connections (%)"
                 value={linkedInResponseRate}
                 onChange={setLinkedInResponseRate}
                 min={0}
                 max={20}
                 step={1}
-                tooltip="Percentage of accepted connections that reply positively and become leads"
+                tooltip="Percentage of accepted connections that express interest and become leads"
               />
 
               <RangeInput

@@ -26,7 +26,7 @@ export const LinkedInPerformanceMetrics = ({
         <ResultCard
           label="Monthly Leads Generated"
           value={formatNumber(linkedInLeads)}
-          tooltip="Based on replies to connection requests and positive responses from connections"
+          tooltip="Based on replies and positive responses from accepted connections"
           className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200"
         />
         <ResultCard

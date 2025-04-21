@@ -61,6 +61,10 @@ export const LinkedInInputs = ({
   const [accordionValue, setAccordionValue] = useState<string>(includeLinkedIn ? "linkedin" : "");
   const [showPerformance, setShowPerformance] = useState(false);
 
+  const WORKING_DAYS_PER_MONTH = 15;
+  const MESSAGES_PER_DAY = 22;
+  const calculatedMonthlyRequests = linkedInProfiles * WORKING_DAYS_PER_MONTH * MESSAGES_PER_DAY;
+
   const handleAccordionChange = (value: string) => {
     setAccordionValue(value);
     if (value === "linkedin") {
@@ -69,8 +73,6 @@ export const LinkedInInputs = ({
       setIncludeLinkedIn(false);
     }
   };
-
-  const calculatedMonthlyRequests = linkedInProfiles * 22 * 22;
 
   return (
     <Accordion 
@@ -125,7 +127,7 @@ export const LinkedInInputs = ({
                     onChange={(e) => {
                       const value = Number(e.target.value);
                       setLinkedInProfiles(value);
-                      setLinkedInMessages(value * 22 * 22);
+                      setLinkedInMessages(value * MESSAGES_PER_DAY * WORKING_DAYS_PER_MONTH);
                     }}
                     min={1}
                     className="w-full"
@@ -144,7 +146,9 @@ export const LinkedInInputs = ({
                       <InfoIcon className="h-4 w-4 text-calculator-accent" />
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p className="w-[200px]">Based on 22 connection requests per day for 22 working days per month per profile</p>
+                      <p className="w-[200px]">
+                        Based on 22 connection requests per day for 15 working days per month per profile
+                      </p>
                     </TooltipContent>
                   </Tooltip>
                 </div>

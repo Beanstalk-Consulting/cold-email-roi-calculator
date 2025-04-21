@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -57,8 +56,8 @@ export const useCalculations = ({
 }: CalculationsProps): CalculationContextProps => {
   // Constants
   const EMAILS_PER_SDR_PER_MONTH = 125 * 22; // Reduced from 250 to 125 emails per day * 22 working days
-  const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 11 * 22; // Reduced from 22 to 11 messages per day * 22 working days
-  const WORKING_DAYS_PER_MONTH = 22;
+  const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 11 * 15; // Reduced from 22 to 11 messages per day * 15 working days
+  const WORKING_DAYS_PER_MONTH = 15;
   const SDR_ANNUAL_SALARY = 82470;
   
   // Year one productivity handicap - approximately 89% based on ramp calculation

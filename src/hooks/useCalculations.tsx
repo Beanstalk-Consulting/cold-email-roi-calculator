@@ -56,9 +56,9 @@ export const useCalculations = ({
   connectRate,
 }: CalculationsProps): CalculationContextProps => {
   // Constants
-  const EMAILS_PER_SDR_PER_MONTH = 125 * 22; // Reduced from 250 to 125 emails per day * 22 working days
-  const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 11 * 15; // Reduced from 22 to 11 messages per day * 15 working days
-  const WORKING_DAYS_PER_MONTH = 15;
+  const EMAILS_PER_DAY_PER_SDR = 125; // Reduced from 250 to 125 emails per day
+  const LINKEDIN_MESSAGES_PER_DAY_PER_SDR = 11; // Reduced from 22 to 11 messages per day
+  const WORKING_DAYS_PER_MONTH = 15; // Updated from 22 to 15 working days
   const SDR_ANNUAL_SALARY = 82470;
   
   // Year one productivity handicap - approximately 89% based on ramp calculation
@@ -127,18 +127,26 @@ export const useCalculations = ({
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
-  // SDR calculations with reduced efficiency
-  const requiredEmailCapacity = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
-  const requiredLinkedInCapacity = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
-  const requiredCallCapacity = includeColdCalling ? callerCount : 0; // Don't double the count, efficiency is from channel division
-
-  const totalSDRs = Math.max(requiredEmailCapacity, requiredLinkedInCapacity, requiredCallCapacity);
+  // Corrected SDR calculations based on accurate monthly capacities
+  const EMAILS_PER_SDR_PER_MONTH = EMAILS_PER_DAY_PER_SDR * WORKING_DAYS_PER_MONTH; // 125 * 15 = 1875 emails per month
+  const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = LINKEDIN_MESSAGES_PER_DAY_PER_SDR * WORKING_DAYS_PER_MONTH; // 11 * 15 = 165 messages per month
+  
+  // Calculate required capacity for each channel
+  const requiredEmailSDRs = includeEmail ? Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH) : 0;
+  const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
+  const requiredCallerSDRs = includeColdCalling ? callerCount * 2 : 0; // Cold calling requires 2 SDRs per caller
+  
+  // Total SDRs should be at least the sum of each channel's requirements
+  // This is because we're modeling SDRs who are dedicated to specific channels
+  // not SDRs who are splitting time between channels
+  const totalSDRs = Math.ceil(requiredEmailSDRs + requiredLinkedInSDRs + requiredCallerSDRs);
+  
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Calculate SDR ROI using updated performance metrics - part-time/full-time distinction is ignored
+  // Calculate SDR ROI using updated performance metrics
   const sdrEmailRevenue = includeEmail ? emailRevenue : 0; // Email efficiency stays at 100%
   const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // 50% efficiency for LinkedIn
-  const sdrCallRevenue = includeColdCalling ? callRevenue : 0; // Efficiency is from channel division, not hours worked
+  const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // 50% efficiency for cold calling
   
   const sdrTotalRevenue = sdrEmailRevenue + sdrLinkedInRevenue + sdrCallRevenue;
   
@@ -202,7 +210,7 @@ export const useCalculations = ({
     totalDeals,
     totalRevenue,
     
-    // Updated SDR metrics - we're not returning individual channel SDR counts anymore
+    // Updated SDR metrics with proper calculation
     totalSDRs,
     annualSdrSalaryCost,
     sdrRoi,

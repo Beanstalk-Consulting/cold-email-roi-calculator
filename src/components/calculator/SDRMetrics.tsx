@@ -39,9 +39,9 @@ export const SDRMetrics = ({
           <p>This analysis shows the limitations of using in-house SDRs compared to Beanstalk dedicated channel experts.</p>
           <p>When SDRs manage multiple channels, their effectiveness is significantly reduced:</p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <p>• SDRs can manage 250 emails per day</p>
-            {includeLinkedIn && <p>• LinkedIn outreach drops to 11 messages per day (vs. 22 with Beanstalk dedicated channel experts)</p>}
-            {includeColdCalling && <p>• Cold calling requires twice as many SDRs to match Beanstalk dedicated channel experts performance</p>}
+            <p>• Each SDR can manage about 1,875 emails per month (125 per day × 15 working days)</p>
+            {includeLinkedIn && <p>• Each SDR can handle about 165 LinkedIn messages per month (11 per day × 15 working days)</p>}
+            {includeColdCalling && <p>• Cold calling requires 2 SDRs per caller to match Beanstalk dedicated channel experts performance</p>}
           </ul>
           <p>The average fully-loaded annual cost per SDR is {formatCurrency(82470)} including benefits and overhead.</p>
           {beanstalkRoi && (
@@ -79,7 +79,7 @@ export const SDRMetrics = ({
           <ResultCard
             label="Projected Revenue"
             value={formatCurrency(projectedRevenue)}
-            tooltip={`Projected annual revenue reflects the efficiency of omnichannel SDRs. Email outreach maintains full effectiveness at 250 emails per day, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels.`}
+            tooltip={`Projected annual revenue reflects the efficiency of omnichannel SDRs. Email outreach maintains full effectiveness, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels.`}
             className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
           />
           <ResultCard

@@ -40,7 +40,7 @@ export const SDRMetrics = ({
           <p>This analysis shows the limitations of using in-house SDRs compared to Beanstalk dedicated channel experts.</p>
           <p>When SDRs manage multiple channels, their effectiveness is significantly reduced:</p>
           <ul className="list-disc pl-5 space-y-1 mt-2">
-            <p>• Each SDR can manage about 1,875 emails per month (125 per day × 15 working days)</p>
+            <p>• Each SDR can manage about 5,500 emails per month (250 per day × 22 working days)</p>
             {includeLinkedIn && <p>• Each SDR can handle about 165 LinkedIn messages per month (11 per day × 15 working days)</p>}
             {includeColdCalling && <p>• Cold calling requires 2 SDRs per caller to match Beanstalk dedicated channel experts performance</p>}
           </ul>

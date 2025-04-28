@@ -1,7 +1,7 @@
 
 // Constants
 const EMAILS_PER_DAY_PER_SDR = 250; // Based on email automation platform best practices
-const WORKING_DAYS_PER_MONTH = 15;
+const WORKING_DAYS_PER_MONTH = 22;
 const YEAR_ONE_PRODUCTIVITY = 0.89;
 
 interface EmailCalculationProps {
@@ -40,7 +40,7 @@ export const calculateEmailMetrics = ({
   const emailRevenue = monthlyDeals * customerValue * 12 * YEAR_ONE_PRODUCTIVITY;
 
   // Calculate required SDRs for email
-  // Each SDR can send 250 emails per day * 15 working days = 3,750 emails per month
+  // Each SDR can send 250 emails per day * 22 working days = 5,500 emails per month
   const EMAILS_PER_SDR_PER_MONTH = EMAILS_PER_DAY_PER_SDR * WORKING_DAYS_PER_MONTH;
   const requiredEmailSDRs = Math.ceil(emailCapacity / EMAILS_PER_SDR_PER_MONTH);
 

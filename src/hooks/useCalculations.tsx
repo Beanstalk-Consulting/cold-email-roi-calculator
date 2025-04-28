@@ -3,6 +3,7 @@ import { calculateEmailMetrics } from "../utils/emailCalculations";
 import { calculateLinkedInMetrics } from "../utils/linkedInCalculations";
 import { calculateColdCallingMetrics } from "../utils/coldCallingCalculations";
 import { CalculationContextProps } from "./calculationTypes";
+import { getBeanstalkPrice } from "./useCalculatorState";
 
 interface CalculationsProps {
   // Global settings

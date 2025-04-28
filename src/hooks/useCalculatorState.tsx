@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 // Constants from the original file

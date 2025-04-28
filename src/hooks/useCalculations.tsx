@@ -1,4 +1,3 @@
-
 import { getBeanstalkPrice, getLinkedInPrice } from "./useCalculatorState";
 import { CalculationContextProps } from "./calculationTypes";
 
@@ -127,8 +126,8 @@ export const useCalculations = ({
   const totalDeals = monthlyDeals + (includeLinkedIn ? linkedInDeals : 0) + (includeColdCalling ? callDeals : 0);
   const totalRevenue = emailRevenue + (includeLinkedIn ? linkedInRevenue : 0) + (includeColdCalling ? callRevenue : 0);
   
-  // Corrected SDR calculations based on accurate monthly capacities
-  const EMAILS_PER_SDR_PER_MONTH = EMAILS_PER_DAY_PER_SDR * WORKING_DAYS_PER_MONTH; // 125 * 15 = 1875 emails per month
+  // SDR calculations based on accurate monthly capacities
+  const EMAILS_PER_SDR_PER_MONTH = EMAILS_PER_DAY_PER_SDR * WORKING_DAYS_PER_MONTH; // 125 * 15 = 1,875 emails per month
   const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = LINKEDIN_MESSAGES_PER_DAY_PER_SDR * WORKING_DAYS_PER_MONTH; // 11 * 15 = 165 messages per month
   
   // Calculate required capacity for each channel
@@ -136,14 +135,15 @@ export const useCalculations = ({
   const requiredLinkedInSDRs = includeLinkedIn ? Math.ceil(linkedInMessages / LINKEDIN_MESSAGES_PER_SDR_PER_MONTH) : 0;
   const requiredCallerSDRs = includeColdCalling ? callerCount * 2 : 0; // Cold calling requires 2 SDRs per caller
   
-  // Total SDRs should be at least the sum of each channel's requirements
-  // This is because we're modeling SDRs who are dedicated to specific channels
-  // not SDRs who are splitting time between channels
-  const totalSDRs = Math.ceil(requiredEmailSDRs + requiredLinkedInSDRs + requiredCallerSDRs);
+  // Total SDRs needed is the sum of SDRs required for each channel
+  // This represents dedicated SDRs for each channel
+  const totalSDRs = requiredEmailSDRs + requiredLinkedInSDRs + requiredCallerSDRs;
   
+  // Calculate total SDR salary cost
   const annualSdrSalaryCost = totalSDRs * SDR_ANNUAL_SALARY;
   
-  // Calculate SDR ROI using updated performance metrics
+  // Calculate SDR ROI using updated performance metrics for multi-channel SDRs
+  // Full efficiency for email, 50% efficiency for LinkedIn and cold calling
   const sdrEmailRevenue = includeEmail ? emailRevenue : 0; // Email efficiency stays at 100%
   const sdrLinkedInRevenue = includeLinkedIn ? linkedInRevenue * 0.5 : 0; // 50% efficiency for LinkedIn
   const sdrCallRevenue = includeColdCalling ? callRevenue * 0.5 : 0; // 50% efficiency for cold calling

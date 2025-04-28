@@ -30,6 +30,7 @@ export const SDRMetrics = ({
   ].filter(Boolean).join(", ");
 
   const roiDifference = beanstalkRoi ? beanstalkRoi - sdrRoi : 0;
+  const avgSdrCost = 82470; // Annual cost per SDR including benefits and overhead
 
   return (
     <div className="border-2 border-red-500 p-4 rounded-lg">
@@ -43,7 +44,7 @@ export const SDRMetrics = ({
             {includeLinkedIn && <p>• Each SDR can handle about 165 LinkedIn messages per month (11 per day × 15 working days)</p>}
             {includeColdCalling && <p>• Cold calling requires 2 SDRs per caller to match Beanstalk dedicated channel experts performance</p>}
           </ul>
-          <p>The average fully-loaded annual cost per SDR is {formatCurrency(82470)} including benefits and overhead.</p>
+          <p>The average fully-loaded annual cost per SDR is {formatCurrency(avgSdrCost)} including benefits and overhead.</p>
           {beanstalkRoi && (
             <Alert className="mt-3 bg-red-100 border-red-300">
               <AlertDescription className="text-red-800">
@@ -79,13 +80,13 @@ export const SDRMetrics = ({
           <ResultCard
             label="Projected Revenue"
             value={formatCurrency(projectedRevenue)}
-            tooltip={`Projected annual revenue reflects the efficiency of omnichannel SDRs. Email outreach maintains full effectiveness, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels.`}
+            tooltip="Projected annual revenue reflects the efficiency of omnichannel SDRs. Email outreach maintains full effectiveness, while LinkedIn and cold calling performance are reduced by 50% compared to dedicated channel specialists, as SDRs must divide their attention across multiple channels."
             className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
           />
           <ResultCard
             label="SDR Model ROI"
             value={`${formatPercent(sdrRoi)}`}
-            tooltip="Return on investment for the in-house SDR model - typically lower than using our automated solutions"
+            tooltip="Return on investment for the in-house SDR model - typically lower than using our automated solutions due to reduced efficiency across multiple channels"
             className="bg-gradient-to-br from-red-50 to-red-100 border-red-200"
           />
         </div>

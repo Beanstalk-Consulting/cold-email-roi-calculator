@@ -6,12 +6,11 @@ const LINKEDIN_MESSAGES_PER_SDR_PER_MONTH = 22 * 22; // 22 messages per day * 22
 
 export const getLinkedInPrice = (profileCount: number): number => {
   if (profileCount <= 0) return 0;
-  // First profile costs $1499, additional profiles now cost $149
-  return 1499 + (Math.max(0, profileCount - 1) * 149);
+  // Base cost $2,500, additional profiles cost $599/month each
+  return 2500 + (Math.max(0, profileCount - 1) * 599);
 };
 
 export const getBeanstalkPrice = (emailCount: number): number => {
-  if (emailCount <= 8000) return 0.40;
   if (emailCount <= 20000) return 0.20;
   if (emailCount <= 50000) return 0.12;
   if (emailCount <= 250000) return 0.09;
@@ -26,7 +25,7 @@ export const useCalculatorState = () => {
   
   // Email outreach state
   const [includeEmail, setIncludeEmail] = useState(true);
-  const [emailCapacity, setEmailCapacity] = useState(8000);
+  const [emailCapacity, setEmailCapacity] = useState(20000);
   const [replyRate, setReplyRate] = useState(3);
   const [convertRate, setConvertRate] = useState(40);
   

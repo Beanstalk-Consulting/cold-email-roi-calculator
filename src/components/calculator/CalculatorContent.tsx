@@ -6,6 +6,7 @@ import { CalculatorInputs } from "./CalculatorInputs";
 import { LinkedInInputs } from "./LinkedInInputs";
 import { ColdCallingInputs } from "./ColdCallingInputs";
 import { CalculatorResults } from "./CalculatorResults";
+import { SDRPlacementService } from "./SDRPlacementService";
 import { CalculationContextProps } from "@/hooks/calculationTypes";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
@@ -216,6 +217,13 @@ export const CalculatorContent = ({
         monthlyCallingCost={monthlyCallingCost}
         annualCallingCost={annualCallingCost}
         callRoi={callRoi}
+        includeEmail={includeEmail}
+        includeLinkedIn={includeLinkedIn}
+      />
+
+      <SDRPlacementService
+        emailCapacity={emailCapacity}
+        totalLeads={totalLeads}
       />
 
       <CalculatorResults

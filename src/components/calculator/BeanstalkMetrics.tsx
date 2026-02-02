@@ -56,7 +56,7 @@ export const BeanstalkMetrics = ({
           <ResultCard
             label="Monthly Beanstalk Cost"
             value={formatCurrency(monthlyBeanstalkCost)}
-            tooltip="List pricing: $0.40/email (first 8k emails), with different rates for higher volumes. LinkedIn: $1,499 first profile, $149 per additional profile. Cold calling: $4,499/mo full-time or $2,999/mo part-time"
+            tooltip="Email: $0.20/email (20k), lower rates for higher volumes. LinkedIn: $2,500 base, $599 per additional profile. Cold calling: $10,000-$15,000/mo (includes email/LinkedIn + callers)"
             className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200"
           />
           <ResultCard

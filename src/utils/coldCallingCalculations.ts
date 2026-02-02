@@ -11,6 +11,15 @@ interface ColdCallingCalculationProps {
   customerValue: number;
 }
 
+// Cold calling is now a package add-on that includes email/LinkedIn + callers
+// Minimum $10,000/month for 1 caller, $15,000/month for 2 callers
+export const getColdCallingPackagePrice = (callerCount: number): number => {
+  if (callerCount <= 0) return 0;
+  // Base package $10,000 (includes email/LinkedIn infrastructure + 1 caller)
+  // Additional callers add $5,000 each (covers $3k-$7k base+variable)
+  return 10000 + (Math.max(0, callerCount - 1) * 5000);
+};
+
 export const calculateColdCallingMetrics = ({
   includeColdCalling,
   isFullTimeDialer,
@@ -55,7 +64,8 @@ export const calculateColdCallingMetrics = ({
   const callDeals = Math.round((callLeads * closeRate) / 100);
   const callRevenue = callDeals * customerValue * 12 * YEAR_ONE_PRODUCTIVITY;
   
-  const monthlyCallingCost = callerCount * (isFullTimeDialer ? 4499 : 2999);
+  // Use new package pricing
+  const monthlyCallingCost = getColdCallingPackagePrice(callerCount);
   const annualCallingCost = monthlyCallingCost * 12;
   const callRoi = annualCallingCost > 0 ? ((callRevenue - annualCallingCost) / annualCallingCost) * 100 : 0;
 
@@ -82,4 +92,3 @@ export const calculateColdCallingMetrics = ({
     sdrCallRevenue,
   };
 };
-

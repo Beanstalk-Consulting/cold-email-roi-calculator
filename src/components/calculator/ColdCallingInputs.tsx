@@ -10,10 +10,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RangeInput } from "./RangeInput";
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { InfoIcon, PhoneCall } from "lucide-react";
+import { InfoIcon, PhoneCall, AlertCircle } from "lucide-react";
 import { ColdCallingPerformanceMetrics } from "./ColdCallingPerformanceMetrics";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { getColdCallingPackagePrice } from "@/utils/coldCallingCalculations";
+import { formatCurrency } from "@/lib/formatters";
 
 interface ColdCallingInputsProps {
   includeColdCalling: boolean;
@@ -34,6 +37,8 @@ interface ColdCallingInputsProps {
   monthlyCallingCost: number;
   annualCallingCost: number;
   callRoi: number;
+  includeEmail?: boolean;
+  includeLinkedIn?: boolean;
 }
 
 export const ColdCallingInputs = ({
@@ -55,16 +60,36 @@ export const ColdCallingInputs = ({
   monthlyCallingCost,
   annualCallingCost,
   callRoi,
+  includeEmail = false,
+  includeLinkedIn = false,
 }: ColdCallingInputsProps) => {
   const [accordionValue, setAccordionValue] = useState<string>(includeColdCalling ? "cold-calling" : "");
   const [showPerformance, setShowPerformance] = useState(false);
 
+  // Cold calling requires at least email or LinkedIn to be enabled
+  const canEnableColdCalling = includeEmail || includeLinkedIn;
+
   const handleAccordionChange = (value: string) => {
+    if (!canEnableColdCalling && value === "cold-calling") {
+      return; // Don't allow opening if prerequisites not met
+    }
     setAccordionValue(value);
     if (value === "cold-calling") {
       setIncludeColdCalling(true);
     } else {
       setIncludeColdCalling(false);
+    }
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    if (!canEnableColdCalling && checked) {
+      return; // Don't allow enabling if prerequisites not met
+    }
+    setIncludeColdCalling(checked);
+    if (checked) {
+      setAccordionValue("cold-calling");
+    } else {
+      setAccordionValue("");
     }
   };
 
@@ -76,6 +101,9 @@ export const ColdCallingInputs = ({
   // Calculate expected daily connections based on connect rate
   const calculatedDailyConnections = Math.round((dailyDials * connectRate) / 100);
 
+  // Get package pricing
+  const packagePrice = getColdCallingPackagePrice(callerCount);
+
   return (
     <Accordion 
       type="single" 
@@ -85,29 +113,54 @@ export const ColdCallingInputs = ({
       className="border rounded-lg px-4"
     >
       <AccordionItem value="cold-calling" className="border-none">
-        <AccordionTrigger className="py-4">
+        <AccordionTrigger className="py-4" disabled={!canEnableColdCalling}>
           <div className="flex items-center gap-3">
             <Checkbox
               checked={includeColdCalling}
-              onCheckedChange={(checked) => {
-                setIncludeColdCalling(checked === true);
-                if (checked) {
-                  setAccordionValue("cold-calling");
-                } else {
-                  setAccordionValue("");
-                }
-              }}
+              onCheckedChange={(checked) => handleCheckboxChange(checked === true)}
+              disabled={!canEnableColdCalling}
               className="h-5 w-5"
             />
             <div className="flex items-center gap-2">
               <PhoneCall className="h-5 w-5 text-green-600" />
-              <span className="text-lg font-medium">Include Cold Calling</span>
+              <span className="text-lg font-medium">Add Cold Calling Package</span>
+              {!canEnableColdCalling && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <AlertCircle className="h-4 w-4 text-amber-500" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-[250px]">Cold calling is available as an add-on package. Please enable Cold Email or LinkedIn Outbound first.</p>
+                  </TooltipContent>
+                </Tooltip>
+              )}
             </div>
           </div>
         </AccordionTrigger>
         <AccordionContent>
+          {!canEnableColdCalling && (
+            <Alert className="mb-4 bg-amber-50 border-amber-200">
+              <AlertCircle className="h-4 w-4 text-amber-600" />
+              <AlertDescription className="text-amber-800">
+                Cold calling is available as an add-on package to Cold Email or LinkedIn Outbound. Please enable at least one of these channels first.
+              </AlertDescription>
+            </Alert>
+          )}
+          
           {includeColdCalling && (
             <div className="space-y-6 py-4 pl-10">
+              <div className="bg-green-50 p-4 rounded-md border border-green-200 mb-4">
+                <h4 className="text-sm font-semibold text-green-800 mb-2">Cold Calling Package</h4>
+                <p className="text-sm text-green-700 mb-2">
+                  This package includes your email/LinkedIn infrastructure plus dedicated callers.
+                </p>
+                <div className="text-sm text-green-800">
+                  <p>• Base package (1 caller): $10,000/mo</p>
+                  <p>• Additional callers: +$5,000/mo each</p>
+                  <p className="font-medium mt-2">Current package: {formatCurrency(packagePrice)}/mo</p>
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -139,9 +192,9 @@ export const ColdCallingInputs = ({
                 value={callerCount}
                 onChange={setCallerCount}
                 min={1}
-                max={10}
+                max={5}
                 step={1}
-                tooltip="How many callers are making calls"
+                tooltip="How many callers are making calls (1-2 callers recommended)"
                 unit=""
               />
 

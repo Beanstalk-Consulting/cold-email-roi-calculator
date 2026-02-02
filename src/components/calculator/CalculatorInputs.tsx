@@ -8,7 +8,6 @@ import { formatNumber } from "@/lib/formatters";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const EMAIL_CAPACITY_OPTIONS = [
-  { value: 8000, label: "8,000" },
   { value: 20000, label: "20,000" },
   { value: 50000, label: "50,000" },
   { value: 100000, label: "100,000" },
